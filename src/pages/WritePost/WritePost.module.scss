@@ -1,0 +1,179 @@
+.container {
+  min-width: 1400px;
+  box-sizing: border-box;
+  .totalWrap {
+    background-color: rgb(250, 241, 216);
+    margin: 3% 13% 0% 5%;
+
+    h1 {
+      font-size: 29px;
+      font-weight: 600;
+    }
+    h3 {
+      font-size: 16px;
+      text-align: right;
+      margin-top: 0.5%;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+    form {
+      margin-top: 1.5%;
+
+      h2 {
+        width: 10.3%;
+        display: inline-block;
+        font-weight: 600;
+      }
+
+      label {
+        display: inline-block;
+        padding: 8px 7px 8px 7px;
+        border: 1px solid black;
+        background-color: white;
+        margin-top: 1%;
+        cursor: pointer;
+      }
+
+      .companyImage {
+        h2 {
+          width: 200px;
+        }
+
+        h5 {
+          margin-left: 14%;
+          font-weight: 400;
+          margin-bottom: 1.5%;
+          margin-top: 1px;
+        }
+      }
+
+      .companyInfo {
+        h5 {
+          margin-left: 10.4%;
+          font-weight: 400;
+          margin-top: 1px;
+        }
+      }
+
+      select,
+      input,
+      textarea {
+        padding: 7px 2px 7px 2px;
+        border: 1px solid black;
+        margin-bottom: 1.2%;
+      }
+
+      select {
+        width: 80px;
+        text-align: center;
+        margin-right: 15px;
+      }
+
+      input {
+        background-color: white;
+        width: 130px;
+      }
+
+      #companyURL {
+        width: 300px;
+        padding-left: 10px;
+      }
+
+      #field {
+        width: 55.4%;
+        padding-left: 10px;
+        margin-bottom: 3px;
+      }
+
+      h4 {
+        font-weight: 400;
+        margin-left: 10.3%;
+        color: red;
+      }
+
+      .introduce {
+        height: 75px;
+        h2 {
+          vertical-align: top;
+          margin-top: 1%;
+        }
+        textarea {
+          width: 88.6%;
+          margin-right: 0;
+          height: 60px;
+          padding: 5px;
+        }
+      }
+
+      .detail {
+        margin-top: 0.7%;
+        h2 {
+          display: block;
+          width: auto;
+        }
+        textarea {
+          padding-left: 10px;
+          margin-top: 0.5%;
+          width: 88.7%;
+          margin-left: 10.2%;
+          height: 75px;
+        }
+      }
+
+      .agree {
+        all: unset;
+        input {
+          width: auto;
+          margin-right: 1%;
+        }
+        a {
+          color: black;
+        }
+        display: block;
+        text-align: center;
+      }
+
+      input[type='file'] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+
+      input[type='checkbox'] {
+        -webkit-appearance: checkbox !important;
+        -moz-appearance: checkbox !important;
+        -ms-appearance: checkbox !important;
+        -o-appearance: checkbox !important;
+        appearance: checkbox !important;
+      }
+
+      input:focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+
+      textarea:focus::-webkit-input-placeholder {
+        color: transparent;
+      }
+    }
+
+    .btns {
+      margin-top: 2%;
+      margin-bottom: 10%;
+      button {
+        cursor: pointer;
+        background-color: rgb(227, 227, 227);
+        margin-right: 8%;
+        margin-top: 2%;
+        width: 90px;
+        height: 40px;
+        text-align: center;
+      }
+      text-align: center;
+    }
+  }
+}

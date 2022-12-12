@@ -1,7 +1,11 @@
 import React from 'react';
-
+import WritePost from './pages/WritePost/WritePost';
 function App() {
-  return <div>router 를 연결해주세요.</div>;
+  return (
+    <div>
+      <WritePost />
+    </div>
+  );
 }
 
 export default App;
