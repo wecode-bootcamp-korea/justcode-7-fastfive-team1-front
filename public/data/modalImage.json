@@ -1,0 +1,19 @@
+{
+  "image": [
+    {
+      "id": 1,
+      "title": "로그인",
+      "image": "https://corp.fastfive.co.kr/wp-content/uploads/2021/05/191009_fastfive_0115-2048x1366.jpg"
+    },
+    {
+      "id": 2,
+      "title": "회원가입",
+      "image": "https://www.fastfive.co.kr/wp-content/uploads/2020/11/startUp_prove_img_1.png"
+    },
+    {
+      "id": 3,
+      "title": "요청하기",
+      "image": "https://workanywhere.co.kr/wp-content/uploads/loungeType_img_08.jpg"
+    }
+  ]
+}

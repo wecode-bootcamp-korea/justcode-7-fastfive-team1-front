@@ -1,0 +1,31 @@
+.requestContainer {
+  text-align: start;
+  padding: 70px 40px 40px 40px;
+
+  .selectedBox {
+    display: flex;
+
+    .memberRequest,
+    .ownerRequest {
+      color: #000000;
+      font-size: 27px;
+      font-weight: 400;
+      text-decoration: underline;
+      text-underline-position: under;
+      text-decoration-color: #fe6d6a;
+      cursor: default;
+    }
+
+    .notSelected {
+      color: gray;
+      font-size: 27px;
+      font-weight: 400;
+      cursor: default;
+    }
+
+    span {
+      font-size: 27px;
+      margin: 0px 10px 0px 10px;
+    }
+  }
+}

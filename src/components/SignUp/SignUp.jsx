@@ -2,9 +2,13 @@ import { React } from 'react';
 import css from './SignUp.module.scss';
 import Modal from '../Modal/Modal';
 
-function SignUp({ onClose }) {
+function SignUp({ onClose, modalImages }) {
+  const signUpModalImage = modalImages.find(image => {
+    return image.title === '회원가입';
+  });
+
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} modalImage={signUpModalImage.image}>
       <section className={css.signUpContainer}>
         <h1>회원가입</h1>
         <div className={css.signUpFormBox}>

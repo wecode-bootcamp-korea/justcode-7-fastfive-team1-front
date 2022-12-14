@@ -48,5 +48,10 @@
         cursor: pointer;
       }
     }
+    button {
+      &:hover {
+        font-weight: 600;
+      }
+    }
   }
 }
