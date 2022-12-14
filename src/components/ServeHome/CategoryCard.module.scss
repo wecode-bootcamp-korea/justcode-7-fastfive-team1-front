@@ -1,0 +1,22 @@
+.CardContainnerWrapper {
+  display: inline-block;
+  width: calc(25%);
+  .CardContainner {
+    border: 1px solid black;
+    width: 250px;
+    margin-left: 12%;
+    margin-top: 20px;
+    .CardImage {
+      width: 100%;
+      height: 100%;
+    }
+    .ContentWrapper {
+      .CategoryName {
+        padding: 5px;
+      }
+      .Content {
+        padding: 5px;
+      }
+    }
+  }
+}

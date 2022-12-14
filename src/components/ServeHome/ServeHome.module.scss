@@ -1,0 +1,30 @@
+.ServeHomeContainer {
+  .BannerAd {
+    margin-top: 100px;
+    margin-left: 200px;
+    width: 80%;
+  }
+  .CompanyIntroduceBtn {
+    margin-left: 80%;
+    margin-top: 100px;
+    width: 200px;
+    height: 50px;
+    background-color: white;
+  }
+  .TitleWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    .Title {
+      margin-left: 12%;
+      font-size: 22px;
+    }
+    .ViewAllBtn {
+      margin-right: 10%;
+    }
+  }
+  .CardComponent {
+    width: 80%;
+    margin-left: 10%;
+  }
+}

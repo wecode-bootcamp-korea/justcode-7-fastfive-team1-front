@@ -2,18 +2,17 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import Home from './Home/Home';
-// import Login from './Login/Login';
-// import Signup from './Signup/Signup';
-import Footer from '../components/Footer/Footer';
+import ServeHome from '../components/ServeHome/ServeHome';
+import PostDetail from '../pages/PostDetail/PostDetail';
+
 
 function Router() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/f" element={<Footer />} />
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/home" element={<ServeHome />} />
+        <Route path="/postdetail" element={<PostDetail />} />
       </Routes>
     </BrowserRouter>
   );
