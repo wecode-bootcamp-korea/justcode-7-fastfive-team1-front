@@ -1,0 +1,118 @@
+.signUpContainer {
+  text-align: start;
+  padding: 70px 40px 40px 40px;
+
+  h1 {
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: #fe6d6a;
+    cursor: default;
+  }
+
+  .signUpFormBox {
+    margin-top: 45px;
+    display: grid;
+
+    label {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    input {
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      height: 20px;
+      padding: 10px;
+      font-size: 15px;
+      margin-bottom: 20px;
+
+      &:focus {
+        border: 1px solid #fe6d6a;
+        color: #fe6d6a;
+      }
+    }
+
+    .nameForm,
+    .emailForm,
+    .passwordForm {
+      display: grid;
+    }
+
+    .signUpBtn {
+      background-color: #fe6d6a;
+      height: 45px;
+      margin-top: 10px;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .agreeContent {
+      display: grid;
+      gap: 10px;
+      margin-top: 30px;
+      margin-bottom: 5px;
+
+      .agreeForm {
+        display: flex;
+        height: 20px;
+
+        .agreeText {
+          display: flex;
+          text-align: center;
+          align-items: center;
+
+          span {
+            margin-left: 3px;
+            color: #fe6d6a;
+          }
+        }
+        .agreeInput {
+          border-radius: 0;
+          margin: 0px 10px 0px 0px;
+          padding: 0;
+          border: 1px solid #dcdcdc;
+        }
+
+        input[type='checkbox'] {
+          position: relative;
+          width: 14px;
+          height: 14px;
+          cursor: pointer;
+        }
+
+        input[type='checkbox']::before {
+          content: '\2713';
+          position: absolute;
+          top: 60%;
+          left: 50%;
+          overflow: hidden;
+          transform: scale(0) translate(-50%, -50%);
+        }
+
+        input[type='checkbox']:checked::before {
+          display: flex;
+          justify-content: center;
+          width: 15px;
+          height: 15px;
+          color: white;
+          transform: scale(1) translate(-50%, -60%);
+          background-color: #fe6d6a;
+        }
+      }
+
+      label:hover {
+        color: #000000;
+      }
+      label {
+        cursor: pointer;
+        color: gray;
+      }
+    }
+  }
+}
