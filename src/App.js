@@ -1,9 +1,9 @@
 import React from 'react';
-import WritePost from './pages/WritePost/WritePost';
+import Router from './pages/Router';
 function App() {
   return (
     <div>
-      <WritePost />
+      <Router />
     </div>
   );
 }
