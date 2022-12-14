@@ -1,0 +1,20 @@
+.container {
+  span {
+    margin-left: 2%;
+    color: rgb(64, 64, 64);
+    font-size: 17px;
+  }
+  .document {
+    display: inline;
+    position: relative;
+    img {
+      position: absolute;
+      height: 16px;
+      width: 16px !important;
+      background-color: rgb(205, 205, 205);
+      margin-left: 6px !important;
+      top: 6px;
+      border-radius: 3px;
+    }
+  }
+}
