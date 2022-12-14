@@ -1,14 +1,11 @@
 import React from 'react';
 import css from './Modal.module.scss';
 
-function Modal({ children, onClose }) {
+function Modal({ children, onClose, modalImage }) {
   return (
     <div className={css.background}>
       <div className={css.imgBox}>
-        <img
-          src="https://corp.fastfive.co.kr/wp-content/uploads/2021/05/191009_fastfive_0115-2048x1366.jpg"
-          alt=""
-        />
+        <img src={modalImage} alt="패스트파이브 이미지" />
       </div>
       <div className={css.content}>
         {children}

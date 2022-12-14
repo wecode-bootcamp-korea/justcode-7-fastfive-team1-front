@@ -3,14 +3,19 @@ import css from './Login.module.scss';
 import Modal from '../Modal/Modal';
 import SignUp from '../SignUp/SignUp';
 
-function Login({ onClose }) {
+function Login({ onClose, modalImages }) {
   const [openSignUpModal, setOpenSignUpModal] = useState(false);
 
   const openSignUp = () => {
     setOpenSignUpModal(true);
   };
+
+  const loginModalImage = modalImages.find(image => {
+    return image.title === '로그인';
+  });
+
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} modalImage={loginModalImage.image}>
       <section className={css.loginContainer}>
         <h1>로그인</h1>
         <div className={css.loginFormBox}>
@@ -36,6 +41,7 @@ function Login({ onClose }) {
                 onClose={() => {
                   setOpenSignUpModal(false);
                 }}
+                modalImages={modalImages}
               />
             )}
           </div>
