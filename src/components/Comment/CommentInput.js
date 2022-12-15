@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import css from './WriteReply.module.scss';
+import css from './CommentInput.module.scss';
 
 function Comment() {
   const [isInputClicked, setIsInputClicked] = useState(false);

@@ -11,9 +11,10 @@
     margin: 10px auto;
     display: flex;
     justify-content: space-between;
-    width: 700px;
+    width: 750px;
+
     .leftArea {
-      width: 600px;
+      width: 650px;
 
       .commentInfoDiv {
         display: flex;
@@ -26,8 +27,39 @@
       }
 
       .commentContent {
+        width: 100%;
         margin: 3px 5px;
+        margin-bottom: 10px;
         color: gray;
+        overflow: hidden;
+      }
+
+      .overText {
+        outline: none;
+        border-color: red;
+        box-shadow: 0 0 5px red;
+      }
+
+      .letterCount {
+        display: flex;
+        justify-content: flex-end;
+
+        // margin-bottom: 10px;
+
+        .lockDiv {
+          display: flex;
+          justify-content: center;
+          width: 30px;
+
+          .lock {
+            color: coral;
+          }
+
+          .lockOpen {
+            color: gray;
+            transform: translateX(2px);
+          }
+        }
       }
     }
 
@@ -36,8 +68,8 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-
       width: 70px;
+
       .rightAreaBtnDiv {
         display: flex;
         align-items: center;

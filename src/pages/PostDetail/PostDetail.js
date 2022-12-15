@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import Comment from '../../components/Comment/Comment';
 import WriteReply from '../../components/Comment/WriteReply';
+import Comment from '../../components/Comment/Comment';
+import CommentInput from '../../components/Comment/CommentInput';
 
 function PostDetail() {
+  const [copyCheck, setCopyCheck] = useState(false);
+
+  const clickEmail = event => {
+    if (copyCheck) return;
+    navigator.clipboard.writeText(event.target.innerText);
+    setCopyCheck(true);
+    setTimeout(() => {
+      setCopyCheck(false);
+    }, 2000);
+  };
+
   return (
     <div className={css.postDetail}>
       <Sidebar />
@@ -52,7 +64,18 @@ function PostDetail() {
           <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
             연락처
           </div>
-          <div>sample@fastfive.co.kr, 010-1234-1234(진양철 회장)</div>
+          <div className={`${css.EmailAndPhoneNumber}`}>
+            <span className={`${css.Email}`} onClick={clickEmail}>
+              sample@fastfive.co.kr
+            </span>
+            , 010-1234-1234(진양철 회장)
+            {copyCheck && (
+              <div className={`${css.toastDiv}`}>
+                copy
+                <i className="fa-solid fa-check" />
+              </div>
+            )}
+          </div>
         </div>
         <div className={`${css.topDonwMargin}`}>
           패스트파이브는 일하는 공간을 새롭게 정의합니다. 패스트파이브 오피스
@@ -74,10 +97,7 @@ function PostDetail() {
 
         <div className={`${css.commentDiv}`}>
           <div className={`${css.commentDivTitle}`}>댓글</div>
-          <Comment />
-          <WriteReply />
-          <Comment />
-          <WriteReply />
+          <CommentInput />
           <Comment />
           <WriteReply />
         </div>
