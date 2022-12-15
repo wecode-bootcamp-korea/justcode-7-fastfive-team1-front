@@ -1,0 +1,33 @@
+{
+  "data": {
+    "id": 2,
+    "company_name": "제이솝",
+    "company_img_url": "10001/temp_1666060345333.-1702062997.jpeg",
+    "company_short_desc": null,
+    "homepage_url": "www.soro.com",
+    "main_bussiness_tags": "티,동,굴,비비2233",
+    "company_long_desc": "이건 긴 글",
+    "fastfive_benefit_desc": "패스트파이브 이득 글",
+    "company_contact_address": "010-4963-9575",
+    "location": {
+      "id": 10000,
+      "location_name": "강남, 논현"
+    },
+    "branch": {
+      "id": 10000,
+      "branch_name": "강남 1호점"
+    },
+    "company": {
+      "id": 10000,
+      "company_name": "밀리는서재"
+    },
+    "category": {
+      "lv1_id": 10000,
+      "lv2_id": 10000,
+      "lv1_name": "마케팅",
+      "lv2_name": "default"
+    },
+    "companyImgUrl": "http://localhost:5500/10001/temp_1666060345333.-1702062997.jpeg",
+    "companyInfoUrl": "http://localhost:5500/10001/이상윤 (1).pdf"
+  }
+}

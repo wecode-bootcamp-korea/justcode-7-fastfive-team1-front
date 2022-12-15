@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import SelectForm from '../../components/Form/SelectForm';
 import ImageUpload from '../../components/Form/ImageUpload';
@@ -13,6 +13,9 @@ const WritePost = () => {
   const [places, setPlaces] = useState('');
   const [logoImageURL, setLogoImageURL] = useState('');
   const [companyProfile, setCompanyProfile] = useState('');
+  const [categoryData, setCategoryData] = useState('');
+  const [firstCategory, setFirstCategory] = useState([]);
+  const [secondCategory, setSecondCategory] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [saveTime, setSaveTime] = useState('');
@@ -42,6 +45,12 @@ const WritePost = () => {
     fetch('/data/place.json')
       .then(res => res.json())
       .then(res => setPlaces(res.place));
+
+    fetch('/data/category.json')
+      .then(res => res.json())
+      .then(res => {
+        setCategoryData(res.data);
+      });
   }, []);
 
   useEffect(() => {
@@ -64,36 +73,45 @@ const WritePost = () => {
 
   const filePreview = (e, name) => {
     e.preventDefault();
+    let file = e.target.files[0];
     if (name === 'file1') {
-      e.target.files[0].size > IMAGEMAX
+      file.size > IMAGEMAX
         ? alert('첨부파일 사이즈는 10MB 이내로 등록 가능합니다. ')
-        : setLogoImageURL(URL.createObjectURL(e.target.files[0]));
-      setLogoFile(e.target.files[0]);
+        : setLogoImageURL(URL.createObjectURL(file));
+      setLogoFile(file);
     } else {
       let path = e.target.value;
       let idx = path.lastIndexOf('\\');
-      e.target.files[0].size > INTROMAX
+      file.size > INTROMAX
         ? alert('첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ')
         : setCompanyProfile(path.substr(idx + 1));
-      setInfoFile(e.target.files[0]);
+      setInfoFile(file);
     }
     e.target.value = '';
   };
 
   const fileUpload = async () => {
-    //만약 등록하기 or 수정하기 버튼눌러졌으면 필수 항목 다 채워졌는지 확인하는 로직 추가
+    {
+      /**TODO:등록하기 && 수정하기 버튼에 따라 필수항목 채워졌는지 확인하는 로직추가 */
+    }
     let formData = new FormData();
     const objKeys = Object.keys(text);
 
     for (let i = 0; i < objKeys.length; i++) {
       formData.append(objKeys[i], text[objKeys[i]]);
     }
+    {
+      /**TODO:상세 보내기 */
+    }
+    {
+      /**TODO:브랜치 */
+    }
     formData.append('companyImgUrl', logoFile);
     formData.append('companyInfoUrl', infoFile);
     // for (var pair of formData.entries()) {
     //   console.log(pair[0] + ', ' + pair[1]);
     // }
-    const postForm = await axios({
+    await axios({
       method: 'PUT',
       url: `{back-end url}`,
       mode: 'cors',
@@ -115,7 +133,7 @@ const WritePost = () => {
     }
   };
 
-  setInterval(function () {
+  setInterval(() => {
     let today = new Date();
     let year = today.getFullYear();
     let month = today.getMonth() + 1;
@@ -144,11 +162,18 @@ const WritePost = () => {
     let urlTest = leg.test(homepageUrl);
     urlTest ? alert('pass') : alert('reject');
   };
-
+  useEffect(() => {
+    if (firstCategory != '') {
+      console.log(categoryData[firstCategory - 1].subCategory);
+      {
+        /**TODO:second Category 진행중 */
+      }
+    }
+    setSecondCategory();
+  }, [firstCategory]);
   return (
     <div className={css.container}>
-      {/**TODO: SideBar gonna be here */}
-      <div className={css.sideBar}>
+      <div>
         <SideBar />
       </div>
 
@@ -157,9 +182,14 @@ const WritePost = () => {
         <h3>우측 *표시는 필수 작성 항목입니다.</h3>
         {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>}
 
-        {places && (
+        {categoryData && (
           <form>
-            <SelectForm title="업종 * " optionVal="카테고리" datum={places} />
+            <SelectForm
+              title="업종 * "
+              optionVal="카테고리"
+              datum={categoryData}
+              setFunc={setFirstCategory}
+            />
             <SelectForm optionVal="상세" datum={places} />
             <br />
             <InputForm
