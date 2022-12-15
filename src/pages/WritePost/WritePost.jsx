@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import css from './WritePost.module.scss';
+import axios from 'axios';
 import SelectForm from '../../components/Form/SelectForm';
 import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
-import axios from 'axios';
+import SideBar from '../../components/Sidebar/Sidebar';
+import css from './WritePost.module.scss';
 
-function WritePost() {
+const WritePost = () => {
   const IMAGEMAX = 10 * 1024 * 1024;
   const INTROMAX = 30 * 1024 * 1024;
   const [places, setPlaces] = useState('');
@@ -15,8 +16,9 @@ function WritePost() {
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [saveTime, setSaveTime] = useState('');
+  const [flag, setFlag] = useState(false);
   const [text, setText] = useState({
-    companyName: '주식회사',
+    companyName: '',
     companyShortDesc: '',
     homepageUrl: '',
     mainBussinessTags: '',
@@ -33,8 +35,24 @@ function WritePost() {
     fastfiveBenefitDesc,
     companyContactAddress,
   } = text;
-  const [flag, setFlag] = useState(false);
+
   let count = 0;
+
+  useEffect(() => {
+    fetch('/data/place.json')
+      .then(res => res.json())
+      .then(res => setPlaces(res.place));
+  }, []);
+
+  useEffect(() => {
+    const comma = ',';
+    let idx = mainBussinessTags.indexOf(comma);
+    while (idx !== -1) {
+      count += 1;
+      idx = mainBussinessTags.indexOf(comma, idx + 1);
+    }
+    count > 4 ? setFlag(true) : setFlag(false);
+  }, [mainBussinessTags]);
 
   const change = e => {
     const { value, name } = e.target;
@@ -62,12 +80,6 @@ function WritePost() {
     e.target.value = '';
   };
 
-  //companyID 받아오기
-  //파일 다를시  조건부 랜더링
-  //flag 하나 더 달아서 경고문구 나타내기
-  // formData.append("companiesId", companyId.current.value);
-  // formData.append("level2CategoriesId", level2CategoriesId.current.value);
-
   const fileUpload = async () => {
     //만약 등록하기 or 수정하기 버튼눌러졌으면 필수 항목 다 채워졌는지 확인하는 로직 추가
     let formData = new FormData();
@@ -78,7 +90,6 @@ function WritePost() {
     }
     formData.append('companyImgUrl', logoFile);
     formData.append('companyInfoUrl', infoFile);
-
     // for (var pair of formData.entries()) {
     //   console.log(pair[0] + ', ' + pair[1]);
     // }
@@ -91,7 +102,6 @@ function WritePost() {
       },
       data: formData,
     });
-    // console.log(postForm);
   };
 
   const deleteFileImage = e => {
@@ -104,9 +114,7 @@ function WritePost() {
       setInfoFile('');
     }
   };
-  // console.log(text);
-  // console.log(Object.keys(text)); //key로 백엔드에 보낼때도
-  //파일폼으로 한데 모으고 백으로 보내는 함수 만글기 submit일대 유효성 검사 하기
+
   setInterval(function () {
     let today = new Date();
     let year = today.getFullYear();
@@ -130,23 +138,6 @@ function WritePost() {
     );
   }, 60000);
 
-  useEffect(() => {
-    fetch('/data/place.json')
-      .then(res => res.json())
-      .then(res => setPlaces(res.place));
-  }, []);
-
-  useEffect(() => {
-    const comma = ',';
-    let idx = mainBussinessTags.indexOf(comma);
-    while (idx !== -1) {
-      count += 1;
-      idx = mainBussinessTags.indexOf(comma, idx + 1);
-    }
-    count > 4 ? setFlag(true) : setFlag(false);
-  }, [mainBussinessTags]);
-
-  //TODO: urlValidation 다시 생각해보기
   const urlValidation = () => {
     let leg =
       /(http|https):\/\/((\w+)[.])+(cc|com|jp|kr|net|uk|us)(\/(\w*))*$/i;
@@ -157,7 +148,9 @@ function WritePost() {
   return (
     <div className={css.container}>
       {/**TODO: SideBar gonna be here */}
-      <div className={css.sideBar}>메뉴바</div>
+      <div className={css.sideBar}>
+        <SideBar />
+      </div>
 
       <div className={css.totalWrap}>
         <h1>우리 회사 소개하기</h1>
@@ -324,6 +317,6 @@ function WritePost() {
       </div>
     </div>
   );
-}
+};
 
 export default WritePost;

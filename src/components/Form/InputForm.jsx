@@ -1,18 +1,19 @@
 import React from 'react';
-function InputForm({
+import css from './InputForm.module.scss';
+
+const InputForm = ({
   title,
   type,
   placeholder,
-  setFunction,
   onChange,
   flag,
   max,
   name,
   value,
-}) {
+}) => {
   if (type === 'text') {
     return (
-      <>
+      <div className={css.container}>
         <h2>{title}</h2>
         <input
           type={type}
@@ -22,11 +23,11 @@ function InputForm({
           name={name}
           value={value}
         />
-      </>
+      </div>
     );
   } else {
     return (
-      <>
+      <div className={css.container}>
         <h2>{title}</h2>
         <textarea
           type={type}
@@ -37,9 +38,9 @@ function InputForm({
           value={value}
           maxLength={max}
         />
-      </>
+      </div>
     );
   }
-}
+};
 
 export default InputForm;

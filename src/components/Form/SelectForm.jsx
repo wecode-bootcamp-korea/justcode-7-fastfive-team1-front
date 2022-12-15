@@ -1,9 +1,15 @@
 import React from 'react';
-function SelectForm({ title, optionVal, datum }) {
+import css from './SelectForm.module.scss';
+const SelectForm = ({ title, optionVal, datum }) => {
   return (
     <>
-      {title && <h2>{title} </h2>}
-      <select defaultValue="default" name="place" required>
+      {title && <h2 className={css.title}>{title} </h2>}
+      <select
+        className={css.selectVal}
+        defaultValue="default"
+        name="place"
+        required
+      >
         <option value="default" disabled>
           {optionVal}
         </option>
@@ -15,6 +21,6 @@ function SelectForm({ title, optionVal, datum }) {
       </select>
     </>
   );
-}
+};
 
 export default SelectForm;

@@ -1,5 +1,6 @@
+import React from 'react';
 import css from './ImageUpload.module.scss';
-function imageUpload({
+const imageUpload = ({
   title,
   required,
   desc,
@@ -10,7 +11,7 @@ function imageUpload({
   forId,
   fileName,
   deleteFileImage,
-}) {
+}) => {
   return (
     <div className={css.container}>
       <h2>{title} </h2>
@@ -48,6 +49,6 @@ function imageUpload({
       <h5>{desc}</h5>
     </div>
   );
-}
+};
 
 export default imageUpload;
