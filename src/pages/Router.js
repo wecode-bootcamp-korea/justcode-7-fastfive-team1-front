@@ -4,6 +4,7 @@ import Home from './Home/Home';
 import ServeHome from '../components/ServeHome/ServeHome';
 import PostDetail from '../pages/PostDetail/PostDetail';
 import WritePost from './WritePost/WritePost';
+import RequestPage from './RequestPage/RequestPage';
 
 function Router() {
   return (
@@ -12,7 +13,8 @@ function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<ServeHome />} />
         <Route path="/postdetail" element={<PostDetail />} />
-        <Route path="/writePost" element={<WritePost />} />
+        <Route path="/writepost" element={<WritePost />} />
+        <Route path="/requestpage" element={<RequestPage />} />
       </Routes>
     </BrowserRouter>
   );
