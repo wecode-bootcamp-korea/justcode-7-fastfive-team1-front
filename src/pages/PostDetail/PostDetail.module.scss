@@ -61,6 +61,45 @@
 
     .address {
       display: flex;
+
+      .EmailAndPhoneNumber {
+        display: flex;
+
+        .Email {
+          cursor: pointer;
+        }
+
+        .toastDiv {
+          border-radius: 5px;
+          width: 60px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transform: translateY(-2px);
+          margin: 0 10px;
+          color: white;
+          background-color: rgb(86, 147, 207);
+          animation: toastDiv 2s ease-out forwards;
+        }
+
+        @keyframes toastDiv {
+          0% {
+            transform: translateY(-1px);
+          }
+          12% {
+            transform: translateY(-5px);
+          }
+          25% {
+            transform: translateY(-1px);
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+      }
     }
 
     .introduce {
