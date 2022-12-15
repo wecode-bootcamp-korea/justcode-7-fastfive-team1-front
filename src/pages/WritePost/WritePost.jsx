@@ -4,20 +4,35 @@ import css from './WritePost.module.scss';
 import SelectForm from '../../components/Form/SelectForm';
 import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
+import axios from 'axios';
+
 function WritePost() {
+  const IMAGEMAX = 10 * 1024 * 1024;
+  const INTROMAX = 30 * 1024 * 1024;
   const [places, setPlaces] = useState('');
-  const [logoImage, setLogoImage] = useState('');
+  const [logoImageURL, setLogoImageURL] = useState('');
   const [companyProfile, setCompanyProfile] = useState('');
+  const [logoFile, setLogoFile] = useState('');
+  const [infoFile, setInfoFile] = useState('');
+  const [saveTime, setSaveTime] = useState('');
   const [text, setText] = useState({
-    name: '주식회사',
-    intro: '',
-    url: '',
-    field: '',
-    refer: '',
-    benefit: '',
-    contact: '',
+    companyName: '주식회사',
+    companyShortDesc: '',
+    homepageUrl: '',
+    mainBussinessTags: '',
+    companyLongDesc: '',
+    fastfiveBenefitDesc: '',
+    companyContactAddress: '',
   });
-  const { name, intro, url, field, refer, benefit, contact } = text;
+  const {
+    companyName,
+    companyShortDesc,
+    homepageUrl,
+    mainBussinessTags,
+    companyLongDesc,
+    fastfiveBenefitDesc,
+    companyContactAddress,
+  } = text;
   const [flag, setFlag] = useState(false);
   let count = 0;
 
@@ -29,24 +44,91 @@ function WritePost() {
     });
   };
 
-  const companyLogoUrl = (e, name) => {
+  const filePreview = (e, name) => {
+    e.preventDefault();
     if (name === 'file1') {
-      setLogoImage(URL.createObjectURL(e.target.files[0]));
+      e.target.files[0].size > IMAGEMAX
+        ? alert('첨부파일 사이즈는 10MB 이내로 등록 가능합니다. ')
+        : setLogoImageURL(URL.createObjectURL(e.target.files[0]));
+      setLogoFile(e.target.files[0]);
     } else {
       let path = e.target.value;
       let idx = path.lastIndexOf('\\');
-      setCompanyProfile(path.substr(idx + 1));
+      e.target.files[0].size > INTROMAX
+        ? alert('첨부파일 사이즈는 30MB 이내로 등록 가능합니다. ')
+        : setCompanyProfile(path.substr(idx + 1));
+      setInfoFile(e.target.files[0]);
     }
+    e.target.value = '';
   };
 
-  const deleteFileImage = name => {
-    if (name === 'file1') {
-      URL.revokeObjectURL(logoImage);
-      setLogoImage('');
+  //companyID 받아오기
+  //파일 다를시  조건부 랜더링
+  //flag 하나 더 달아서 경고문구 나타내기
+  // formData.append("companiesId", companyId.current.value);
+  // formData.append("level2CategoriesId", level2CategoriesId.current.value);
+
+  const fileUpload = async () => {
+    //만약 등록하기 or 수정하기 버튼눌러졌으면 필수 항목 다 채워졌는지 확인하는 로직 추가
+    let formData = new FormData();
+    const objKeys = Object.keys(text);
+
+    for (let i = 0; i < objKeys.length; i++) {
+      formData.append(objKeys[i], text[objKeys[i]]);
+    }
+    formData.append('companyImgUrl', logoFile);
+    formData.append('companyInfoUrl', infoFile);
+
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
+    const postForm = await axios({
+      method: 'PUT',
+      url: `{back-end url}`,
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+    });
+    // console.log(postForm);
+  };
+
+  const deleteFileImage = e => {
+    if (e.target.id === 'file1') {
+      URL.revokeObjectURL(logoImageURL);
+      setLogoImageURL('');
+      setLogoFile('');
     } else {
       setCompanyProfile('');
+      setInfoFile('');
     }
   };
+  // console.log(text);
+  // console.log(Object.keys(text)); //key로 백엔드에 보낼때도
+  //파일폼으로 한데 모으고 백으로 보내는 함수 만글기 submit일대 유효성 검사 하기
+  setInterval(function () {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let date = today.getDate();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    fileUpload();
+    setSaveTime(
+      year +
+        '. ' +
+        month +
+        '. ' +
+        date +
+        '. ' +
+        hours +
+        '시 ' +
+        ' ' +
+        minutes +
+        '분'
+    );
+  }, 60000);
 
   useEffect(() => {
     fetch('/data/place.json')
@@ -56,19 +138,19 @@ function WritePost() {
 
   useEffect(() => {
     const comma = ',';
-    let idx = field.indexOf(comma);
+    let idx = mainBussinessTags.indexOf(comma);
     while (idx !== -1) {
       count += 1;
-      idx = field.indexOf(comma, idx + 1);
+      idx = mainBussinessTags.indexOf(comma, idx + 1);
     }
     count > 4 ? setFlag(true) : setFlag(false);
-  }, [field]);
+  }, [mainBussinessTags]);
 
   //TODO: urlValidation 다시 생각해보기
   const urlValidation = () => {
     let leg =
       /(http|https):\/\/((\w+)[.])+(cc|com|jp|kr|net|uk|us)(\/(\w*))*$/i;
-    let urlTest = leg.test(url);
+    let urlTest = leg.test(homepageUrl);
     urlTest ? alert('pass') : alert('reject');
   };
 
@@ -80,7 +162,7 @@ function WritePost() {
       <div className={css.totalWrap}>
         <h1>우리 회사 소개하기</h1>
         <h3>우측 *표시는 필수 작성 항목입니다.</h3>
-        <h3>0000분에 자동 저장되었습니다.</h3>
+        {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>}
 
         {places && (
           <form>
@@ -91,8 +173,8 @@ function WritePost() {
               title="회사이름"
               type="text"
               onChange={change}
-              name="name"
-              value={name}
+              name="companyName"
+              value={companyName}
               flag={true}
             />
             <br />
@@ -102,11 +184,12 @@ function WritePost() {
                 required={true}
                 accept="image/png,image/jpg"
                 desc="10mb 이하의 jpg, png 파일을 선택해주세요."
-                onChange={e => companyLogoUrl(e, 'file1')}
-                fileImage={logoImage}
+                onChange={e => filePreview(e, 'file1', this)}
+                fileImage={logoImageURL}
                 alt="companyLogo"
                 type="img"
                 forId="imgUpload"
+                deleteFileImage={deleteFileImage}
               />
             </div>
             {/*파일 첨부시,  */}
@@ -116,12 +199,16 @@ function WritePost() {
                 type="textarea"
                 placeholder="100자 이내로 간단하게 설명해 주세요."
                 onChange={change}
-                name="intro"
-                value={intro}
+                name="companyShortDesc"
+                value={companyShortDesc}
                 max={100}
               />
-              <p className={`${intro.length > 99 ? ' ' + css.over : ' '}`}>
-                {intro.length}/100
+              <p
+                className={`${
+                  companyShortDesc.length > 99 ? ' ' + css.over : ' '
+                }`}
+              >
+                {companyShortDesc.length}/100
               </p>
             </div>
             <br />
@@ -131,8 +218,8 @@ function WritePost() {
                 type="text"
                 placeholder="우리 회사의 홈페이지 주소를 알려주세요."
                 onChange={change}
-                name="url"
-                value={url}
+                name="homepageUrl"
+                value={homepageUrl}
               />
             </div>
             <br />
@@ -142,8 +229,8 @@ function WritePost() {
                 type="text"
                 placeholder="5개 이하의 주요 업무를 쉼표로 구분하여 입력해주세요. ex) 디지털 마케팅, 콘텐츠 제장, 영상제작 "
                 onChange={change}
-                name="field"
-                value={field}
+                name="mainBussinessTags"
+                value={mainBussinessTags}
                 flag={true}
               />
               {flag && <h4>주요 업무는 5개 이하로 소개해주세요.</h4>}
@@ -155,12 +242,16 @@ function WritePost() {
                 type="textarea"
                 placeholder="우리 회사 소개,패스트파이브 멤버들과 협업하고 싶은 프로젝트, 지금까지의 업무 레퍼런스 등 자세한 내용을 공유해주세요."
                 onChange={change}
-                name="refer"
-                value={refer}
+                name="companyLongDesc"
+                value={companyLongDesc}
                 max={1000}
               />
-              <p className={`${refer.length > 999 ? ' ' + css.over : ' '}`}>
-                {refer.length}/1000
+              <p
+                className={`${
+                  companyLongDesc.length > 999 ? ' ' + css.over : ' '
+                }`}
+              >
+                {companyLongDesc.length}/1000
               </p>
             </div>
 
@@ -170,12 +261,16 @@ function WritePost() {
                 type="textarea"
                 placeholder="패스트파이브 멤버에게만 제공되는 혜택이 있다면 알려주세요.&#13;&#10; ex)패스트파이브 멤버 컨택 시 견적의 10% 할인제공"
                 onChange={change}
-                name="benefit"
-                value={benefit}
+                name="fastfiveBenefitDesc"
+                value={fastfiveBenefitDesc}
                 max={100}
               />
-              <p className={`${benefit.length > 99 ? ' ' + css.over : ' '}`}>
-                {benefit.length}/100
+              <p
+                className={`${
+                  fastfiveBenefitDesc.length > 99 ? ' ' + css.over : ' '
+                }`}
+              >
+                {fastfiveBenefitDesc.length}/100
               </p>
             </div>
 
@@ -186,8 +281,8 @@ function WritePost() {
                 placeholder="업무상 컨택이 가능한 연락처를 알려주세요. ex) sample@fastfive.co.kr, 010-1234-1234 "
                 flag={true}
                 onChange={change}
-                name="contact"
-                value={contact}
+                name="companyContactAddress"
+                value={companyContactAddress}
               />
             </div>
 
@@ -197,10 +292,11 @@ function WritePost() {
                 required={false}
                 accept="application/pdf,image/png,image/jpg"
                 desc="30mb 이하의 pdf, jpg, png 파일을 선택해주세요."
-                onChange={e => companyLogoUrl(e, 'file2')}
+                onChange={e => filePreview(e, 'file2', this)}
                 type="document"
                 forId="documentUpload"
                 fileName={companyProfile}
+                deleteFileImage={deleteFileImage}
               />
             </div>
             <br />

@@ -22,11 +22,27 @@ function imageUpload({
         onChange={onChange}
         required={required}
       />
-      {fileImage && <img src={fileImage} alt={alt} />}
+      {fileImage && (
+        <div className={css.test}>
+          <img className={css.preview} src={fileImage} alt={alt} />
+          <img
+            className={css.cancelImg}
+            src="image/cancelFile.png"
+            alt="companyProfile cancel"
+            onClick={deleteFileImage}
+            id="file1"
+          />
+        </div>
+      )}
       {fileName && (
         <div className={css.document}>
           <span>{fileName}</span>
-          <img src="image/cancel.png" alt="companyProfile cancel" />
+          <img
+            src="image/cancelFile.png"
+            alt="companyProfile cancel"
+            onClick={deleteFileImage}
+            id="file2"
+          />
         </div>
       )}
       <h5>{desc}</h5>
