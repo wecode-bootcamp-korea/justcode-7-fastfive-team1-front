@@ -48,7 +48,7 @@ function Request({ onClose, modalImages }) {
             대표요청
           </button>
         </div>
-        <div className={css.requesetForm}>
+        <div className={css.requestForm}>
           {openMemberForm ? <MemberForm /> : <OwnerForm />}
         </div>
       </section>
