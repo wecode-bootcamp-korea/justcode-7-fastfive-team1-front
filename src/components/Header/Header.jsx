@@ -14,15 +14,6 @@ function Header() {
       });
   }, []);
 
-  useEffect(() => {
-    const $body = document.querySelector('body');
-    const overflow = $body.style.overflow;
-    $body.style.overflow = 'hidden';
-    return () => {
-      $body.style.overflow = overflow;
-    };
-  }, []);
-
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRequestModal, setOpenRequestModal] = useState(false);
 
