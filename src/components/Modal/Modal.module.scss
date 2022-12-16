@@ -7,20 +7,20 @@
 .background {
   display: flex;
   position: fixed;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
-  align-items: center;
-  justify-content: center;
   left: 0;
   top: 0;
+  background-color: #0000004d;
   text-align: center;
-  background: #0000004d;
 
   .imgBox {
     width: 600px;
     height: 580px;
-    border-radius: 35px;
     box-shadow: -5px 5px 10px #4d4d4d9b;
+    border-radius: 35px;
     img {
       height: 100%;
       object-fit: contain;
@@ -32,8 +32,8 @@
     position: relative;
     width: 440px;
     height: 580px;
-    left: 0%;
     top: 0%;
+    left: 0%;
     background-color: #ffffff;
     box-shadow: -5px 5px 10px #4d4d4d9b;
     border-radius: 35px;
@@ -42,9 +42,9 @@
       img {
         display: flex;
         position: absolute;
+        width: 13px;
         top: 30px;
         right: 30px;
-        width: 13px;
         cursor: pointer;
       }
     }

@@ -1,7 +1,7 @@
 import { React, useState } from 'react';
-import css from './Login.module.scss';
 import Modal from '../Modal/Modal';
 import SignUp from '../SignUp/SignUp';
+import css from './Login.module.scss';
 
 function Login({ onClose, modalImages }) {
   const [openSignUpModal, setOpenSignUpModal] = useState(false);

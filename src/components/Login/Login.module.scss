@@ -1,33 +1,33 @@
 .loginContainer {
-  text-align: start;
   padding: 70px 40px 40px 40px;
+  text-align: start;
 
   h1 {
-    color: #000000;
-    font-size: 27px;
-    font-weight: 400;
     text-decoration: underline;
     text-underline-position: under;
     text-decoration-color: #fe6d6a;
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
     cursor: default;
   }
 
   .loginFormBox {
-    margin-top: 45px;
     display: grid;
+    margin-top: 45px;
 
     label {
-      font-size: 13px;
       margin-bottom: 5px;
+      font-size: 13px;
     }
 
     input {
-      border: 1px solid #dcdcdc;
       height: 20px;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 14px;
       margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      font-size: 14px;
 
       &:focus {
         border: 1px solid #fe6d6a;
@@ -41,21 +41,21 @@
     }
 
     .loginBtn {
-      background-color: #fe6d6a;
       height: 45px;
       margin-top: 10px;
-      text-align: center;
       border-radius: 10px;
+      background-color: #fe6d6a;
       color: white;
+      text-align: center;
       font-size: 15px;
       cursor: pointer;
     }
 
     .joinContent {
       display: flex;
-      font-size: 13px;
-      margin-top: 12px;
       justify-content: flex-end;
+      margin-top: 12px;
+      font-size: 13px;
 
       span {
         color: gray;
@@ -63,13 +63,13 @@
 
       .joinBtn {
         margin-left: 10px;
-        font-size: 13px;
         color: gray;
+        font-size: 13px;
         cursor: pointer;
 
         &:hover {
-          color: #fe6d6a;
           font-weight: 700;
+          color: #fe6d6a;
         }
       }
     }

@@ -1,6 +1,6 @@
 .signUpContainer {
-  text-align: start;
   padding: 70px 40px 40px 40px;
+  text-align: start;
 
   h1 {
     color: #000000;
@@ -42,13 +42,13 @@
     }
 
     .signUpBtn {
-      background-color: #fe6d6a;
       height: 45px;
       margin-top: 10px;
-      text-align: center;
-      color: white;
-      font-size: 15px;
       border-radius: 10px;
+      background-color: #fe6d6a;
+      color: white;
+      text-align: center;
+      font-size: 15px;
       cursor: pointer;
     }
 
@@ -64,8 +64,8 @@
 
         .agreeText {
           display: flex;
-          text-align: center;
           align-items: center;
+          text-align: center;
 
           span {
             margin-left: 3px;

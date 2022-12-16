@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
-import css from './Request.module.scss';
 import Modal from '../Modal/Modal';
-import MemberForm from './Member/MemberRequest';
 import OwnerForm from './Owner/OwnerRequest';
+import MemberForm from './Member/MemberRequest';
+import css from './Request.module.scss';
 
 function Request({ onClose, modalImages }) {
   const [openMemberForm, setOpenMemberForm] = useState(true);
