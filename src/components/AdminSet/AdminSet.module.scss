@@ -1,0 +1,73 @@
+.adminContainer {
+  padding: 70px 40px 40px 40px;
+  text-align: start;
+  h1 {
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: #fe6d6a;
+    cursor: default;
+  }
+
+  .loginFormBox {
+    display: grid;
+    margin-top: 45px;
+    label {
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    input {
+      height: 20px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      font-size: 14px;
+      &:focus {
+        border: 1px solid #fe6d6a;
+        color: #fe6d6a;
+      }
+    }
+
+    .emailForm,
+    .passwordForm {
+      display: grid;
+    }
+
+    .loginBtn {
+      height: 45px;
+      margin-top: 10px;
+      border-radius: 10px;
+      background-color: #fe6d6a;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .joinContent {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+      font-size: 13px;
+      span {
+        color: gray;
+      }
+
+      .saveBtn {
+        margin-left: 10px;
+        color: gray;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+          color: #fe6d6a;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
