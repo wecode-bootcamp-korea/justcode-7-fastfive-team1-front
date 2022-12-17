@@ -1,10 +1,11 @@
-import { React, useEffect, useState } from 'react';
-import css from './Header.module.scss';
+import React, { useEffect, useState } from 'react';
 import Login from '../Login/Login';
 import Request from '../Request/Request';
+import css from './Header.module.scss';
 
-function Header() {
+const Header = () => {
   const [modalImages, setModalImages] = useState([]);
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
     fetch('/data/modalImage.json')
@@ -15,12 +16,20 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const $body = document.querySelector('body');
-    const overflow = $body.style.overflow;
-    $body.style.overflow = 'hidden';
-    return () => {
-      $body.style.overflow = overflow;
-    };
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      fetch(`http://localhost:5500/user`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(res => setUserName(res.userInfo.username));
+    } else {
+      setUserName('');
+    }
   }, []);
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -28,6 +37,12 @@ function Header() {
 
   const openLogin = () => {
     setOpenLoginModal(true);
+  };
+
+  const onLogout = () => {
+    window.localStorage.setItem('token', '');
+    window.location.href = '/';
+    setUserName('');
   };
 
   const openRequest = () => {
@@ -46,13 +61,22 @@ function Header() {
           >
             요청하기
           </button>
-          <button
-            className={openLoginModal ? css.clickedLoginBtn : css.loginBtn}
-            onClick={openLogin}
-            disabled={openLoginModal ? true : false}
-          >
-            로그인
-          </button>
+          {userName ? (
+            <div className={css.userLogin}>
+              <button className={css.userName}>{userName}님</button>
+              <button className={css.logOut} onClick={onLogout}>
+                로그아웃
+              </button>
+            </div>
+          ) : (
+            <button
+              className={openLoginModal ? css.clickedLoginBtn : css.loginBtn}
+              onClick={openLogin}
+              disabled={openLoginModal ? true : false}
+            >
+              로그인
+            </button>
+          )}
           {openLoginModal && (
             <Login
               onClose={() => {
@@ -73,6 +97,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;

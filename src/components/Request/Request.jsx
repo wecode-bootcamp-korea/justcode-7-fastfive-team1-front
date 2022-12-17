@@ -4,7 +4,7 @@ import Modal from '../Modal/Modal';
 import MemberForm from './Member/MemberRequest';
 import OwnerForm from './Owner/OwnerRequest';
 
-function Request({ onClose, modalImages }) {
+const Request = ({ onClose, modalImages }) => {
   const [openMemberForm, setOpenMemberForm] = useState(true);
   const [openOwnerForm, setOpenOwnerForm] = useState(false);
 
@@ -54,6 +54,6 @@ function Request({ onClose, modalImages }) {
       </section>
     </Modal>
   );
-}
+};
 
 export default Request;

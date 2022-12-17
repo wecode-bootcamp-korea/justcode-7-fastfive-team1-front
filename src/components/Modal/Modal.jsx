@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './Modal.module.scss';
 
-function Modal({ children, onClose, modalImage }) {
+const Modal = ({ children, onClose, modalImage }) => {
   return (
     <div className={css.background}>
       <div className={css.imgBox}>
@@ -15,6 +15,6 @@ function Modal({ children, onClose, modalImage }) {
       </div>
     </div>
   );
-}
+};
 
 export default Modal;

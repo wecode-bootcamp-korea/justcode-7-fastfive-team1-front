@@ -6,7 +6,7 @@ import moment from 'moment';
 import './react-datepicker.scss';
 import css from './Calendar.module.scss';
 
-function Calender({ setStartDateData, setEndDateData }) {
+const Calender = ({ setStartDateData, setEndDateData }) => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -41,6 +41,6 @@ function Calender({ setStartDateData, setEndDateData }) {
       </div>
     </div>
   );
-}
+};
 
 export default Calender;

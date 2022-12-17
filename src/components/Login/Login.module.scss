@@ -1,6 +1,6 @@
 .loginContainer {
-  text-align: start;
   padding: 70px 40px 40px 40px;
+  text-align: start;
 
   h1 {
     color: #000000;
@@ -13,21 +13,21 @@
   }
 
   .loginFormBox {
-    margin-top: 45px;
     display: grid;
+    margin-top: 80px;
 
     label {
-      font-size: 13px;
       margin-bottom: 5px;
+      font-size: 13px;
     }
 
     input {
-      border: 1px solid #dcdcdc;
       height: 20px;
+      margin-bottom: 5px;
+      border: 1px solid #dcdcdc;
       border-radius: 10px;
       padding: 10px;
       font-size: 14px;
-      margin-bottom: 20px;
 
       &:focus {
         border: 1px solid #fe6d6a;
@@ -35,27 +35,43 @@
       }
     }
 
+    .emailBox {
+      input {
+        width: 338px;
+      }
+    }
+
     .emailForm,
     .passwordForm {
       display: grid;
+
+      .formatMessage {
+        height: 10px;
+        margin-bottom: 20px;
+        .message {
+          padding-left: 5px;
+          color: #fe6d6a;
+          font-size: 11px;
+        }
+      }
     }
 
     .loginBtn {
-      background-color: #fe6d6a;
       height: 45px;
-      margin-top: 10px;
-      text-align: center;
+      margin-top: 30px;
       border-radius: 10px;
+      background-color: #fe6d6a;
       color: white;
+      text-align: center;
       font-size: 15px;
       cursor: pointer;
     }
 
     .joinContent {
       display: flex;
-      font-size: 13px;
-      margin-top: 12px;
       justify-content: flex-end;
+      margin-top: 12px;
+      font-size: 13px;
 
       span {
         color: gray;
@@ -63,8 +79,8 @@
 
       .joinBtn {
         margin-left: 10px;
-        font-size: 13px;
         color: gray;
+        font-size: 13px;
         cursor: pointer;
 
         &:hover {

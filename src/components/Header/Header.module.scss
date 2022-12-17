@@ -5,31 +5,44 @@
 
   .menuBar {
     display: flex;
-    width: 100%;
     justify-content: flex-end;
+    width: 100%;
 
     .menu {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      display: flex;
       align-items: center;
       margin-right: 40px;
 
       .requestBtn,
       .loginBtn {
-        color: white;
-        height: 45px;
         width: 90px;
+        height: 45px;
+        color: white;
         text-align: center;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
 
         &:hover {
-          height: 42px;
-          color: #fe6d6a;
           width: 90px;
-          text-align: center;
+          height: 42px;
           border-bottom: 2px solid #fe6d6a;
+          color: #fe6d6a;
+          text-align: center;
+          font-size: 15px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+      }
+
+      .userLogin {
+        display: flex;
+        .userName,
+        .logOut {
+          height: 45px;
+          width: 90px;
+          color: white;
+          text-align: center;
           font-size: 15px;
           font-weight: 500;
           cursor: pointer;
@@ -39,10 +52,10 @@
       .clickedRequestBtn,
       .clickedLoginBtn {
         height: 42px;
-        color: #fe6d6a;
         width: 90px;
-        text-align: center;
         border-bottom: 2px solid #fe6d6a;
+        color: #fe6d6a;
+        text-align: center;
         font-size: 15px;
         font-weight: 500;
         cursor: pointer;
