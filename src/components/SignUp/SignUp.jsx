@@ -21,8 +21,8 @@ const SignUp = ({ onClose, modalImages }) => {
   const [validation, setValidation] = useState(false);
 
   //이메일 중복확인
-  const [emailOverlap, setEmailOverlap] = useState(true);
-  const overlapCheck = e => {
+  const [duplicateEmail, setDuplicateEmail] = useState(true);
+  const duplicateCheck = e => {
     fetch(`http://localhost:5500/email`, {
       method: 'POST',
       headers: {
@@ -36,7 +36,7 @@ const SignUp = ({ onClose, modalImages }) => {
       .then(res => {
         if (res.duplicateEmail === true) {
           alert('사용 가능한 이메일 입니다.');
-          setEmailOverlap(false);
+          setDuplicateEmail(false);
         } else {
           alert('이미 존재하는 이메일 입니다.');
         }
@@ -93,7 +93,7 @@ const SignUp = ({ onClose, modalImages }) => {
       alert('이용약관에 동의해주세요');
     } else if (secondCheckbox === false) {
       alert('개인정보이용동의에 동의해주세요');
-    } else if (emailOverlap) {
+    } else if (duplicateEmail) {
       alert('이메일 중복 확인을 해주세요');
     }
   };
@@ -103,7 +103,7 @@ const SignUp = ({ onClose, modalImages }) => {
       nameError === false &&
       emailError === false &&
       passwordError === false &&
-      emailOverlap === false &&
+      duplicateEmail === false &&
       firstCheckbox &&
       secondCheckbox
     ) {
@@ -112,7 +112,7 @@ const SignUp = ({ onClose, modalImages }) => {
       nameError ||
       emailError ||
       passwordError ||
-      emailOverlap ||
+      duplicateEmail ||
       firstCheckbox === false ||
       secondCheckbox === false
     ) {
@@ -122,7 +122,7 @@ const SignUp = ({ onClose, modalImages }) => {
     nameError,
     emailError,
     passwordError,
-    emailOverlap,
+    duplicateEmail,
     firstCheckbox,
     secondCheckbox,
   ]);
@@ -174,12 +174,12 @@ const SignUp = ({ onClose, modalImages }) => {
                 defaultValue={email}
                 onChange={emailCheck}
               />
-              {emailOverlap === true ? (
-                <button className={css.overlap} onClick={overlapCheck}>
+              {duplicateEmail === true ? (
+                <button className={css.duplicate} onClick={duplicateCheck}>
                   확인
                 </button>
               ) : (
-                <button className={css.notOverlap} disabled>
+                <button className={css.notDuplicate} disabled>
                   완료
                 </button>
               )}
