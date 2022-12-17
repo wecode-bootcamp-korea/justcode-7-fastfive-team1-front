@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import css from './MemberRequest.module.scss';
 
-function MemberRequest() {
+const MemberRequest = () => {
   const [company, setCompany] = useState([]);
 
   useEffect(() => {
@@ -25,6 +25,6 @@ function MemberRequest() {
       <button className={css.submitBtn}>요청하기</button>
     </div>
   );
-}
+};
 
 export default MemberRequest;

@@ -4,7 +4,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
 import css from './CompanyList.module.scss';
 
-function CompanyList() {
+const CompanyList = () => {
   const [companyListData, setCompanyListData] = useState([]);
   useEffect(() => {
     fetch('/data/company.json')
@@ -59,6 +59,6 @@ function CompanyList() {
       </div>
     </div>
   );
-}
+};
 
 export default CompanyList;

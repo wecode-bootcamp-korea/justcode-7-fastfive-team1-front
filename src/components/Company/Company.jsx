@@ -1,11 +1,11 @@
 import React from 'react';
 import css from './Company.module.scss';
 
-function Company({ name, body, comment, image }) {
+const Company = ({ name, body, comment, image }) => {
   return (
     <div className={css.companyContainer}>
       <div className={css.companyImageBox}>
-        <img src={image} alt="회사이미지" />
+        <img src={image} className={css.companyImage} alt="회사이미지" />
       </div>
       <div className={css.companyContentBox}>
         <div className={css.companyName}>
@@ -20,6 +20,6 @@ function Company({ name, body, comment, image }) {
       </div>
     </div>
   );
-}
+};
 
 export default Company;
