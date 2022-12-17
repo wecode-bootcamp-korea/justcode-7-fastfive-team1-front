@@ -7,6 +7,15 @@ function Comment() {
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
 
+  const clickSubmitBtn = () => {
+    const textLength = textarea.current.value.length;
+    if (textLength === 0 || textLength > 1000) return;
+
+    console.log('comment', textarea.current.value);
+    console.log('postId', '??');
+    console.log('is_secret', lockState);
+  };
+
   const changeTextarea = event => {
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
@@ -60,7 +69,7 @@ function Comment() {
           </div>
         </div>
         <div className={css.rightArea}>
-          <button>등록</button>
+          <button onClick={clickSubmitBtn}>등록</button>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@
     width: 750px;
 
     .leftArea {
-      width: 680px;
+      width: 663px;
 
       .commentInfoDiv {
         display: flex;
@@ -30,6 +30,7 @@
       .commentContent {
         width: 100%;
         margin: 3px 5px;
+        margin-bottom: 10px;
         color: gray;
         overflow: hidden;
       }
@@ -43,7 +44,6 @@
       .letterCount {
         display: flex;
         justify-content: flex-end;
-        width: 98%;
 
         // margin-bottom: 10px;
 
@@ -54,12 +54,11 @@
 
           .lock {
             color: coral;
-            transform: translateY(-2px);
           }
 
           .lockOpen {
             color: gray;
-            transform: translateX(2px) translateY(-2px);
+            transform: translateX(2px);
           }
         }
       }
@@ -70,8 +69,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
       width: 70px;
+
       .rightAreaBtnDiv {
         display: flex;
         align-items: center;

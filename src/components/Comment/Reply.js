@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import css from './WriteReply.module.scss';
+import css from './Reply.module.scss';
 
-function Comment() {
+function Comment({ commentObj }) {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
@@ -16,6 +16,17 @@ function Comment() {
   const changeLockState = event => {
     setLockState(!lockState);
   };
+
+  const clickSubmitBtn = () => {
+    const textLength = textarea.current.value.length;
+    if (textLength === 0 || textLength > 1000) return;
+
+    console.log('commentId', commentObj.comments_id);
+    console.log('comment', textarea.current.value);
+    console.log('is_secret', lockState);
+    console.log('postId', '??');
+  };
+
   return (
     <div className={css.comment}>
       <div className={css.commentMarginDiv}>
@@ -60,7 +71,7 @@ function Comment() {
           </div>
         </div>
         <div className={css.rightArea}>
-          <button>등록</button>
+          <button onClick={clickSubmitBtn}>등록</button>
         </div>
       </div>
     </div>

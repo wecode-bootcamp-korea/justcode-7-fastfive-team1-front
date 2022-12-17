@@ -120,6 +120,23 @@
           margin-left: 5%;
         }
       }
+
+      .commentPageDiv {
+        display: flex;
+        justify-content: center;
+        width: 600px;
+        margin: 0 auto;
+
+        .commentPageBtn {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          height: 30px;
+          margin: 10px;
+          background-color: coral;
+        }
+      }
     }
   }
 }

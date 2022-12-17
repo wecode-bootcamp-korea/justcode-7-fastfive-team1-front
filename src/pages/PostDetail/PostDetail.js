@@ -1,13 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import WriteReply from '../../components/Comment/WriteReply';
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/Comment/CommentInput';
 import Header from '../../components/Header/Header';
 
 function PostDetail() {
   const [copyCheck, setCopyCheck] = useState(false);
+  const [commentData, setCommentData] = useState([]);
+  const [commentCount, setCommentCount] = useState();
+
+  useEffect(() => {
+    fetch('/data/commentData.json')
+      .then(res => res.json())
+      .then(data => {
+        const commentCount = Math.ceil(data.commentCount / 20);
+        const commentPageArr = [];
+        for (let i = 0; i < commentCount; i++) {
+          commentPageArr.push(i + 1);
+        }
+        setCommentCount(commentPageArr);
+
+        // setCommentData(data.commentData);
+        //마지막 대댓글 찾는 코드(상의 전까지 보류)
+        const processedCommentArr = [];
+        for (let i = 0; i < data.commentData.length; i++) {
+          const nextElemDepth =
+            data.commentData[i + 1] === undefined
+              ? false
+              : data.commentData[i + 1].depth;
+          if (nextElemDepth === 1 || i === data.commentData.length - 1) {
+            data.commentData[i].lastComment = true;
+          }
+          processedCommentArr.push(data.commentData[i]);
+        }
+        setCommentData(processedCommentArr);
+      });
+  }, []);
 
   const clickEmail = event => {
     if (copyCheck) return;
@@ -103,8 +132,19 @@ function PostDetail() {
           <div className={`${css.commentDiv}`}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
             <CommentInput />
-            <Comment />
-            <WriteReply />
+            {commentData.map(commentObj => {
+              return <Comment key={commentObj.id} commentObj={commentObj} />;
+            })}
+          </div>
+          <div className={`${css.commentPageDiv}`}>
+            {commentCount &&
+              commentCount.map(elem => {
+                return (
+                  <button className={css.commentPageBtn} key={elem}>
+                    {elem}
+                  </button>
+                );
+              })}
           </div>
         </div>
       </div>
