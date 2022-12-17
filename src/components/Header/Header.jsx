@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react';
-import css from './Header.module.scss';
 import Login from '../Login/Login';
 import Request from '../Request/Request';
+import css from './Header.module.scss';
 
-function Header() {
+const Header = () => {
   const [modalImages, setModalImages] = useState([]);
 
   useEffect(() => {
@@ -12,15 +12,6 @@ function Header() {
       .then(data => {
         setModalImages(data.image);
       });
-  }, []);
-
-  useEffect(() => {
-    const $body = document.querySelector('body');
-    const overflow = $body.style.overflow;
-    $body.style.overflow = 'hidden';
-    return () => {
-      $body.style.overflow = overflow;
-    };
   }, []);
 
   const [openLoginModal, setOpenLoginModal] = useState(false);
@@ -73,6 +64,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
