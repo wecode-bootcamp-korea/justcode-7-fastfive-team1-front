@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react';
-import css from './Header.module.scss';
 import Login from '../Login/Login';
 import Request from '../Request/Request';
+import css from './Header.module.scss';
 
-function Header() {
+const Header = () => {
   const [modalImages, setModalImages] = useState([]);
 
   useEffect(() => {
@@ -64,6 +64,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
