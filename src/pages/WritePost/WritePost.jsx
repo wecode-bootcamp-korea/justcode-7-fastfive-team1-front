@@ -1,21 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SelectForm from '../../components/Form/SelectForm';
 import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
 import SideBar from '../../components/Sidebar/Sidebar';
 import css from './WritePost.module.scss';
+const axios_ = axios.create({
+  baseURL: 'http://localhost:5500/',
+});
 
 const WritePost = () => {
   const IMAGEMAX = 10 * 1024 * 1024;
   const INTROMAX = 30 * 1024 * 1024;
   const [places, setPlaces] = useState('');
+  const [formData, setFormData] = useState('');
   const [logoImageURL, setLogoImageURL] = useState('');
   const [companyProfile, setCompanyProfile] = useState('');
   const [categoryData, setCategoryData] = useState('');
   const [firstCategory, setFirstCategory] = useState([]);
-  const [secondCategory, setSecondCategory] = useState('');
+  const [secondCategory, setSecondCategory] = useState([]);
+  const [level2CategoriesId, setlevel2CategoriesId] = useState('');
+  const [fastfiveBranchesId, setfastfiveBranchesId] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [saveTime, setSaveTime] = useState('');
@@ -51,6 +57,17 @@ const WritePost = () => {
       .then(res => {
         setCategoryData(res.data);
       });
+
+    fetch('http://localhost:5500/post-form', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjcxMjg1NDYyfQ.V2uTZKMxrjetcwhRUAfAQLpOF5L65975Dpnfl_nDDH4',
+      },
+    })
+      .then(res => res.json())
+      .then(res => setFormData(res));
   }, []);
 
   useEffect(() => {
@@ -63,6 +80,30 @@ const WritePost = () => {
     count > 4 ? setFlag(true) : setFlag(false);
   }, [mainBussinessTags]);
 
+  useEffect(() => {
+    if (formData) {
+      const objKeys = Object.keys(text);
+      let path = formData.companyInfoUrl;
+      let idx = path.lastIndexOf('/');
+      objKeys.forEach(key => {
+        let value = formData[key];
+        value === null ? (value = '') : (value = value);
+        setText(prevState => {
+          return { ...prevState, [key]: value };
+        });
+      });
+      setLogoImageURL(formData.companyImgUrl);
+      setCompanyProfile(path.substr(idx + 1));
+      if (formData.branch) {
+        setfastfiveBranchesId(formData.branch.id);
+      }
+      if (formData.category) {
+        setFirstCategory(formData.category.lv1Id);
+        setlevel2CategoriesId(formData.category.lv2Id);
+      }
+    }
+  }, [formData]);
+
   const change = e => {
     const { value, name } = e.target;
     setText({
@@ -70,6 +111,16 @@ const WritePost = () => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    if (firstCategory != '') {
+      setSecondCategory('');
+      const subCategories = categoryData[firstCategory - 1].subCategory;
+      subCategories.map(subCategory =>
+        setSecondCategory(secondCategory => [...secondCategory, subCategory])
+      );
+    }
+  }, [firstCategory]);
 
   const filePreview = (e, name) => {
     e.preventDefault();
@@ -90,33 +141,38 @@ const WritePost = () => {
     e.target.value = '';
   };
 
-  const fileUpload = async () => {
-    {
-      /**TODO:등록하기 && 수정하기 버튼에 따라 필수항목 채워졌는지 확인하는 로직추가 */
-    }
+  const fileUpload = async e => {
+    e.preventDefault();
+    //const token = localStorage.getItem('token');
     let formData = new FormData();
     const objKeys = Object.keys(text);
 
     for (let i = 0; i < objKeys.length; i++) {
       formData.append(objKeys[i], text[objKeys[i]]);
     }
-    {
-      /**TODO:상세 보내기 */
+
+    formData.append('companiesId', 1);
+    formData.append('fastfiveBranchesId', 1);
+    formData.append('level2CategoriesId', level2CategoriesId);
+    if (logoFile && logoImageURL) {
+      formData.append('companyImgUrl', logoFile);
+    } else if (logoImageURL === '') {
+      formData.append('companyImgUrl', '');
     }
-    {
-      /**TODO:브랜치 */
+    if (infoFile && companyProfile) {
+      formData.append('companyInfoUrl', infoFile);
+    } else if (companyProfile === '') {
+      formData.append('companyInfoUrl', '');
     }
-    formData.append('companyImgUrl', logoFile);
-    formData.append('companyInfoUrl', infoFile);
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
-    await axios({
+
+    await axios_({
       method: 'PUT',
-      url: `{back-end url}`,
+      url: `/post-form`,
       mode: 'cors',
       headers: {
         'Content-Type': 'multipart/form-data',
+        authorization:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjcxMjg1NDYyfQ.V2uTZKMxrjetcwhRUAfAQLpOF5L65975Dpnfl_nDDH4',
       },
       data: formData,
     });
@@ -140,7 +196,7 @@ const WritePost = () => {
     let date = today.getDate();
     let hours = today.getHours();
     let minutes = today.getMinutes();
-    fileUpload();
+
     setSaveTime(
       year +
         '. ' +
@@ -162,15 +218,8 @@ const WritePost = () => {
     let urlTest = leg.test(homepageUrl);
     urlTest ? alert('pass') : alert('reject');
   };
-  useEffect(() => {
-    if (firstCategory != '') {
-      console.log(categoryData[firstCategory - 1].subCategory);
-      {
-        /**TODO:second Category 진행중 */
-      }
-    }
-    setSecondCategory();
-  }, [firstCategory]);
+
+  useEffect(() => {}, [level2CategoriesId]);
   return (
     <div className={css.container}>
       <div>
@@ -182,29 +231,33 @@ const WritePost = () => {
         <h3>우측 *표시는 필수 작성 항목입니다.</h3>
         {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>}
 
-        {categoryData && (
+        {formData !== '' && (
           <form>
             <SelectForm
               title="업종 * "
               optionVal="카테고리"
               datum={categoryData}
               setFunc={setFirstCategory}
+              selected={firstCategory}
             />
-            <SelectForm optionVal="상세" datum={places} />
+            <SelectForm
+              optionVal="상세"
+              datum={secondCategory}
+              setFunc={setlevel2CategoriesId}
+              selected={level2CategoriesId}
+            />
             <br />
             <InputForm
               title="회사이름"
               type="text"
               onChange={change}
               name="companyName"
-              value={companyName}
-              flag={true}
+              value={companyName || ''}
             />
             <br />
             <div className={css.companyImage}>
               <ImageUpload
                 title="회사 로고 or 대표 이미지 * "
-                required={true}
                 accept="image/png,image/jpg"
                 desc="10mb 이하의 jpg, png 파일을 선택해주세요."
                 onChange={e => filePreview(e, 'file1', this)}
@@ -215,7 +268,6 @@ const WritePost = () => {
                 deleteFileImage={deleteFileImage}
               />
             </div>
-            {/*파일 첨부시,  */}
             <div className={css.introduce}>
               <InputForm
                 title="회사 소개 * "
@@ -223,7 +275,7 @@ const WritePost = () => {
                 placeholder="100자 이내로 간단하게 설명해 주세요."
                 onChange={change}
                 name="companyShortDesc"
-                value={companyShortDesc}
+                value={companyShortDesc || ''}
                 max={100}
               />
               <p
@@ -242,7 +294,7 @@ const WritePost = () => {
                 placeholder="우리 회사의 홈페이지 주소를 알려주세요."
                 onChange={change}
                 name="homepageUrl"
-                value={homepageUrl}
+                value={homepageUrl || ''}
               />
             </div>
             <br />
@@ -253,8 +305,7 @@ const WritePost = () => {
                 placeholder="5개 이하의 주요 업무를 쉼표로 구분하여 입력해주세요. ex) 디지털 마케팅, 콘텐츠 제장, 영상제작 "
                 onChange={change}
                 name="mainBussinessTags"
-                value={mainBussinessTags}
-                flag={true}
+                value={mainBussinessTags || ''}
               />
               {flag && <h4>주요 업무는 5개 이하로 소개해주세요.</h4>}
             </div>
@@ -266,7 +317,7 @@ const WritePost = () => {
                 placeholder="우리 회사 소개,패스트파이브 멤버들과 협업하고 싶은 프로젝트, 지금까지의 업무 레퍼런스 등 자세한 내용을 공유해주세요."
                 onChange={change}
                 name="companyLongDesc"
-                value={companyLongDesc}
+                value={companyLongDesc || ''}
                 max={1000}
               />
               <p
@@ -285,7 +336,7 @@ const WritePost = () => {
                 placeholder="패스트파이브 멤버에게만 제공되는 혜택이 있다면 알려주세요.&#13;&#10; ex)패스트파이브 멤버 컨택 시 견적의 10% 할인제공"
                 onChange={change}
                 name="fastfiveBenefitDesc"
-                value={fastfiveBenefitDesc}
+                value={fastfiveBenefitDesc || ''}
                 max={100}
               />
               <p
@@ -302,17 +353,15 @@ const WritePost = () => {
                 title="대표연락처 * "
                 type="text"
                 placeholder="업무상 컨택이 가능한 연락처를 알려주세요. ex) sample@fastfive.co.kr, 010-1234-1234 "
-                flag={true}
                 onChange={change}
                 name="companyContactAddress"
-                value={companyContactAddress}
+                value={companyContactAddress || ''}
               />
             </div>
 
             <div className={css.companyInfo}>
               <ImageUpload
                 title="회사 소개서"
-                required={false}
                 accept="application/pdf,image/png,image/jpg"
                 desc="30mb 이하의 pdf, jpg, png 파일을 선택해주세요."
                 onChange={e => filePreview(e, 'file2', this)}
@@ -328,17 +377,19 @@ const WritePost = () => {
               title="이용 중인 지점 * "
               optionVal="지점명"
               datum={places}
+              setFunc={setfastfiveBranchesId}
+              selected={fastfiveBranchesId}
             />
             <br />
-
-            <label className={css.agree}>
-              <input type="checkbox" required />
-              패스트파이브 서비스 이용약관에 동의하십니까?(필수)
-            </label>
+            <div className={css.agree}>
+              <label>
+                <input type="checkbox" />
+                패스트파이브 서비스 이용약관에 동의하십니까?(필수)
+              </label>
+            </div>
 
             <div className={css.btns}>
-              <button>미리보기</button>
-              {/*등록된 파일이 있을시 수정하기로 들어와짐 */}
+              <button onClick={e => fileUpload(e)}>미리보기</button>
               <button>등록하기</button>
               <button>취소</button>
             </div>

@@ -6,7 +6,6 @@ const InputForm = ({
   type,
   placeholder,
   onChange,
-  flag,
   max,
   name,
   value,
@@ -19,7 +18,6 @@ const InputForm = ({
           type={type}
           placeholder={placeholder}
           onChange={onChange}
-          required={flag}
           name={name}
           value={value}
         />
@@ -32,7 +30,6 @@ const InputForm = ({
         <textarea
           type={type}
           placeholder={placeholder}
-          required={flag}
           onChange={onChange}
           name={name}
           value={value}

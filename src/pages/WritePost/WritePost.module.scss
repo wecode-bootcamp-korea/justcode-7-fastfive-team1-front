@@ -139,11 +139,12 @@
           &.over {
             color: rgb(255, 88, 88);
           }
+          margin-left: 30%;
         }
       }
 
       .agree {
-        display: block;
+        display: inline-block;
         all: unset;
         input {
           width: auto;
@@ -151,6 +152,9 @@
         }
         a {
           color: rgb(131, 131, 131);
+        }
+        label {
+          margin-left: 34%;
         }
 
         text-align: center;

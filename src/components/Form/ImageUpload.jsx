@@ -2,7 +2,7 @@ import React from 'react';
 import css from './ImageUpload.module.scss';
 const imageUpload = ({
   title,
-  required,
+
   desc,
   accept,
   onChange,
@@ -16,13 +16,7 @@ const imageUpload = ({
     <div className={css.container}>
       <h2>{title} </h2>
       <label htmlFor={forId}>파일 첨부하기</label>
-      <input
-        type="file"
-        id={forId}
-        accept={accept}
-        onChange={onChange}
-        required={required}
-      />
+      <input type="file" id={forId} accept={accept} onChange={onChange} />
       {fileImage && (
         <div className={css.test}>
           <img className={css.preview} src={fileImage} alt={alt} />

@@ -1,33 +1,28 @@
 {
-  "data": {
+  "companyName": "제이솝",
+  "companyImgUrl": "http://localhost:5500/10001/temp_1666060345333.-1702062997.jpeg",
+  "companyShortDesc": null,
+  "homepageUrl": "www.soro.com1",
+  "mainBussinessTags": "티,동,굴,비비2233",
+  "companyLongDesc": "이건 긴 글",
+  "fastfiveBenefitDesc": "패스트파이브 이득 글",
+  "companyContactAddress": "010-4963-9575",
+  "companyInfoUrl": "http://localhost:5500/10001/이상윤 (1).pdf",
+  "location": {
+    "id": 1,
+    "locationName": "강남, 논현"
+  },
+  "branch": {
     "id": 2,
-    "company_name": "제이솝",
-    "company_img_url": "10001/temp_1666060345333.-1702062997.jpeg",
-    "company_short_desc": null,
-    "homepage_url": "www.soro.com",
-    "main_bussiness_tags": "티,동,굴,비비2233",
-    "company_long_desc": "이건 긴 글",
-    "fastfive_benefit_desc": "패스트파이브 이득 글",
-    "company_contact_address": "010-4963-9575",
-    "location": {
-      "id": 10000,
-      "location_name": "강남, 논현"
-    },
-    "branch": {
-      "id": 10000,
-      "branch_name": "강남 1호점"
-    },
-    "company": {
-      "id": 10000,
-      "company_name": "밀리는서재"
-    },
-    "category": {
-      "lv1_id": 10000,
-      "lv2_id": 10000,
-      "lv1_name": "마케팅",
-      "lv2_name": "default"
-    },
-    "companyImgUrl": "http://localhost:5500/10001/temp_1666060345333.-1702062997.jpeg",
-    "companyInfoUrl": "http://localhost:5500/10001/이상윤 (1).pdf"
+    "branchName": "강남 1호점"
+  },
+  "company": {
+    "id": 1,
+    "companyName": "밀리는서재"
+  },
+  "category": {
+    "lv1Id": 2,
+    "lv1Name": "마케팅",
+    "lv2Name": "default"
   }
 }
