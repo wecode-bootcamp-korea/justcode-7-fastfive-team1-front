@@ -1,29 +1,51 @@
-.ServeHomeContainer {
-  .BannerAd {
-    margin-top: 100px;
+.serveHomeContainer {
+  overflow-y: auto;
+  .bannerAd {
+    margin-top: 70px;
     margin-left: 200px;
     width: 80%;
   }
-  .CompanyIntroduceBtn {
+  .companyIntroduceBtn {
     margin-left: 80%;
     margin-top: 100px;
     width: 200px;
     height: 50px;
     background-color: white;
+    border: 1px solid gray;
+    color: gray;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background-color: coral;
+      color: black;
+      border: 1px solid coral;
+    }
   }
-  .TitleWrapper {
+  .titleWrapper {
     display: flex;
     justify-content: space-between;
     margin-top: 50px;
-    .Title {
+    .title {
       margin-left: 12%;
       font-size: 22px;
+      .settingImg {
+        margin-left: 10px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
     }
-    .ViewAllBtn {
+    .viewAllBtn {
       margin-right: 10%;
+      cursor: pointer;
+      color: gray;
+      &:hover {
+        color: coral;
+      }
     }
   }
-  .CardComponent {
+  .cardComponent {
     width: 80%;
     margin-left: 10%;
   }

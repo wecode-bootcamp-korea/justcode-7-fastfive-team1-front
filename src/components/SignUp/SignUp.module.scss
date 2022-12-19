@@ -1,8 +1,8 @@
 .signUpContainer {
-  text-align: start;
   padding: 70px 40px 40px 40px;
+  text-align: start;
 
-  h1 {
+  .signUp {
     color: #000000;
     font-size: 27px;
     font-weight: 400;
@@ -20,7 +20,7 @@
       display: flex;
       justify-content: space-between;
 
-      input {
+      .input {
         width: 270px;
       }
       .duplicate {
@@ -47,13 +47,13 @@
     .formatMessage {
       color: #fe6d6a;
     }
-    label {
+    .label {
       font-size: 13px;
       margin-top: 20px;
       margin-bottom: 5px;
     }
 
-    input {
+    .input {
       border: 1px solid #dcdcdc;
       border-radius: 10px;
       height: 20px;
@@ -83,13 +83,13 @@
     }
 
     .signUpBtn {
-      background-color: #fe6d6a;
       height: 45px;
       margin-top: 10px;
-      text-align: center;
-      color: white;
-      font-size: 15px;
       border-radius: 10px;
+      background-color: #fe6d6a;
+      color: white;
+      text-align: center;
+      font-size: 15px;
       cursor: pointer;
     }
 
@@ -105,12 +105,12 @@
 
         .agreeText {
           display: flex;
-          text-align: center;
           align-items: center;
           color: #5a5a5a;
+          text-align: center;
           font-size: 12px;
 
-          span {
+          .span {
             margin-left: 3px;
             color: #fe6d6a;
           }

@@ -3,12 +3,12 @@
   text-align: start;
 
   .login {
-    color: #000000;
-    font-size: 27px;
-    font-weight: 400;
     text-decoration: underline;
     text-underline-position: under;
     text-decoration-color: #fe6d6a;
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
     cursor: default;
   }
 
@@ -17,8 +17,8 @@
     margin-top: 80px;
 
     .label {
-      margin-bottom: 5px;
-      font-size: 13px;
+     margin-bottom: 5px;
+     font-size: 13px;
     }
 
     .input {
@@ -84,8 +84,8 @@
         cursor: pointer;
 
         &:hover {
-          color: #fe6d6a;
           font-weight: 700;
+          color: #fe6d6a;
         }
       }
     }

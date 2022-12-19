@@ -1,8 +1,8 @@
 import { React, useState } from 'react';
-import css from './Request.module.scss';
 import Modal from '../Modal/Modal';
-import MemberForm from './Member/MemberRequest';
 import OwnerForm from './Owner/OwnerRequest';
+import MemberForm from './Member/MemberRequest';
+import css from './Request.module.scss';
 
 const Request = ({ onClose, modalImages }) => {
   const [openMemberForm, setOpenMemberForm] = useState(true);
@@ -48,7 +48,7 @@ const Request = ({ onClose, modalImages }) => {
             대표요청
           </button>
         </div>
-        <div className={css.requesetForm}>
+        <div className={css.requestForm}>
           {openMemberForm ? <MemberForm /> : <OwnerForm />}
         </div>
       </section>
