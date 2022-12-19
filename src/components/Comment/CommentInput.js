@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import css from './CommentInput.module.scss';
 
-function Comment() {
+function Comment({ commentPageTotalCount }) {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
@@ -25,6 +25,10 @@ function Comment() {
   const changeLockState = event => {
     setLockState(!lockState);
   };
+
+  useEffect(() => {
+    if (commentPageTotalCount > 50);
+  }, []);
   return (
     <div className={css.comment}>
       <div className={css.commentMarginDiv}>
@@ -44,28 +48,21 @@ function Comment() {
               setIsInputClicked(false);
             }}
             placeholder={
-              isInputClicked === true
+              isInputClicked
                 ? ''
                 : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
             }
           />
           <div className={css.letterCount}>
             <span>{textareaLength}/1000</span>
-            {lockState ? (
-              <div className={css.lockDiv}>
-                <i
-                  className={`fa-solid fa-lock ${css.lock}`}
-                  onClick={changeLockState}
-                />
-              </div>
-            ) : (
-              <div className={css.lockDiv}>
-                <i
-                  className={`fa-solid fa-lock-open ${css.lockOpen}`}
-                  onClick={changeLockState}
-                />
-              </div>
-            )}
+            <div className={css.lockDiv}>
+              <i
+                className={`${
+                  lockState ? 'fa-solid fa-lock' : 'fa-solid fa-lock-open'
+                } ${lockState ? css.lock : css.lockOpen}`}
+                onClick={changeLockState}
+              />
+            </div>
           </div>
         </div>
         <div className={css.rightArea}>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import css from './Reply.module.scss';
+import css from './CommentInput.module.scss';
 
-function Comment({ commentObj }) {
+function Comment() {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
@@ -16,17 +16,6 @@ function Comment({ commentObj }) {
   const changeLockState = event => {
     setLockState(!lockState);
   };
-
-  const clickSubmitBtn = () => {
-    const textLength = textarea.current.value.length;
-    if (textLength === 0 || textLength > 1000) return;
-
-    console.log('commentId', commentObj.comments_id);
-    console.log('comment', textarea.current.value);
-    console.log('is_secret', lockState);
-    console.log('postId', '??');
-  };
-
   return (
     <div className={css.comment}>
       <div className={css.commentMarginDiv}>
@@ -46,25 +35,32 @@ function Comment({ commentObj }) {
               setIsInputClicked(false);
             }}
             placeholder={
-              isInputClicked
+              isInputClicked === true
                 ? ''
                 : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
             }
           />
           <div className={css.letterCount}>
             <span>{textareaLength}/1000</span>
-            <div className={css.lockDiv}>
-              <i
-                className={`${
-                  lockState ? 'fa-solid fa-lock' : 'fa-solid fa-lock-open'
-                } ${lockState ? css.lock : css.lockOpen}`}
-                onClick={changeLockState}
-              />
-            </div>
+            {lockState ? (
+              <div className={css.lockDiv}>
+                <i
+                  className={`fa-solid fa-lock ${css.lock}`}
+                  onClick={changeLockState}
+                />
+              </div>
+            ) : (
+              <div className={css.lockDiv}>
+                <i
+                  className={`fa-solid fa-lock-open ${css.lockOpen}`}
+                  onClick={changeLockState}
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className={css.rightArea}>
-          <button onClick={clickSubmitBtn}>등록</button>
+          <button>등록</button>
         </div>
       </div>
     </div>

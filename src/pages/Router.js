@@ -14,7 +14,7 @@ function Router() {
         <Route path="/home" element={<ServeHome />} />
         <Route path="/postdetail" element={<PostDetail />} />
         <Route path="/writePost" element={<WritePost />} />
-        <Route path="/companyList" element={<CompanyList />} />
+        <Route path="/companyList:id" element={<CompanyList />} />
       </Routes>
     </BrowserRouter>
   );

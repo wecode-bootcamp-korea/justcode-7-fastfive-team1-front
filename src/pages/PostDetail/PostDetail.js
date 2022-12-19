@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -8,35 +9,107 @@ import Header from '../../components/Header/Header';
 function PostDetail() {
   const [copyCheck, setCopyCheck] = useState(false);
   const [commentData, setCommentData] = useState([]);
-  const [commentCount, setCommentCount] = useState();
+  const [currCommentPage, setCurrCommentPage] = useState(1); // 현재 페이지 위치
+  const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
+  const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('/data/commentData.json')
+      // fetch('http://localhost:5500/post/:id/:page')
       .then(res => res.json())
       .then(data => {
-        const commentCount = Math.ceil(data.commentCount / 20);
-        const commentPageArr = [];
-        for (let i = 0; i < commentCount; i++) {
-          commentPageArr.push(i + 1);
-        }
-        setCommentCount(commentPageArr);
+        setCommentPageTotalCount(Math.ceil(data.length / 20));
 
-        // setCommentData(data.commentData);
+        setCommentData(data.data);
         //마지막 대댓글 찾는 코드(상의 전까지 보류)
-        const processedCommentArr = [];
-        for (let i = 0; i < data.commentData.length; i++) {
-          const nextElemDepth =
-            data.commentData[i + 1] === undefined
-              ? false
-              : data.commentData[i + 1].depth;
-          if (nextElemDepth === 1 || i === data.commentData.length - 1) {
-            data.commentData[i].lastComment = true;
-          }
-          processedCommentArr.push(data.commentData[i]);
-        }
-        setCommentData(processedCommentArr);
+        //   const processedCommentArr = [];
+        //   for (let i = 0; i < data.commentData.length; i++) {
+        //     const nextElemDepth =
+        //       data.commentData[i + 1] === undefined
+        //         ? false
+        //         : data.commentData[i + 1].depth;
+        //     if (nextElemDepth === 1 || i === data.commentData.length - 1) {
+        //       data.commentData[i].lastComment = true;
+        //     }
+        //     processedCommentArr.push(data.commentData[i]);
+        //   }
+        //   setCommentData(processedCommentArr);
       });
   }, []);
+
+  useEffect(() => {
+    const commentPageList = [];
+
+    if (commentPageTotalCount <= 10 && commentPageTotalCount > 1) {
+      for (let i = 1; i <= commentPageTotalCount; i++) {
+        commentPageList.push(i);
+      }
+      setCurrCommentPageList(commentPageList);
+    }
+
+    if (
+      commentPageTotalCount > 10 &&
+      currCommentPage >= 1 &&
+      currCommentPage < 7
+    ) {
+      for (let i = 1; i <= 10; i++) {
+        commentPageList.push(i);
+      }
+      setCurrCommentPageList(commentPageList);
+    }
+
+    if (
+      commentPageTotalCount > 10 &&
+      currCommentPage > 6 &&
+      currCommentPage < commentPageTotalCount - 4
+    ) {
+      for (let i = currCommentPage - 5; i < currCommentPage + 5; i++) {
+        commentPageList.push(i);
+      }
+      setCurrCommentPageList(commentPageList);
+    }
+
+    if (
+      commentPageTotalCount > 10 &&
+      currCommentPage > commentPageTotalCount - 5
+    ) {
+      for (let i = commentPageTotalCount - 9; i <= commentPageTotalCount; i++) {
+        commentPageList.push(i);
+      }
+      setCurrCommentPageList(commentPageList);
+    }
+  }, [currCommentPage, commentPageTotalCount]);
+
+  const clickPageBtn = event => {
+    setCurrCommentPage(Number(event.target.innerText));
+    // navigate(`/post/postId/${event.target.innerText}`);
+    console.log(`localhost:5500/post/postId/${event.target.innerText}`);
+  };
+
+  const clickPrevCommentPageBtn = () => {
+    if (commentPageTotalCount > 10 && currCommentPage > 10) {
+      setCurrCommentPage(currCommentPage - 10);
+    }
+    if (commentPageTotalCount > 10 && currCommentPage <= 10) {
+      setCurrCommentPage(1);
+    }
+  };
+
+  const clickNextCommentPageBtn = () => {
+    if (
+      commentPageTotalCount > 10 &&
+      currCommentPage + 10 > commentPageTotalCount
+    ) {
+      setCurrCommentPage(commentPageTotalCount - 4);
+    }
+    if (
+      commentPageTotalCount > 10 &&
+      currCommentPage + 10 <= commentPageTotalCount
+    ) {
+      setCurrCommentPage(currCommentPage + 10);
+    }
+  };
 
   const clickEmail = event => {
     if (copyCheck) return;
@@ -131,20 +204,37 @@ function PostDetail() {
 
           <div className={`${css.commentDiv}`}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
-            <CommentInput />
+            <CommentInput commentPageTotalCount={commentPageTotalCount} />
             {commentData.map(commentObj => {
-              return <Comment key={commentObj.id} commentObj={commentObj} />;
+              return (
+                <Comment
+                  key={commentObj.id}
+                  commentObj={commentObj}
+                  commentPageTotalCount={commentPageTotalCount}
+                />
+              );
             })}
           </div>
           <div className={`${css.commentPageDiv}`}>
-            {commentCount &&
-              commentCount.map(elem => {
+            {commentPageTotalCount > 1 && (
+              <button onClick={clickPrevCommentPageBtn}>이전</button>
+            )}
+
+            {currCommentPageList &&
+              currCommentPageList.map(elem => {
                 return (
-                  <button className={css.commentPageBtn} key={elem}>
+                  <button
+                    className={css.commentPageBtn}
+                    key={elem}
+                    onClick={clickPageBtn}
+                  >
                     {elem}
                   </button>
                 );
               })}
+            {commentPageTotalCount > 1 && (
+              <button onClick={clickNextCommentPageBtn}>다음</button>
+            )}
           </div>
         </div>
       </div>
