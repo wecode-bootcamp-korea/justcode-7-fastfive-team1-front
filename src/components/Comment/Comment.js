@@ -29,9 +29,31 @@ function Comment({ commentObj }) {
   };
 
   const clickSubmitBtn = () => {
-    console.log(textarea.current.value);
-    console.log(lockState);
-    console.log(commentObj.comments_id);
+    fetch('http://127.0.0.1:5500/post/comment', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('authorization'),
+      },
+      body: JSON.stringify({
+        comment: textarea.current.value,
+        is_secret: lockState ? 1 : 0,
+        commentId: commentObj.id,
+      }),
+    });
+  };
+
+  const clickDeleteBtn = () => {
+    fetch('http://127.0.0.1:5500/post/comment', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('authorization'),
+      },
+      body: JSON.stringify({
+        commentId: commentObj.id,
+      }),
+    });
   };
 
   useEffect(() => {
@@ -112,16 +134,18 @@ function Comment({ commentObj }) {
                   수정
                 </button>
                 <div className={css.divider} />
-                <button>삭제</button>
+                <button onClick={clickDeleteBtn}>삭제</button>
               </div>
             ) : (
               <div className={css.rightAreaBtnDiv} />
             )}
 
             {modifyChecked && <button onClick={clickSubmitBtn}>등록</button>}
-            <button className={css.submitBtn} onClick={changeReplyOpenState}>
-              답글 쓰기
-            </button>
+            {!modifyChecked && (
+              <button className={css.submitBtn} onClick={changeReplyOpenState}>
+                답글 쓰기
+              </button>
+            )}
           </div>
         </div>
       </div>

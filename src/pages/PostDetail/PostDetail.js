@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -13,13 +13,13 @@ function PostDetail() {
   const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
   const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
   const navigate = useNavigate();
+  const commentDiv = useRef();
 
   useEffect(() => {
     // fetch('/data/commentData.json')
     fetch('http://127.0.0.1:5500/post/1?page=2', {
       headers: {
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjcxNDI2ODc2fQ.dXnJzK9FIhhfiGt0bw-x2LYC4pm0Bz5fGTeX6MaqRrg',
+        authorization: localStorage.getItem('authorization'),
       },
     })
       .then(res => res.json())
@@ -88,8 +88,6 @@ function PostDetail() {
 
   const clickPageBtn = event => {
     setCurrCommentPage(Number(event.target.innerText));
-    navigate(`/post/1?page=${event.target.innerText}`);
-    console.log(`localhost:5500/post/postId/${event.target.innerText}`);
   };
 
   const clickPrevCommentPageBtn = () => {
@@ -125,11 +123,15 @@ function PostDetail() {
     }, 2000);
   };
 
-  // useEffect(() => {
-  //   fetch('http://127.0.0.1:5500/post/1?page=1')
-  //     .then(res => res.json())
-  //     .then(data => {})
-  // }, [window.location.href])
+  useEffect(() => {
+    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`)
+      .then(res => res.json())
+      .then(data => setCommentData(data.data));
+  }, [currCommentPage]);
+
+  useEffect(() => {
+    console.log(window.getComputedStyle(commentDiv.current).height);
+  }, [window.getComputedStyle(commentDiv.current).height]);
 
   return (
     <div className={css.postDetail}>
@@ -213,7 +215,7 @@ function PostDetail() {
             <div>패스트파이브 회사 소개서.pdf</div>
           </div>
 
-          <div className={`${css.commentDiv}`}>
+          <div className={`${css.commentDiv}`} ref={commentDiv}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
             <CommentInput commentPageTotalCount={commentPageTotalCount} />
             {commentData.map(commentObj => {

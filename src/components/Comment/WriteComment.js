@@ -15,8 +15,7 @@ function Comment({}) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjcxNDI2ODc2fQ.dXnJzK9FIhhfiGt0bw-x2LYC4pm0Bz5fGTeX6MaqRrg',
+        authorization: localStorage.getItem('authorization'),
       },
       body: JSON.stringify({
         comment: textarea.current.value,
@@ -24,10 +23,6 @@ function Comment({}) {
         postId: 1,
       }),
     });
-
-    console.log('comment', textarea.current.value);
-    console.log('postId', '??');
-    console.log('is_secret', lockState);
   };
 
   const changeTextarea = event => {

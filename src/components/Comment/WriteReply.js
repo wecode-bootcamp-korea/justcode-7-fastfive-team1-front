@@ -19,13 +19,22 @@ function Comment({ commentObj }) {
 
   const clickSubmitBtn = () => {
     const textLength = textarea.current.value.length;
-    if (textLength === 0 || textLength > 1000) return;
-    //등록
+    if (textLength < 1 || textLength > 1000) return;
 
-    console.log('commentId', commentObj.comments_id);
-    console.log('comment', textarea.current.value);
-    console.log('is_secret', lockState);
-    console.log('postId', '??');
+    //등록
+    fetch('http://127.0.0.1:5500/post/commentOnComment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('authorization'),
+      },
+      body: JSON.stringify({
+        comment: textarea.current.value,
+        postId: 1,
+        is_secret: lockState ? 1 : 0,
+        commentId: commentObj.comments_id,
+      }),
+    });
   };
 
   return (
