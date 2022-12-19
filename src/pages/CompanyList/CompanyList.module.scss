@@ -1,0 +1,79 @@
+.companyListContainer {
+  display: flex;
+  section {
+    display: grid;
+    grid-template-rows: minmax(min-content, 100px) 100px 7fr;
+    width: 100vw;
+    padding: 60px 50px 80px 50px;
+
+    .companyListContent {
+      display: grid;
+      align-content: space-between;
+
+      .categoryName {
+        font-weight: bold;
+        font-size: 25px;
+
+        &:hover {
+          color: #fe6d6a;
+        }
+      }
+      span {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+    .filterContent {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .filterBox {
+        .area,
+        .category,
+        .subCategory {
+          width: 100px;
+          height: 35px;
+          margin-right: 10px;
+          border-radius: 30px;
+          border: 1px solid #f0f0f0;
+          background-color: #f0f0f0;
+          text-align: center;
+          font-size: 15px;
+
+          span {
+            margin-right: 10px;
+          }
+        }
+      }
+
+      .companyIntroduceBtn {
+        width: 150px;
+        height: 30px;
+        padding: 10px;
+        border: 1px solid #f0f0f0;
+        border-radius: 30px;
+        box-shadow: 5px 5px 10px #cacaca9b;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+
+        span {
+          margin-right: 5px;
+        }
+
+        &:hover {
+          background-color: #fe6d6a;
+          color: white;
+        }
+      }
+    }
+    .companyList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 60px;
+      margin-top: 30px;
+    }
+  }
+}

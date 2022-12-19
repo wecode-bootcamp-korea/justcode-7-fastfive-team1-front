@@ -1,6 +1,6 @@
 import { React } from 'react';
-import css from './SignUp.module.scss';
 import Modal from '../Modal/Modal';
+import css from './SignUp.module.scss';
 
 function SignUp({ onClose, modalImages }) {
   const signUpModalImage = modalImages.find(image => {

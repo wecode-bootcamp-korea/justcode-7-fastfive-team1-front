@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import css from './OwnerRequest.module.scss';
 import Calendar from '../Calendar/Calendar';
 
 function OwnerRequest() {
+  const [startDateData, setStartDateData] = useState();
+  const [endDateData, setEndDateData] = useState();
+
   return (
     <div className={css.ownerRequestForm}>
       <div className={css.companyNameBox}>
@@ -15,7 +18,12 @@ function OwnerRequest() {
       </div>
       <div className={css.leasedTerm}>
         <label>임대기간</label>
-        <Calendar />
+        <div className={css.dateForm}>
+          <Calendar
+            setStartDateData={setStartDateData}
+            setEndDateData={setEndDateData}
+          />
+        </div>
       </div>
 
       <button className={css.submitBtn}>요청하기</button>
