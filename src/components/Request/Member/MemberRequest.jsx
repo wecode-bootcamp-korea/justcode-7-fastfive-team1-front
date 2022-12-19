@@ -6,10 +6,10 @@ const MemberRequest = () => {
   const [userCompany, setUserCompany] = useState();
 
   useEffect(() => {
-    fetch('/data/company.json')
+    fetch(`http://localhost:5500/company`)
       .then(res => res.json())
       .then(data => {
-        setCompanyData(data.company);
+        setCompanyData(data);
       });
   }, []);
 
@@ -50,7 +50,7 @@ const MemberRequest = () => {
       <select className={css.company} onChange={onCompanyData}>
         {companyData.map((company, idx) => (
           <option value={company.id} key={idx}>
-            {company.name}
+            {company.company_name}
           </option>
         ))}
       </select>
