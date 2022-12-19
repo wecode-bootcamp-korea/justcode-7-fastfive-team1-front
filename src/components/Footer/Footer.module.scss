@@ -1,46 +1,48 @@
-.FooterContainer {
-  background-color: #e7e7e7;
+.footerContainer {
   width: 100%;
-  .FooterContent {
+  margin-top: 50px;
+  background-color: #e7e7e7;
+
+  .footerContent {
     margin: 0 auto;
     width: 70%;
+    max-width: 900px;
     padding: 40px 0;
     color: #5c5c5c;
-    max-width: 900px;
   }
-  .FooterHeader {
+  .footerHeader {
     display: flex;
-    .CompanyTitle {
+    .companyTitle {
       display: flex;
       color: black;
-      .CompanyLogo {
+      .companyLogo {
         margin-right: 40px;
         font-size: 30px;
         font-weight: bold;
       }
-      .Consulting {
-        font-size: 20px;
-        font-weight: bold;
-        color: #5c5c5c;
+      .consulting {
         padding-right: 20px;
         border-right: 1px solid #5c5c5c;
-        .InfoNumber {
+        color: #5c5c5c;
+        font-size: 20px;
+        font-weight: bold;
+        .infoNumber {
           margin-top: 5px;
         }
       }
     }
-    .TimeTable {
+    .timeTable {
       padding-left: 20px;
       padding-top: 5px;
-      .TimeTableInfo {
-        font-size: 18px;
+      .timeTableInfo {
         padding: 0 20px 5px 0;
+        font-size: 18px;
       }
     }
   }
-  .FooterCompanyIntroduce {
+  .footerCompanyIntroduce {
     margin-top: 15px;
-    .IntroduceContent {
+    .introduceContent {
       margin-right: 20px;
       cursor: pointer;
       &:hover {
@@ -48,43 +50,43 @@
       }
     }
   }
-  .FooterInquiry {
+  .footerInquiry {
     display: flex;
     margin-top: 15px;
-    .InquiryContent {
+    .inquiryContent {
       margin-right: 6px;
       border-right: 1px solid #5c5c5c;
       font-weight: bold;
-      color: black;
-      .EmailInfo {
+      .emailInfo {
         margin-right: 6px;
         color: #5c5c5c;
         font-weight: 400;
       }
     }
-    .InfoAd {
-      font-weight: bold;
+    .infoAd {
+      margin-right: 6px;
       color: #5c5c5c;
+      font-weight: bold;
     }
   }
-  .FooterCompanyInfo {
+  .footerCompanyInfo {
     display: flex;
     margin-top: 15px;
-    .FooterCompanyContent {
+    .footerCompanyContent {
       padding-right: 6px;
       margin-right: 6px;
       border-right: 1px solid #5c5c5c;
     }
-    .PrivacyPolicy {
+    .privacyPolicy {
       cursor: pointer;
       &:hover {
         color: coral;
       }
     }
   }
-  .FooterIcons {
+  .footerIcons {
     margin-top: 15px;
-    .IconImg {
+    .iconImg {
       width: 24px;
       height: 24px;
       margin-right: 5px;

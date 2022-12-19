@@ -13,7 +13,6 @@ const Header = () => {
         setModalImages(data.image);
       });
   }, []);
-
   const [openLoginModal, setOpenLoginModal] = useState(false);
   const [openRequestModal, setOpenRequestModal] = useState(false);
 
