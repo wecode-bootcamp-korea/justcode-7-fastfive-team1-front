@@ -1,7 +1,7 @@
 .adminContainer {
   padding: 70px 40px 40px 40px;
   text-align: start;
-  h1 {
+  .title {
     color: #000000;
     font-size: 27px;
     font-weight: 400;
@@ -11,15 +11,15 @@
     cursor: default;
   }
 
-  .loginFormBox {
+  .adminFormBox {
     display: grid;
     margin-top: 45px;
-    label {
+    .categoryLabel {
       margin-bottom: 5px;
       font-size: 13px;
     }
 
-    input {
+    .categoryInput {
       height: 20px;
       padding: 10px;
       margin-bottom: 20px;
@@ -31,13 +31,12 @@
         color: #fe6d6a;
       }
     }
-
-    .emailForm,
-    .passwordForm {
+    .categoryForm,
+    .contentForm {
       display: grid;
     }
 
-    .loginBtn {
+    .saveBtn {
       height: 45px;
       margin-top: 10px;
       border-radius: 10px;
@@ -46,28 +45,6 @@
       text-align: center;
       font-size: 15px;
       cursor: pointer;
-    }
-
-    .joinContent {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 12px;
-      font-size: 13px;
-      span {
-        color: gray;
-      }
-
-      .saveBtn {
-        margin-left: 10px;
-        color: gray;
-        font-size: 13px;
-        cursor: pointer;
-
-        &:hover {
-          color: #fe6d6a;
-          font-weight: 700;
-        }
-      }
     }
   }
 }

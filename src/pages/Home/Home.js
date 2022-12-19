@@ -5,7 +5,7 @@ import ServeHome from '../../components/ServeHome/ServeHome';
 import Footer from '../../components/Footer/Footer';
 import SideBar from '../../components/Sidebar/Sidebar';
 
-function Home() {
+const Home = () => {
   window.onscroll = function () {
     scrollFunction();
   };
@@ -32,6 +32,6 @@ function Home() {
       <Footer />
     </div>
   );
-}
+};
 
 export default Home;

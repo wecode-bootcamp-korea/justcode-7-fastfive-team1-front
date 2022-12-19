@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './AdminModal.module.scss';
 
-function Modal({ children, onClose }) {
+const Modal = ({ children, onClose }) => {
   return (
     <div className={css.background}>
       <div className={css.content}>
@@ -12,6 +12,6 @@ function Modal({ children, onClose }) {
       </div>
     </div>
   );
-}
+};
 
 export default Modal;

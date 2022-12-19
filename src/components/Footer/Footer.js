@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './Footer.module.scss';
 
-function Footer() {
+const Footer = () => {
+  const [footercontent, setFooterContent] = useState([]);
+
+  useEffect(() => {
+    fetch('/data/FooterData.json')
+      .then(res => res.json())
+      .then(res => setFooterContent(res.footer));
+  }, []);
   return (
     <div className={css.footerContainer}>
       <div className={css.footerContent}>
@@ -15,28 +22,28 @@ function Footer() {
           </div>
           <div className={css.timeTable}>
             <table>
-              <tr>
-                <td className={css.timeTableInfo}>월-목요일: 9:30 - 18:00</td>
-                <td className={css.timeTableInfo}>금요일: 9:30 - 17:00</td>
-                <td className={css.timeTableInfo}>점심시간: 12:00 - 13:00</td>
-              </tr>
-              <tr>
-                <td className={css.timeTableInfo}>contact@fastfive.co.kr</td>
-                <td className={css.timeTableInfo}>카카오톡: @FASTFIVE</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td className={css.timeTableInfo}>월-목요일: 9:30 - 18:00</td>
+                  <td className={css.timeTableInfo}>금요일: 9:30 - 17:00</td>
+                  <td className={css.timeTableInfo}>점심시간: 12:00 - 13:00</td>
+                </tr>
+                <tr>
+                  <td className={css.timeTableInfo}>contact@fastfive.co.kr</td>
+                  <td className={css.timeTableInfo}>카카오톡: @FASTFIVE</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
         <div className={css.footerCompanyIntroduce}>
-          <span className={css.introduceContent}>패스트파이브 소개서</span>
-          <span className={css.introduceContent}>회사 소개</span>
-          <span className={css.introduceContent}>파이브스팟</span>
-          <span className={css.introduceContent}>모버스</span>
-          <span className={css.introduceContent}>빌딩 솔루션</span>
-          <span className={css.introduceContent}>거점 오피스</span>
-          <span className={css.introduceContent}>파이브클라우드</span>
-          <span className={css.introduceContent}>파이브애드</span>
-          <span className={css.introduceContent}>채용</span>
+          {footercontent.map(data => {
+            return (
+              <span key={data.id} className={css.introduceContent}>
+                {data.content}
+              </span>
+            );
+          })}
         </div>
         <div className={css.footerInquiry}>
           <p className={css.inquiryContent}>
@@ -63,27 +70,32 @@ function Footer() {
           <img
             className={css.iconImg}
             src="https://cdn-icons-png.flaticon.com/512/2168/2168281.png"
+            alt="facebookLogo"
           />
           <img
             className={css.iconImg}
             src="https://cdn-icons-png.flaticon.com/512/2175/2175198.png"
+            alt="instagramLogo"
           />
           <img
             className={css.iconImg}
             src="https://cdn-icons-png.flaticon.com/512/3669/3669688.png"
+            alt="youtubelogo"
           />
           <img
             className={css.iconImg}
             src="https://cdn-icons-png.flaticon.com/512/3665/3665954.png"
+            alt="naverLogo"
           />
           <img
             className={css.iconImg}
             src="https://cdn-icons-png.flaticon.com/512/5119/5119016.png"
+            alt="bLogo"
           />
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Footer;

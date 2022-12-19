@@ -4,7 +4,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
 import WriteReply from '../../components/Comment/WriteReply';
 
-function PostDetail() {
+const PostDetail = () => {
   return (
     <div className={css.postDetail}>
       <Sidebar />
@@ -84,6 +84,6 @@ function PostDetail() {
       </div>
     </div>
   );
-}
+};
 
 export default PostDetail;

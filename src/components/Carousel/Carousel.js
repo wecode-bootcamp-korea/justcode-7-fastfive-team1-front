@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import css from './Carousel.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-function Carousel() {
+const Carousel = () => {
+  const [carouselImg, setCarouselImg] = useState([]);
+
+  useEffect(() => {
+    fetch('/data/CarouselImage.json')
+      .then(res => res.json())
+      .then(res => setCarouselImg(res.data));
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -28,36 +36,20 @@ function Carousel() {
       />
     ),
   };
+
   return (
     <div className={css.carouselContainer}>
       <Slider {...settings}>
-        <div>
-          <img
-            className={css.img}
-            src="https://images.unsplash.com/photo-1551383616-a9e150c07fca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          />
-        </div>
-        <div>
-          <img
-            className={css.img}
-            src="https://images.unsplash.com/photo-1533182390818-fb24be7ca4e7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          />
-        </div>
-        <div>
-          <img
-            className={css.img}
-            src="https://images.unsplash.com/photo-1589981941324-27c29919de98?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1174&q=80"
-          />
-        </div>
-        <div>
-          <img
-            className={css.img}
-            src="https://images.unsplash.com/photo-1604759695540-3012f9682c28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-          />
-        </div>
+        {carouselImg.map(img => {
+          return (
+            <div key={img.id}>
+              <img className={css.bannerImg} src={img.img} />
+            </div>
+          );
+        })}
       </Slider>
     </div>
   );
-}
+};
 
 export default Carousel;

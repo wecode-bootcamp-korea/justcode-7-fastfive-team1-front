@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import AdminSet from '../AdminSet/AdminSet';
+import AdminModifyModal from '../AdminModal/AdminModifyModal';
 import css from './CategoryCard.module.scss';
 
-function CategoryCard({ id, title, img, content, onRemove }) {
+const CategoryCard = ({
+  id,
+  title,
+  img,
+  content,
+  onRemove,
+  titleHandler,
+  contentHandler,
+  categoryTitle,
+  categoryContent,
+  onEdit,
+  addCategory,
+}) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
   const openAdmin = () => {
@@ -24,12 +36,19 @@ function CategoryCard({ id, title, img, content, onRemove }) {
             <h2 className={css.categoryName}>{title}</h2>
             <button onClick={openAdmin}>수정</button>
             {openAdminModal && (
-              <AdminSet
+              <AdminModifyModal
                 onClose={() => {
                   setOpenAdminModal(false);
                 }}
                 title={title}
                 content={content}
+                id={id}
+                titleHandler={titleHandler}
+                contentHandler={contentHandler}
+                categoryTitle={categoryTitle}
+                categoryContent={categoryContent}
+                onEdit={onEdit}
+                addCategory={addCategory}
               />
             )}
           </div>
@@ -38,6 +57,6 @@ function CategoryCard({ id, title, img, content, onRemove }) {
       </div>
     </div>
   );
-}
+};
 
 export default CategoryCard;
