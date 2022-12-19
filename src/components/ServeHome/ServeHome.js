@@ -64,6 +64,9 @@ const ServeHome = () => {
     );
     setCardId(i => i + 1);
   };
+  const openZendesk = () => {
+    window.open('http://localhost:3000/zendesk', '_blank');
+  };
   return (
     <div className={css.serveHomeContainer}>
       <div className={css.bannerAd}>
@@ -109,6 +112,9 @@ const ServeHome = () => {
           );
         })}
       </div>
+      <button className={css.zendesk} onClick={openZendesk}>
+        멤버 소개 관련 문의
+      </button>
     </div>
   );
 };

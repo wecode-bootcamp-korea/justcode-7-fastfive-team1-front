@@ -5,6 +5,7 @@ import ServeHome from '../components/ServeHome/ServeHome';
 import PostDetail from '../pages/PostDetail/PostDetail';
 import WritePost from './WritePost/WritePost';
 import CompanyList from './CompanyList/CompanyList';
+import Zendesk from './Zendesk/Zendesk';
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
         <Route path="/postdetail" element={<PostDetail />} />
         <Route path="/writePost" element={<WritePost />} />
         <Route path="/companyList:id" element={<CompanyList />} />
+        <Route path="/zendesk" element={<Zendesk />} />
       </Routes>
     </BrowserRouter>
   );
