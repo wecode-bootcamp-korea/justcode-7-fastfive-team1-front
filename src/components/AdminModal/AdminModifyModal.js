@@ -7,18 +7,22 @@ const Adminset = ({
   title,
   content,
   id,
+  img,
   titleHandler,
   contentHandler,
   categoryTitle,
   categoryContent,
   onEdit,
-  addCategory,
 }) => {
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
         <h1 className={css.title}>Admin 설정</h1>
         <div className={css.adminFormBox}>
+          <div className={css.categoryImgWrapper}>
+            <img className={css.categoryImg} src={img} alt="categoryImage" />
+            <button className={css.imgUploadBtn}>이미지 업로드</button>
+          </div>
           <div className={css.categoryForm}>
             <label className={css.categoryLabel} htmlFor="category">
               카테고리 이름
@@ -47,9 +51,6 @@ const Adminset = ({
           </div>
           <button className={css.saveBtn} onClick={() => onEdit(id)}>
             저장
-          </button>
-          <button className={css.saveBtn} onClick={() => addCategory()}>
-            등록
           </button>
         </div>
       </section>

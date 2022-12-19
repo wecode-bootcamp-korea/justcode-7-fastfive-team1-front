@@ -43,51 +43,18 @@ const ServeHome = () => {
     );
   };
 
-  const addCategory = () => {
-    setCardData([
-      {
-        ...cardData,
-        id: cardData.length++,
-        title: categoryContent,
-        content: categoryContent,
-      },
-    ]);
-  };
+  const [cardId, setCardId] = useState(0);
 
-  const [inputs, setInputs] = useState({
-    title: categoryTitle,
-    content: categoryContent,
-  });
-  const { title, content } = inputs;
-  const onChange = e => {
-    const { title, value } = e.target;
-    setInputs({
-      ...inputs,
-      [title]: value,
-    });
-    console.log(inputs);
+  const onCreate = cardInfo => {
+    setCardData(
+      cardData.concat({
+        id: cardId,
+        title: cardInfo.title,
+        content: cardInfo.content,
+      })
+    );
+    setCardId(c => c + 1);
   };
-  const nextId = useRef(cardData.length);
-  const onCreate = () => {
-    setCardData({
-      ...cardData,
-      id: cardData.length,
-      title: categoryTitle,
-      content: categoryContent,
-    });
-    nextId.current += 1;
-  };
-
-  const onCreates = (title, content) => {
-    const newCard = {
-      title,
-      content,
-      id: nextId.current,
-    };
-    nextId.current += 1;
-    setCardData([...cardData, newCard]);
-  };
-
   return (
     <div className={css.serveHomeContainer}>
       <div className={css.bannerAd}>
@@ -108,8 +75,7 @@ const ServeHome = () => {
             onClose={() => {
               setOpenAdminModal(false);
             }}
-            categoryTitle={categoryTitle}
-            categoryContent={categoryContent}
+            onCreate={onCreate}
           />
         )}
         <h2 className={css.viewAllBtn}>전체 보기</h2>
@@ -129,7 +95,6 @@ const ServeHome = () => {
               categoryTitle={categoryTitle}
               categoryContent={categoryContent}
               onEdit={onEdit}
-              addCategory={addCategory}
             />
           );
         })}

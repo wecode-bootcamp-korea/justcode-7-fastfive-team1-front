@@ -43,6 +43,7 @@ const CategoryCard = ({
                 title={title}
                 content={content}
                 id={id}
+                img={img}
                 titleHandler={titleHandler}
                 contentHandler={contentHandler}
                 categoryTitle={categoryTitle}
