@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Reply from './Reply';
+import Reply from './WriteReply';
 import css from './Comment.module.scss';
 
 function Comment({ commentObj }) {
@@ -62,7 +62,7 @@ function Comment({ commentObj }) {
             }}
           >
             <div className={css.commentInfoDiv}>
-              <div className={css.whiter}>{commentObj.users_id}</div>
+              <div className={css.whiter}>{commentObj.username}</div>
               <div className={css.whiteTime}>{commentObj.created_at}</div>
             </div>
             {modifyChecked ? (
@@ -94,21 +94,6 @@ function Comment({ commentObj }) {
             {modifyChecked && (
               <div className={css.letterCount}>
                 <span>{textareaLength}/1000</span>
-                {/* {lockState ? (
-                  <div className={css.lockDiv}>
-                    <i
-                      className={`fa-solid fa-lock ${css.lock}`}
-                      onClick={changeLockState}
-                    />
-                  </div>
-                ) : (
-                  <div className={css.lockDiv}>
-                    <i
-                      className={`fa-solid fa-lock-open ${css.lockOpen}`}
-                      onClick={changeLockState}
-                    />
-                  </div>
-                )} */}
                 <div className={css.lockDiv}>
                   <i
                     className={`${

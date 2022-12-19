@@ -1,20 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import css from './CommentInput.module.scss';
+import React, { useState, useRef } from 'react';
+import css from './WriteReply.module.scss';
 
-function Comment({ commentPageTotalCount }) {
+function Comment({ commentObj }) {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
-
-  const clickSubmitBtn = () => {
-    const textLength = textarea.current.value.length;
-    if (textLength === 0 || textLength > 1000) return;
-
-    console.log('comment', textarea.current.value);
-    console.log('postId', '??');
-    console.log('is_secret', lockState);
-  };
 
   const changeTextarea = event => {
     textarea.current.style.height = 'auto';
@@ -26,9 +17,17 @@ function Comment({ commentPageTotalCount }) {
     setLockState(!lockState);
   };
 
-  useEffect(() => {
-    if (commentPageTotalCount > 50);
-  }, []);
+  const clickSubmitBtn = () => {
+    const textLength = textarea.current.value.length;
+    if (textLength === 0 || textLength > 1000) return;
+    //등록
+
+    console.log('commentId', commentObj.comments_id);
+    console.log('comment', textarea.current.value);
+    console.log('is_secret', lockState);
+    console.log('postId', '??');
+  };
+
   return (
     <div className={css.comment}>
       <div className={css.commentMarginDiv}>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
-import CommentInput from '../../components/Comment/CommentInput';
+import CommentInput from '../../components/Comment/WriteComment';
 import Header from '../../components/Header/Header';
 
 function PostDetail() {
@@ -15,8 +15,13 @@ function PostDetail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('/data/commentData.json')
-      // fetch('http://localhost:5500/post/:id/:page')
+    // fetch('/data/commentData.json')
+    fetch('http://127.0.0.1:5500/post/1?page=2', {
+      headers: {
+        authorization:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjcxNDI2ODc2fQ.dXnJzK9FIhhfiGt0bw-x2LYC4pm0Bz5fGTeX6MaqRrg',
+      },
+    })
       .then(res => res.json())
       .then(data => {
         setCommentPageTotalCount(Math.ceil(data.length / 20));
@@ -83,7 +88,7 @@ function PostDetail() {
 
   const clickPageBtn = event => {
     setCurrCommentPage(Number(event.target.innerText));
-    // navigate(`/post/postId/${event.target.innerText}`);
+    navigate(`/post/1?page=${event.target.innerText}`);
     console.log(`localhost:5500/post/postId/${event.target.innerText}`);
   };
 
@@ -119,6 +124,12 @@ function PostDetail() {
       setCopyCheck(false);
     }, 2000);
   };
+
+  // useEffect(() => {
+  //   fetch('http://127.0.0.1:5500/post/1?page=1')
+  //     .then(res => res.json())
+  //     .then(data => {})
+  // }, [window.location.href])
 
   return (
     <div className={css.postDetail}>
@@ -240,6 +251,6 @@ function PostDetail() {
       </div>
     </div>
   );
-};
+}
 
 export default PostDetail;

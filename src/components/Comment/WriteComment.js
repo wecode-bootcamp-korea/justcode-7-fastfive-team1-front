@@ -1,11 +1,34 @@
 import React, { useState, useRef } from 'react';
-import css from './Reply.module.scss';
+import css from './WriteComment.module.scss';
 
-function Comment({ commentObj }) {
+function Comment({}) {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
+
+  const clickSubmitBtn = () => {
+    const textLength = textarea.current.value.length;
+    if (textLength < 1 || textLength > 1000) return;
+
+    fetch('http://127.0.0.1:5500/post/commentOnPost', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjcxNDI2ODc2fQ.dXnJzK9FIhhfiGt0bw-x2LYC4pm0Bz5fGTeX6MaqRrg',
+      },
+      body: JSON.stringify({
+        comment: textarea.current.value,
+        is_secret: lockState ? 1 : 0,
+        postId: 1,
+      }),
+    });
+
+    console.log('comment', textarea.current.value);
+    console.log('postId', '??');
+    console.log('is_secret', lockState);
+  };
 
   const changeTextarea = event => {
     textarea.current.style.height = 'auto';
@@ -15,16 +38,6 @@ function Comment({ commentObj }) {
 
   const changeLockState = event => {
     setLockState(!lockState);
-  };
-
-  const clickSubmitBtn = () => {
-    const textLength = textarea.current.value.length;
-    if (textLength === 0 || textLength > 1000) return;
-
-    console.log('commentId', commentObj.comments_id);
-    console.log('comment', textarea.current.value);
-    console.log('is_secret', lockState);
-    console.log('postId', '??');
   };
 
   return (
