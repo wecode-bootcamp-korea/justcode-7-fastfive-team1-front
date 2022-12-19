@@ -19,7 +19,6 @@ const Header = () => {
     const token = localStorage.getItem('token');
     if (token !== '') {
       fetch(`http://localhost:5500/user`, {
-        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           authorization: token,
@@ -28,7 +27,7 @@ const Header = () => {
         .then(res => res.json())
         .then(res => setUserName(res.userInfo.username));
     } else {
-      setUserName('');
+      setUserName();
     }
   }, []);
 

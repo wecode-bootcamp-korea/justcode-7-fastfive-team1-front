@@ -2,7 +2,7 @@
   padding: 70px 40px 40px 40px;
   text-align: start;
 
-  h1 {
+  .login {
     color: #000000;
     font-size: 27px;
     font-weight: 400;
@@ -16,12 +16,12 @@
     display: grid;
     margin-top: 80px;
 
-    label {
+    .label {
       margin-bottom: 5px;
       font-size: 13px;
     }
 
-    input {
+    .input {
       height: 20px;
       margin-bottom: 5px;
       border: 1px solid #dcdcdc;
@@ -36,7 +36,7 @@
     }
 
     .emailBox {
-      input {
+      .input {
         width: 338px;
       }
     }
@@ -73,7 +73,7 @@
       margin-top: 12px;
       font-size: 13px;
 
-      span {
+      .goJoin {
         color: gray;
       }
 

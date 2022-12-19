@@ -64,12 +64,15 @@ const Login = ({ onClose, modalImages }) => {
   return (
     <Modal onClose={onClose} modalImage={loginModalImage.image}>
       <section className={css.loginContainer}>
-        <h1>로그인</h1>
+        <h1 className={css.login}>로그인</h1>
         <div className={css.loginFormBox}>
           <div className={css.emailForm}>
-            <label htmlFor="email">이메일</label>
+            <label htmlFor="email" className={css.label}>
+              이메일
+            </label>
             <div className={css.emailBox}>
               <input
+                className={css.input}
                 type="text"
                 id="userEmail"
                 placeholder="이메일"
@@ -87,8 +90,11 @@ const Login = ({ onClose, modalImages }) => {
           </div>
 
           <div className={css.passwordForm}>
-            <label htmlFor="password">패스워드</label>
+            <label className={css.label} htmlFor="password">
+              패스워드
+            </label>
             <input
+              className={css.input}
               type="password"
               id="userPassword"
               placeholder="패스워드"
@@ -102,7 +108,7 @@ const Login = ({ onClose, modalImages }) => {
           </button>
 
           <div className={css.joinContent}>
-            <span>아직 회원이 아니시라면?</span>
+            <span className={css.goJoin}>아직 회원이 아니시라면?</span>
             <button className={css.joinBtn} onClick={openSignUp}>
               회원가입 하러가기
             </button>
