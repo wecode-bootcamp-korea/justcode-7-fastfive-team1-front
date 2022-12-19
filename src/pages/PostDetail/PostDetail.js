@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -9,37 +8,36 @@ import Header from '../../components/Header/Header';
 function PostDetail() {
   const [copyCheck, setCopyCheck] = useState(false);
   const [commentData, setCommentData] = useState([]);
+  const [totalCommentCount, setTotalCommentCount] = useState(0);
   const [currCommentPage, setCurrCommentPage] = useState(1); // 현재 페이지 위치
   const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
   const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
-  const navigate = useNavigate();
   const commentDiv = useRef();
 
   useEffect(() => {
     // fetch('/data/commentData.json')
-    fetch('http://127.0.0.1:5500/post/1?page=2', {
+    fetch('http://127.0.0.1:5500/post/1?page=1', {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },
     })
       .then(res => res.json())
       .then(data => {
+        setTotalCommentCount(data.length);
         setCommentPageTotalCount(Math.ceil(data.length / 20));
 
-        setCommentData(data.data);
-        //마지막 대댓글 찾는 코드(상의 전까지 보류)
-        //   const processedCommentArr = [];
-        //   for (let i = 0; i < data.commentData.length; i++) {
-        //     const nextElemDepth =
-        //       data.commentData[i + 1] === undefined
-        //         ? false
-        //         : data.commentData[i + 1].depth;
-        //     if (nextElemDepth === 1 || i === data.commentData.length - 1) {
-        //       data.commentData[i].lastComment = true;
-        //     }
-        //     processedCommentArr.push(data.commentData[i]);
-        //   }
-        //   setCommentData(processedCommentArr);
+        //마지막 대댓글 찾는 코드
+        const processedCommentArr = [];
+        for (let i = 0; i < data.data.length; i++) {
+          const nextElemDepth =
+            data.data[i + 1] === undefined ? false : data.data[i + 1].depth;
+          if (nextElemDepth === 1 || i === data.data.length - 1) {
+            data.data[i].lastComment = true;
+          }
+          processedCommentArr.push(data.data[i]);
+        }
+        console.log(processedCommentArr);
+        setCommentData(processedCommentArr);
       });
   }, []);
 
@@ -104,7 +102,7 @@ function PostDetail() {
       commentPageTotalCount > 10 &&
       currCommentPage + 10 > commentPageTotalCount
     ) {
-      setCurrCommentPage(commentPageTotalCount - 4);
+      setCurrCommentPage(commentPageTotalCount);
     }
     if (
       commentPageTotalCount > 10 &&
@@ -124,14 +122,18 @@ function PostDetail() {
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`)
+    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+      headers: {
+        authorization: localStorage.getItem('authorization'),
+      },
+    })
       .then(res => res.json())
       .then(data => setCommentData(data.data));
   }, [currCommentPage]);
 
-  useEffect(() => {
-    console.log(window.getComputedStyle(commentDiv.current).height);
-  }, [window.getComputedStyle(commentDiv.current).height]);
+  // useEffect(() => {
+  //   console.log(window.getComputedStyle(commentDiv.current).height);
+  // }, [window.getComputedStyle(commentDiv.current).height]);
 
   return (
     <div className={css.postDetail}>
@@ -217,13 +219,24 @@ function PostDetail() {
 
           <div className={`${css.commentDiv}`} ref={commentDiv}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
-            <CommentInput commentPageTotalCount={commentPageTotalCount} />
+            <CommentInput
+              commentPageTotalCount={commentPageTotalCount}
+              currCommentPage={currCommentPage}
+              setCommentData={setCommentData}
+              setCommentPageTotalCount={setCommentPageTotalCount}
+              totalCommentCount={totalCommentCount}
+            />
             {commentData.map(commentObj => {
               return (
                 <Comment
                   key={commentObj.id}
                   commentObj={commentObj}
                   commentPageTotalCount={commentPageTotalCount}
+                  setCurrCommentPageList={setCurrCommentPageList}
+                  currCommentPage={currCommentPage}
+                  setCommentData={setCommentData}
+                  setCommentPageTotalCount={setCommentPageTotalCount}
+                  totalCommentCount={totalCommentCount}
                 />
               );
             })}

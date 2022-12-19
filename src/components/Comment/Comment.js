@@ -2,13 +2,39 @@ import React, { useState, useRef, useEffect } from 'react';
 import Reply from './WriteReply';
 import css from './Comment.module.scss';
 
-function Comment({ commentObj }) {
+function Comment({
+  commentObj,
+  currCommentPage,
+  setCommentData,
+  setCommentPageTotalCount,
+  totalCommentCount,
+}) {
   const [replyOpenState, setReplyOpenState] = useState(commentObj.lastComment);
   const [modifyChecked, setModifyChecked] = useState(false);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
+
+  const [placeHolderValue, setPlaceHolderValue] = useState();
+  useEffect(() => {
+    dicidePlaceHolderValue();
+  }, [totalCommentCount, isInputClicked]);
+
+  const dicidePlaceHolderValue = () => {
+    if (totalCommentCount >= 1000) {
+      setPlaceHolderValue(
+        '한 게시글에 등록할 수 있는 댓글 개수가 초과되었습니다. 대표 연락처를 참고해주세요.'
+      );
+      return;
+    }
+
+    setPlaceHolderValue(
+      isInputClicked
+        ? ''
+        : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
+    );
+  };
 
   const changeReplyOpenState = () => {
     setReplyOpenState(!replyOpenState);
@@ -41,6 +67,18 @@ function Comment({ commentObj }) {
         commentId: commentObj.id,
       }),
     });
+
+    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+      headers: {
+        authorization: localStorage.getItem('authorization'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCommentData(data.data);
+      });
+
+    setModifyChecked(!modifyChecked);
   };
 
   const clickDeleteBtn = () => {
@@ -54,11 +92,15 @@ function Comment({ commentObj }) {
         commentId: commentObj.id,
       }),
     });
-  };
 
-  useEffect(() => {
-    setLockState(commentObj.is_secret);
-  }, []);
+    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+      headers: {
+        authorization: localStorage.getItem('authorization'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => setCommentData(data.data));
+  };
 
   useEffect(() => {
     if (modifyChecked) {
@@ -102,11 +144,7 @@ function Comment({ commentObj }) {
                 onBlur={() => {
                   setIsInputClicked(false);
                 }}
-                placeholder={
-                  isInputClicked
-                    ? ''
-                    : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
-                }
+                placeholder={placeHolderValue}
               />
             ) : (
               <div className={css.commentContent}>
@@ -149,7 +187,16 @@ function Comment({ commentObj }) {
           </div>
         </div>
       </div>
-      {replyOpenState && <Reply commentObj={commentObj} />}
+      {replyOpenState && (
+        <Reply
+          commentObj={commentObj}
+          setCommentPageTotalCount={setCommentPageTotalCount}
+          currCommentPage={currCommentPage}
+          setCommentData={setCommentData}
+          setReplyOpenState={setReplyOpenState}
+          totalCommentCount={totalCommentCount}
+        />
+      )}
     </>
   );
 }
