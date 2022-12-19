@@ -13,15 +13,21 @@ const Adminset = ({
   categoryTitle,
   categoryContent,
   onEdit,
+  imgHandler,
 }) => {
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
-        <h1 className={css.title}>Admin 설정</h1>
+        <h1 className={css.title}>Category 수정</h1>
         <div className={css.adminFormBox}>
           <div className={css.categoryImgWrapper}>
             <img className={css.categoryImg} src={img} alt="categoryImage" />
-            <button className={css.imgUploadBtn}>이미지 업로드</button>
+            <input
+              className={css.uploadBtn}
+              type="file"
+              accept="image/*"
+              onChange={imgHandler}
+            />
           </div>
           <div className={css.categoryForm}>
             <label className={css.categoryLabel} htmlFor="category">

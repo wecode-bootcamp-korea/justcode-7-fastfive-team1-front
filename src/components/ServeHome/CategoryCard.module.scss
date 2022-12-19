@@ -30,9 +30,12 @@
       .contentHeader {
         display: flex;
         justify-content: space-between;
-        button {
+        .fixBtn {
           margin-right: 5px;
           cursor: pointer;
+          &:hover {
+            color: coral;
+          }
         }
       }
       .categoryName {

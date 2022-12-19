@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import AdminModifyModal from '../AdminModal/AdminModifyModal';
 import css from './CategoryCard.module.scss';
 
@@ -14,6 +14,7 @@ const CategoryCard = ({
   categoryContent,
   onEdit,
   addCategory,
+  imgHandler,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
@@ -34,7 +35,9 @@ const CategoryCard = ({
         <div className={css.contentWrapper}>
           <div className={css.contentHeader}>
             <h2 className={css.categoryName}>{title}</h2>
-            <button onClick={openAdmin}>수정</button>
+            <button className={css.fixBtn} onClick={openAdmin}>
+              수정
+            </button>
             {openAdminModal && (
               <AdminModifyModal
                 onClose={() => {
@@ -49,7 +52,7 @@ const CategoryCard = ({
                 categoryTitle={categoryTitle}
                 categoryContent={categoryContent}
                 onEdit={onEdit}
-                addCategory={addCategory}
+                imgHandler={imgHandler}
               />
             )}
           </div>

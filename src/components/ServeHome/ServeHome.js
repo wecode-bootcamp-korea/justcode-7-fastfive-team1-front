@@ -1,6 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddCategoryModal from '../AdminModal/AddCategoryModal';
-import AdminModifyModal from '../AdminModal/AdminModifyModal';
 import Carousel from '../Carousel/Carousel';
 import CategoryCard from './CategoryCard';
 import css from './ServeHome.module.scss';
@@ -25,6 +24,7 @@ const ServeHome = () => {
 
   const [categoryTitle, setCategoryTitle] = useState('');
   const [categoryContent, setCategoryContent] = useState('');
+  const [categoryImg, setCategoryImg] = useState('');
 
   const titleHandler = e => {
     setCategoryTitle(e.target.value);
@@ -32,12 +32,20 @@ const ServeHome = () => {
   const contentHandler = e => {
     setCategoryContent(e.target.value);
   };
+  const imgHandler = e => {
+    setCategoryImg(URL.createObjectURL(e.target.files[0]));
+  };
 
   const onEdit = id => {
     setCardData(
       cardData.map(data =>
         data.id === id
-          ? { ...data, title: categoryTitle, content: categoryContent }
+          ? {
+              ...data,
+              title: categoryTitle,
+              content: categoryContent,
+              img: categoryImg,
+            }
           : data
       )
     );
@@ -51,9 +59,10 @@ const ServeHome = () => {
         id: cardId,
         title: cardInfo.title,
         content: cardInfo.content,
+        img: cardInfo.img,
       })
     );
-    setCardId(c => c + 1);
+    setCardId(i => i + 1);
   };
   return (
     <div className={css.serveHomeContainer}>
@@ -95,6 +104,7 @@ const ServeHome = () => {
               categoryTitle={categoryTitle}
               categoryContent={categoryContent}
               onEdit={onEdit}
+              imgHandler={imgHandler}
             />
           );
         })}

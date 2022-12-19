@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import css from './Carousel.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import NextArrow from './NextArrow';
 
 const Carousel = () => {
   const [carouselImg, setCarouselImg] = useState([]);
@@ -21,20 +22,19 @@ const Carousel = () => {
     speed: 500,
     slidesToShow: 2,
     slidesToScroll: 2,
-    nextArrow: (
-      <img
-        className={css.nextBtn}
-        src="./image/arrow-right.png"
-        alt="다음 페이지"
-      />
-    ),
-    prevArrow: (
-      <img
-        className={css.prevBtn}
-        src="./image/arrow-left.png"
-        alt="이전 페이지"
-      />
-    ),
+    nextArrow: <NextArrow />,
+    prevArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 4000,
+        },
+      },
+    ],
   };
 
   return (

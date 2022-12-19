@@ -5,12 +5,14 @@ import css from './AddCategoryModal.module.scss';
 const AddCategoryModal = ({ onClose, onCreate }) => {
   const [cardTitle, setCardTitle] = useState('');
   const [cardContent, setCardContent] = useState('');
+  const [cardImg, setCardImg] = useState('');
 
-  const onSubmint = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    onCreate({ title: cardTitle, content: cardContent });
+    onCreate({ title: cardTitle, content: cardContent, img: cardImg });
     setCardTitle('');
     setCardContent('');
+    setCardImg('');
   };
 
   const onChangeTitle = e => {
@@ -19,14 +21,21 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
   const onChangeContent = e => {
     setCardContent(e.target.value);
   };
+  const onChangeImg = e => {
+    setCardImg(URL.createObjectURL(e.target.files[0]));
+  };
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
-        <h1 className={css.title}>Admin 설정</h1>
+        <h1 className={css.title}>Category</h1>
         <div className={css.adminFormBox}>
           <div className={css.categoryImgWrapper}>
-            <img className={css.categoryImg} alt="categoryImage" />
-            <button className={css.imgUploadBtn}>이미지 업로드</button>
+            <input
+              className={css.uploadBtn}
+              type="file"
+              accept="image/*"
+              onChange={onChangeImg}
+            />
           </div>
           <div className={css.categoryForm}>
             <label className={css.categoryLabel} htmlFor="category">
@@ -54,7 +63,7 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
               onChange={onChangeContent}
             />
           </div>
-          <button className={css.saveBtn} onClick={onSubmint}>
+          <button className={css.saveBtn} onClick={onSubmit}>
             등록
           </button>
         </div>
