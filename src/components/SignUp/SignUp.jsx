@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Modal from '../Modal/Modal';
 import css from './SignUp.module.scss';
+import Modal from '../Modal/Modal';
 
 const SignUp = ({ onClose, modalImages }) => {
   const signUpModalImage = modalImages.find(image => {
@@ -151,12 +151,11 @@ const SignUp = ({ onClose, modalImages }) => {
   return (
     <Modal onClose={onClose} modalImage={signUpModalImage.image}>
       <section className={css.signUpContainer}>
-        <h1 className={css.signUp}>회원가입</h1>
+        <h1 className={css.join}>회원가입</h1>
         <div className={css.signUpFormBox}>
           <div className={css.nameForm}>
             <label htmlFor="name">이름</label>
             <input
-            className={css.input}
               type="text"
               id="userName"
               placeholder="이름"
@@ -169,7 +168,6 @@ const SignUp = ({ onClose, modalImages }) => {
             <label htmlFor="email">이메일</label>
             <div className={css.emailBox}>
               <input
-              className={css.input}
                 type="text"
                 id="userEmail"
                 placeholder="이메일"
@@ -198,7 +196,6 @@ const SignUp = ({ onClose, modalImages }) => {
           <div className={css.passwordForm}>
             <label htmlFor="password">패스워드</label>
             <input
-            value={css.input}
               type="password"
               id="userPassword"
               placeholder="패스워드"
@@ -218,7 +215,6 @@ const SignUp = ({ onClose, modalImages }) => {
           <div className={css.agreeContent}>
             <div className={css.agreeForm}>
               <input
-              className={css.input}
                 type="checkbox"
                 id="check1"
                 className={css.agreeInput}
@@ -231,14 +227,13 @@ const SignUp = ({ onClose, modalImages }) => {
 
             <div className={css.agreeForm}>
               <input
-              className={css.input}
                 type="checkbox"
                 id="check2"
                 className={css.agreeInput}
                 onClick={onSecondCheck}
               />
               <p className={css.agreeText}>
-                개인정보이용동의 <span className={css.span}>(필수)</span>
+                개인정보이용동의 <span>(필수)</span>
               </p>
             </div>
           </div>
