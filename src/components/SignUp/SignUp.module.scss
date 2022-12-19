@@ -2,7 +2,7 @@
   padding: 70px 40px 40px 40px;
   text-align: start;
 
-  h1 {
+  .signUp {
     color: #000000;
     font-size: 27px;
     font-weight: 400;
@@ -13,21 +13,53 @@
   }
 
   .signUpFormBox {
-    margin-top: 45px;
+    margin-top: 25px;
     display: grid;
 
-    label {
+    .emailBox {
+      display: flex;
+      justify-content: space-between;
+
+      .input {
+        width: 270px;
+      }
+      .duplicate {
+        width: 60px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        background-color: #fe6d6a;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .notDuplicate {
+        width: 60px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        background-color: #dcdcdc;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+
+    .formatMessage {
+      color: #fe6d6a;
+    }
+    .label {
       font-size: 13px;
+      margin-top: 20px;
       margin-bottom: 5px;
     }
 
-    input {
+    .input {
       border: 1px solid #dcdcdc;
       border-radius: 10px;
       height: 20px;
       padding: 10px;
       font-size: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
 
       &:focus {
         border: 1px solid #fe6d6a;
@@ -39,6 +71,15 @@
     .emailForm,
     .passwordForm {
       display: grid;
+
+      .formatMessage {
+        height: 10px;
+        .message {
+          padding-left: 5px;
+          color: #fe6d6a;
+          font-size: 11px;
+        }
+      }
     }
 
     .signUpBtn {
@@ -55,7 +96,7 @@
     .agreeContent {
       display: grid;
       gap: 10px;
-      margin-top: 30px;
+      margin-top: 20px;
       margin-bottom: 5px;
 
       .agreeForm {
@@ -65,9 +106,11 @@
         .agreeText {
           display: flex;
           align-items: center;
+          color: #5a5a5a;
           text-align: center;
+          font-size: 12px;
 
-          span {
+          .span {
             margin-left: 3px;
             color: #fe6d6a;
           }

@@ -2,7 +2,7 @@
   padding: 70px 40px 40px 40px;
   text-align: start;
 
-  h1 {
+  .login {
     text-decoration: underline;
     text-underline-position: under;
     text-decoration-color: #fe6d6a;
@@ -14,19 +14,19 @@
 
   .loginFormBox {
     display: grid;
-    margin-top: 45px;
+    margin-top: 80px;
 
-    label {
-      margin-bottom: 5px;
-      font-size: 13px;
+    .label {
+     margin-bottom: 5px;
+     font-size: 13px;
     }
 
-    input {
+    .input {
       height: 20px;
-      margin-bottom: 20px;
-      padding: 10px;
+      margin-bottom: 5px;
       border: 1px solid #dcdcdc;
       border-radius: 10px;
+      padding: 10px;
       font-size: 14px;
 
       &:focus {
@@ -35,14 +35,30 @@
       }
     }
 
+    .emailBox {
+      .input {
+        width: 338px;
+      }
+    }
+
     .emailForm,
     .passwordForm {
       display: grid;
+
+      .formatMessage {
+        height: 10px;
+        margin-bottom: 20px;
+        .message {
+          padding-left: 5px;
+          color: #fe6d6a;
+          font-size: 11px;
+        }
+      }
     }
 
     .loginBtn {
       height: 45px;
-      margin-top: 10px;
+      margin-top: 30px;
       border-radius: 10px;
       background-color: #fe6d6a;
       color: white;
@@ -57,7 +73,7 @@
       margin-top: 12px;
       font-size: 13px;
 
-      span {
+      .goJoin {
         color: gray;
       }
 
