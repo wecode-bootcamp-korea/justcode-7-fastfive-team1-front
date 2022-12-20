@@ -5,6 +5,7 @@ import ServeHome from '../components/ServeHome/ServeHome';
 import PostDetail from '../pages/PostDetail/PostDetail';
 import WritePost from './WritePost/WritePost';
 import CompanyList from './CompanyList/CompanyList';
+import CategoryList from './CompanyList/CategoryList';
 
 function Router() {
   return (
@@ -15,7 +16,8 @@ function Router() {
         <Route path="/postdetail" element={<PostDetail />} />
         <Route path="/postdetail/:page" element={<PostDetail />} />
         <Route path="/writePost" element={<WritePost />} />
-        <Route path="/companyList:id" element={<CompanyList />} />
+        <Route path="/companyList" element={<CompanyList />} />
+        <Route path="/categoryList" element={<CategoryList />} />
       </Routes>
     </BrowserRouter>
   );
