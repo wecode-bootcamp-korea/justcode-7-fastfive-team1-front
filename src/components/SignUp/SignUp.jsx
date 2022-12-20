@@ -34,7 +34,7 @@ const SignUp = ({ onClose, modalImages }) => {
     })
       .then(res => res.json())
       .then(res => {
-        if (res.duplicateEmail === true) {
+        if (res.duplicateEmail === false) {
           alert('사용 가능한 이메일 입니다.');
           setDuplicateEmail(false);
         } else {
