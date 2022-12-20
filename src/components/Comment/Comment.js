@@ -59,24 +59,24 @@ function Comment({
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
         comment: textarea.current.value,
         is_secret: lockState ? 1 : 0,
         commentId: commentObj.id,
       }),
+    }).then(() => {
+      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCommentData(data.data);
+        });
     });
-
-    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setCommentData(data.data);
-      });
 
     setModifyChecked(!modifyChecked);
   };
@@ -86,20 +86,20 @@ function Comment({
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
         commentId: commentObj.id,
       }),
+    }).then(() => {
+      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => setCommentData(data.data));
     });
-
-    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => setCommentData(data.data));
   };
 
   useEffect(() => {
