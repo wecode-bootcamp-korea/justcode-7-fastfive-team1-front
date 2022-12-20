@@ -3,6 +3,7 @@ import css from './Reqpage.module.scss';
 import SideBar from '../../components/Sidebar/Sidebar';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import ReqElem from '../../components/ReqPage/ReqElem';
 
 function App() {
   const [userData, setUserData] = useState();
@@ -10,9 +11,10 @@ function App() {
   const [reqData, setReqData] = useState([]);
 
   useEffect(() => {
-    fetch('data/userData.json', {
+    // fetch('data/userData.json', {
+    fetch('http://localhost:5500/user', {
       headers: {
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
     })
       .then(res => res.json())
@@ -37,23 +39,24 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(currUserClass);
     if (currUserClass === 'admin') {
-      // fetch('http://localhost:5500/company', {
-      fetch('/data/representReqData.json', {
+      fetch('http://localhost:5500/company-request', {
+        // fetch('/data/representReqData.json', {
         headers: {
-          authorization: localStorage.getItem('authorization'),
+          authorization: localStorage.getItem('token'),
         },
       })
         .then(res => res.json())
-        .then(data => setReqData(data.companyList));
+        .then(data => {
+          setReqData(data.companyList);
+        });
     }
 
     if (currUserClass === 'represent') {
-      // fetch('http://localhost:5500/company', {
-      fetch('/data/memberReqData.json', {
+      fetch('http://localhost:5500/member-request', {
+        // fetch('/data/memberReqData.json', {
         headers: {
-          authorization: localStorage.getItem('authorization'),
+          authorization: localStorage.getItem('token'),
         },
       })
         .then(res => res.json())
@@ -61,41 +64,13 @@ function App() {
     }
   }, [currUserClass]);
 
-  const clickMemberSubmitBtn = () => {
-    fetch('http://localhost:5500/member', {
-      method: 'POST',
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    });
-  };
+  // useEffect(() => {
+  //   console.log(reqData);
+  // }, [reqData]);
 
-  const clickMemberRefuseBtn = () => {
-    fetch('http://localhost:5500/member', {
-      method: 'DELETE',
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    });
-  };
-
-  const clickRepresentSubmitBtn = () => {
-    fetch('http://localhost:5500/approve', {
-      method: 'POST',
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    });
-  };
-
-  const clickRepresentRefuseBtn = () => {
-    fetch('http://localhost:5500/approve', {
-      method: 'DELETE',
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    });
-  };
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <>
@@ -113,26 +88,13 @@ function App() {
               {reqData[0] && reqData[0].company.companyName} 멤버 요청
             </div>
             <div className={css.memberReqMainElemDiv}>
-              {reqData.map(elem => (
-                <div className={css.memberReqMainElem} key={elem.id}>
-                  <div>{elem.usersId}</div>
-                  <div>{elem.username}</div>
-                  <div>{elem.email}</div>
-                  <div className={`${css.reqBtnDiv}`}>
-                    <button
-                      className={`${css.reqBtn}`}
-                      onClick={clickMemberSubmitBtn}
-                    >
-                      수락
-                    </button>
-                    <button
-                      className={`${css.reqBtn}`}
-                      onClick={clickMemberRefuseBtn}
-                    >
-                      거절
-                    </button>
-                  </div>
-                </div>
+              {reqData.map(reqListElem => (
+                <ReqElem
+                  key={reqListElem.id}
+                  reqListElem={reqListElem}
+                  userData={userData}
+                  currUserClass={currUserClass}
+                />
               ))}
             </div>
           </div>
@@ -142,28 +104,15 @@ function App() {
           <div className={css.representReqMain}>
             <div className={css.title}>회사 대표 요청</div>
             <div className={css.representReqMainElemDiv}>
-              {reqData.map(elem => (
-                <div className={css.representReqMainElem} key={elem.id}>
-                  <div>{elem.usersId}</div>
-                  <div>{elem.companyName}</div>
-                  <div>{elem.startDate}</div>
-                  <div>{elem.endDate}</div>
-                  <div className={`${css.reqBtnDiv}`}>
-                    <button
-                      className={`${css.reqBtn}`}
-                      onClick={clickRepresentSubmitBtn}
-                    >
-                      수락
-                    </button>
-                    <button
-                      className={`${css.reqBtn}`}
-                      onClick={clickRepresentRefuseBtn}
-                    >
-                      거절
-                    </button>
-                  </div>
-                </div>
-              ))}
+              {reqData &&
+                reqData.map(reqListElem => (
+                  <ReqElem
+                    key={reqListElem.id}
+                    reqListElem={reqListElem}
+                    userData={userData}
+                    currUserClass={currUserClass}
+                  />
+                ))}
             </div>
           </div>
         )}

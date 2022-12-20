@@ -1,0 +1,51 @@
+.memberReqMainElem {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 250px;
+  height: 180px;
+  margin: 10px;
+
+  .reqBtnDiv {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    .reqBtn {
+      border: 1px black solid;
+      border-radius: 10px;
+      width: 80px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.representReqMainElem {
+  position: relative;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 300px;
+  height: 200px;
+  margin: 10px;
+
+  .reqBtnDiv {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+
+    .reqBtn {
+      border: 1px black solid;
+      border-radius: 10px;
+      width: 80px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
