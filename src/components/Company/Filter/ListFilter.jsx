@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import AreaFilter from './Category/AreaFilter';
 import CategoryFilter from './Category/CategoryFilter';
 import SubCategoryFilter from './Category/SubCategoryFilter';
-import css from './Filter.module.scss';
+import css from './ListFilter.module.scss';
 
-const Filter = ({ setQueryString }) => {
+const ListFilter = ({ setQueryString }) => {
   const navigate = useNavigate();
   const [area, setArea] = useState();
   const [category, setCategory] = useState();
@@ -32,4 +32,4 @@ const Filter = ({ setQueryString }) => {
   );
 };
 
-export default Filter;
+export default ListFilter;

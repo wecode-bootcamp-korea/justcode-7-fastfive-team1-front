@@ -1,34 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import css from './SubCategoryFilter.module.scss';
 
-const SubCategoryFilter = ({ category, subCategory, setSubCategory }) => {
+const SubCategoryFilter = ({ category, setSubCategory }) => {
   const [dropDown, setDropDown] = useState(false);
   const [subCategoryValue, setSubCategoryValue] = useState([]);
+  const [subCategoryData, setSubCategoryData] = useState('상세분야');
 
   useEffect(() => {
-    fetch('/data/category.json')
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/category`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
       .then(res => res.json())
       .then(res => {
         const subCategoryItem = res.data.filter(
-          items => items.category === category
+          items => items.id === Number(category)
         );
         setSubCategoryValue(subCategoryItem);
       });
   }, [category]);
 
+  console.log(subCategoryValue);
+
   const onSubCategoryValue = e => {
     setSubCategory(e.target.value);
+    setSubCategoryData(e.target.name);
     setDropDown(!dropDown);
   };
 
   return (
     <div className={css.subCategoryFilterContainer}>
-      <span className={css.filterTitle}>세부 분야</span>
+      <span className={css.filterTitle}>상세분야</span>
       <button
         className={css.subCategoryFilter}
         onClick={() => setDropDown(!dropDown)}
       >
-        <span className={css.subCategory}>{subCategory}</span>
+        <span className={css.subCategory}>{subCategoryData}</span>
         {dropDown ? (
           <i className="fa-solid fa-angle-up" />
         ) : (
@@ -43,7 +53,8 @@ const SubCategoryFilter = ({ category, subCategory, setSubCategory }) => {
                 <button
                   className={css.subCategoryValue}
                   key={id}
-                  value={category}
+                  name={category}
+                  value={id}
                   onClick={onSubCategoryValue}
                 >
                   {category}

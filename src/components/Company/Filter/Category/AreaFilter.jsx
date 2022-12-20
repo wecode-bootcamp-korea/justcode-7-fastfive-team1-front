@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import css from './AreaFilter.module.scss';
 
-const AreaFilter = ({ area, setArea }) => {
+const AreaFilter = ({ setArea }) => {
   const [dropDown, setDropDown] = useState(false);
   const [areaValue, setAreaValue] = useState([]);
+  const [areaData, setAreaData] = useState('지역');
 
   useEffect(() => {
-    fetch('/data/place.json')
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/location`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
       .then(res => res.json())
-      .then(data => {
-        setAreaValue(data.place);
+      .then(res => {
+        setAreaValue(res.data);
       });
   }, []);
 
   const onAreaValue = e => {
     setArea(e.target.value);
+    setAreaData(e.target.name);
     setDropDown(!dropDown);
   };
 
@@ -22,7 +30,7 @@ const AreaFilter = ({ area, setArea }) => {
     <div className={css.areaFilterContainer}>
       <span className={css.filterTitle}>지역</span>
       <button className={css.areaFilter} onClick={() => setDropDown(!dropDown)}>
-        <span className={css.area}>{area}</span>
+        <span className={css.area}>{areaData}</span>
         {dropDown ? (
           <i className="fa-solid fa-angle-up" />
         ) : (
@@ -31,14 +39,15 @@ const AreaFilter = ({ area, setArea }) => {
       </button>
       {dropDown ? (
         <div className={css.areaItems}>
-          {areaValue.map(areaItem => (
+          {areaValue.map(({ id, location_name }) => (
             <button
+              key={id}
               className={css.areaValue}
-              key={areaItem.id}
-              value={areaItem.name}
+              name={location_name}
+              value={id}
               onClick={onAreaValue}
             >
-              {areaItem.name}
+              {location_name}
             </button>
           ))}
         </div>

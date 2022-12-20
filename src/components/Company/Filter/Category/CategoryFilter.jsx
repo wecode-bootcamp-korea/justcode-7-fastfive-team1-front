@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import css from './CategoryFilter.module.scss';
 
-const CategoryFilter = ({ setFilterValue, setCategory, category }) => {
+const CategoryFilter = ({ setCategory, category }) => {
   const [dropDown, setDropDown] = useState(false);
   const [categoryValue, setCategoryValue] = useState([]);
+  const [categoryData, setCategoryData] = useState('카테고리');
 
   useEffect(() => {
-    fetch('/data/category.json')
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/category`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
       .then(res => res.json())
-      .then(data => {
-        setCategoryValue(data.data);
+      .then(res => {
+        setCategoryValue(res.data);
       });
   }, []);
 
   const onCategoryValue = e => {
     setCategory(e.target.value);
+    setCategoryData(e.target.name);
     setDropDown(!dropDown);
   };
 
@@ -27,7 +35,7 @@ const CategoryFilter = ({ setFilterValue, setCategory, category }) => {
           className={css.categoryFilter}
           onClick={() => setDropDown(!dropDown)}
         >
-          <span className={css.category}>{category}</span>
+          <span className={css.category}>{categoryData}</span>
           {dropDown ? (
             <i className="fa-solid fa-angle-up" />
           ) : (
@@ -36,11 +44,12 @@ const CategoryFilter = ({ setFilterValue, setCategory, category }) => {
         </button>
         {dropDown ? (
           <div className={css.categoryItems}>
-            {categoryValue.map(({ id, category, subCategory }) => (
+            {categoryValue.map(({ id, category }) => (
               <button
                 className={css.categoryValue}
                 key={id}
-                value={category}
+                name={category}
+                value={id}
                 onClick={onCategoryValue}
               >
                 {category}
