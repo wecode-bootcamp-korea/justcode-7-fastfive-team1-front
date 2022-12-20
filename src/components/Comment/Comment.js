@@ -1,14 +1,40 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Reply from './Reply';
+import Reply from './WriteReply';
 import css from './Comment.module.scss';
 
-function Comment({ commentObj }) {
+function Comment({
+  commentObj,
+  currCommentPage,
+  setCommentData,
+  setCommentPageTotalCount,
+  totalCommentCount,
+}) {
   const [replyOpenState, setReplyOpenState] = useState(commentObj.lastComment);
   const [modifyChecked, setModifyChecked] = useState(false);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
+
+  const [placeHolderValue, setPlaceHolderValue] = useState();
+  useEffect(() => {
+    dicidePlaceHolderValue();
+  }, [totalCommentCount, isInputClicked]);
+
+  const dicidePlaceHolderValue = () => {
+    if (totalCommentCount >= 1000) {
+      setPlaceHolderValue(
+        '한 게시글에 등록할 수 있는 댓글 개수가 초과되었습니다. 대표 연락처를 참고해주세요.'
+      );
+      return;
+    }
+
+    setPlaceHolderValue(
+      isInputClicked
+        ? ''
+        : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
+    );
+  };
 
   const changeReplyOpenState = () => {
     setReplyOpenState(!replyOpenState);
@@ -29,14 +55,52 @@ function Comment({ commentObj }) {
   };
 
   const clickSubmitBtn = () => {
-    console.log(textarea.current.value);
-    console.log(lockState);
-    console.log(commentObj.comments_id);
+    fetch('http://127.0.0.1:5500/comment', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('authorization'),
+      },
+      body: JSON.stringify({
+        comment: textarea.current.value,
+        is_secret: lockState ? 1 : 0,
+        commentId: commentObj.id,
+      }),
+    });
+
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
+      headers: {
+        authorization: localStorage.getItem('authorization'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCommentData(data.data);
+      });
+
+    setModifyChecked(!modifyChecked);
   };
 
-  useEffect(() => {
-    setLockState(commentObj.is_secret);
-  }, []);
+  const clickDeleteBtn = () => {
+    fetch('http://127.0.0.1:5500/comment', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('authorization'),
+      },
+      body: JSON.stringify({
+        commentId: commentObj.id,
+      }),
+    });
+
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
+      headers: {
+        authorization: localStorage.getItem('authorization'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => setCommentData(data.data));
+  };
 
   useEffect(() => {
     if (modifyChecked) {
@@ -62,7 +126,7 @@ function Comment({ commentObj }) {
             }}
           >
             <div className={css.commentInfoDiv}>
-              <div className={css.whiter}>{commentObj.users_id}</div>
+              <div className={css.whiter}>{commentObj.username}</div>
               <div className={css.whiteTime}>{commentObj.created_at}</div>
             </div>
             {modifyChecked ? (
@@ -80,11 +144,7 @@ function Comment({ commentObj }) {
                 onBlur={() => {
                   setIsInputClicked(false);
                 }}
-                placeholder={
-                  isInputClicked
-                    ? ''
-                    : '위 멤버에게 궁금한 점이나 제안하고 싶은 내용을 댓글로 남겨보세요'
-                }
+                placeholder={placeHolderValue}
               />
             ) : (
               <div className={css.commentContent}>
@@ -94,21 +154,6 @@ function Comment({ commentObj }) {
             {modifyChecked && (
               <div className={css.letterCount}>
                 <span>{textareaLength}/1000</span>
-                {/* {lockState ? (
-                  <div className={css.lockDiv}>
-                    <i
-                      className={`fa-solid fa-lock ${css.lock}`}
-                      onClick={changeLockState}
-                    />
-                  </div>
-                ) : (
-                  <div className={css.lockDiv}>
-                    <i
-                      className={`fa-solid fa-lock-open ${css.lockOpen}`}
-                      onClick={changeLockState}
-                    />
-                  </div>
-                )} */}
                 <div className={css.lockDiv}>
                   <i
                     className={`${
@@ -127,20 +172,31 @@ function Comment({ commentObj }) {
                   수정
                 </button>
                 <div className={css.divider} />
-                <button>삭제</button>
+                <button onClick={clickDeleteBtn}>삭제</button>
               </div>
             ) : (
               <div className={css.rightAreaBtnDiv} />
             )}
 
             {modifyChecked && <button onClick={clickSubmitBtn}>등록</button>}
-            <button className={css.submitBtn} onClick={changeReplyOpenState}>
-              답글 쓰기
-            </button>
+            {!modifyChecked && (
+              <button className={css.submitBtn} onClick={changeReplyOpenState}>
+                답글 쓰기
+              </button>
+            )}
           </div>
         </div>
       </div>
-      {replyOpenState && <Reply commentObj={commentObj} />}
+      {replyOpenState && (
+        <Reply
+          commentObj={commentObj}
+          setCommentPageTotalCount={setCommentPageTotalCount}
+          currCommentPage={currCommentPage}
+          setCommentData={setCommentData}
+          setReplyOpenState={setReplyOpenState}
+          totalCommentCount={totalCommentCount}
+        />
+      )}
     </>
   );
 }
