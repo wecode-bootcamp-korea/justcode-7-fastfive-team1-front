@@ -1,22 +1,62 @@
 import React, { useEffect, useState } from 'react';
+import AdminModifyModal from '../AdminModal/AdminModifyModal';
 import css from './CategoryCard.module.scss';
 
-function CategoryCard({ title, img, content }) {
+const CategoryCard = ({
+  id,
+  title,
+  img,
+  content,
+  onRemove,
+  titleHandler,
+  contentHandler,
+  categoryTitle,
+  categoryContent,
+  onEdit,
+  addCategory,
+}) => {
+  const [openAdminModal, setOpenAdminModal] = useState(false);
+
+  const openAdmin = () => {
+    setOpenAdminModal(true);
+  };
+
   return (
-    <div className={css.CardContainnerWrapper}>
-      <div className={css.CardContainner}>
-        <img
-          className={css.CardImage}
-          src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          alt=""
-        />
-        <div className={css.ContentWrapper}>
-          <h2 className={css.CategoryName}>{title}</h2>
-          <div className={css.Content}>{content}</div>
+    <div className={css.cardContainnerWrapper}>
+      <div className={css.cardContainner}>
+        <div className={css.imgWrapper}>
+          <img className={css.cardImage} src={img} alt="카테고리 이미지" />
+          <button
+            className={css.cardDelete}
+            onClick={() => onRemove(id)}
+          ></button>
+        </div>
+        <div className={css.contentWrapper}>
+          <div className={css.contentHeader}>
+            <h2 className={css.categoryName}>{title}</h2>
+            <button onClick={openAdmin}>수정</button>
+            {openAdminModal && (
+              <AdminModifyModal
+                onClose={() => {
+                  setOpenAdminModal(false);
+                }}
+                title={title}
+                content={content}
+                id={id}
+                titleHandler={titleHandler}
+                contentHandler={contentHandler}
+                categoryTitle={categoryTitle}
+                categoryContent={categoryContent}
+                onEdit={onEdit}
+                addCategory={addCategory}
+              />
+            )}
+          </div>
+          <div className={css.content}>{content}</div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default CategoryCard;

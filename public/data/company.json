@@ -2,27 +2,88 @@
   "company": [
     {
       "id": 1,
-      "name": "제이솝"
+      "name": "제이솝",
+      "body": "안녕하세요 제이솝입니다.",
+      "image": "https://cdn.pixabay.com/photo/2015/12/12/22/35/snowman-1090261_1280.jpg",
+      "comment": 3
     },
     {
       "id": 2,
-      "name": "밀리는서재"
+      "name": "밀리는서재",
+      "body": "안녕하세요 밀리는서재입니다.",
+      "image": "https://cdn.pixabay.com/photo/2020/11/10/10/16/snowman-5729188_1280.jpg",
+      "comment": 0
     },
     {
       "id": 3,
-      "name": "네이버"
+      "name": "네이버",
+      "image": "https://cdn.pixabay.com/photo/2022/11/08/20/18/snowman-7579244_1280.jpg",
+      "body": "안녕하세요 네이버입니다.",
+
+      "comment": 5
     },
     {
       "id": 4,
-      "name": "카카오"
+      "name": "카카오",
+      "body": "안녕하세요 카카오입니다.",
+      "image": "https://cdn.pixabay.com/photo/2017/11/14/16/12/snow-man-2948882_1280.jpg",
+      "comment": 7
     },
     {
       "id": 5,
-      "name": "라인"
+      "name": "라인",
+      "body": "안녕하세요 라인입니다.",
+      "image": "https://cdn.pixabay.com/photo/2014/12/02/19/30/snowmen-554398_1280.jpg",
+      "comment": 1
     },
     {
       "id": 6,
-      "name": "배달의민족"
+      "name": "배달의민족",
+      "body": "안녕하세요 배달의민족입니다.",
+      "image": "https://cdn.pixabay.com/photo/2022/10/23/11/06/snowman-7541019_1280.jpg",
+      "comment": 14
+    },
+    {
+      "id": 7,
+      "name": "마켓컬리",
+      "body": "안녕하세요 마켓컬리입니다.",
+      "image": "https://cdn.pixabay.com/photo/2017/11/05/15/50/winter-2920918_1280.jpg",
+      "comment": 1
+    },
+    {
+      "id": 8,
+      "name": "무신사",
+      "body": "안녕하세요 무신사입니다.",
+      "image": "https://cdn.pixabay.com/photo/2014/11/04/08/13/snow-man-516282_1280.jpg",
+      "comment": 2
+    },
+    {
+      "id": 9,
+      "name": "29cm",
+      "body": "안녕하세요 29cm입니다.",
+      "image": "https://cdn.pixabay.com/photo/2018/12/16/14/54/christmas-3878613_1280.jpg",
+      "comment": 8
+    },
+    {
+      "id": 10,
+      "name": "텐바이텐",
+      "body": "안녕하세요 텐바이텐입니다.",
+      "image": "https://cdn.pixabay.com/photo/2020/11/27/12/27/snowman-5781742_1280.jpg",
+      "comment": 16
+    },
+    {
+      "id": 11,
+      "name": "공차",
+      "body": "안녕하세요 공차입니다.",
+      "image": "https://cdn.pixabay.com/photo/2021/12/20/00/02/christmas-6882084_1280.jpg",
+      "comment": 5
+    },
+    {
+      "id": 12,
+      "name": "스타벅스",
+      "body": "안녕하세요 스타벅스입니다.",
+      "image": "https://cdn.pixabay.com/photo/2020/01/14/16/34/snowman-4765538_1280.jpg",
+      "comment": 0
     }
   ]
 }

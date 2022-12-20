@@ -1,0 +1,67 @@
+.comment {
+  border: 1px solid black;
+  border-radius: 8px;
+  width: 800px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .commentMarginDiv {
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 750px;
+
+    .leftArea {
+      width: 680px;
+      position: relative;
+    }
+
+    .commentContent {
+      width: 85%;
+      margin: 3px 5px;
+      color: gray;
+      overflow: hidden;
+    }
+
+    .overText {
+      outline: none;
+      border-color: red;
+      box-shadow: 0 0 5px red;
+      background-color: rgba(255, 0, 0, 0.16);
+    }
+
+    .letterCount {
+      position: absolute;
+      display: flex;
+      justify-content: flex-end;
+      right: 0;
+      bottom: 5px;
+
+      .lockDiv {
+        display: flex;
+        justify-content: center;
+        width: 30px;
+
+        .lock {
+          color: coral;
+          transform: translateY(-2px);
+        }
+
+        .lockOpen {
+          color: gray;
+          transform: translateX(2px) translateY(-2px);
+        }
+      }
+    }
+  }
+
+  .rightArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+  }
+}

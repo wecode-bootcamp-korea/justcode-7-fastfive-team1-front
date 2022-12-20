@@ -1,2 +1,17 @@
 .container {
+  .wrapper {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: lightgray;
+  }
+  .progress {
+    height: 4px;
+    background: coral;
+    width: 0%;
+  }
+  .main {
+    display: flex;
+  }
 }

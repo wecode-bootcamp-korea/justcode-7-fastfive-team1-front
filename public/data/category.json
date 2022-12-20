@@ -23,15 +23,15 @@
       "category": "콘텐츠",
       "subCategory": [
         {
-          "id": 1,
+          "id": 4,
           "category": "비디오"
         },
         {
-          "id": 2,
+          "id": 5,
           "category": "영상"
         },
         {
-          "id": 3,
+          "id": 6,
           "category": "음악"
         }
       ]
@@ -41,11 +41,11 @@
       "category": "개발",
       "subCategory": [
         {
-          "id": 1,
+          "id": 7,
           "category": "qa"
         },
         {
-          "id": 2,
+          "id": 8,
           "category": "devops"
         }
       ]
@@ -55,11 +55,11 @@
       "category": "디자인",
       "subCategory": [
         {
-          "id": 1,
+          "id": 9,
           "category": "제품"
         },
         {
-          "id": 2,
+          "id": 10,
           "category": "영상"
         }
       ]

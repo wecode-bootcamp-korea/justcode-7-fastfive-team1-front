@@ -1,0 +1,12 @@
+{
+  "userInfo": {
+    "id": 2,
+    "username": "테스트1",
+    "email": "test@gmail.com",
+    "company": {
+      "id": 2,
+      "companyName": "다음",
+      "isCompanyMainMember": 1
+    }
+  }
+}
