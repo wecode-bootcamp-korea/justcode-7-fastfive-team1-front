@@ -40,8 +40,8 @@ function App() {
 
   useEffect(() => {
     if (currUserClass === 'admin') {
-      fetch('http://localhost:5500/company-request', {
-        // fetch('/data/representReqData.json', {
+      // fetch('http://localhost:5500/company-request', {
+      fetch('/data/representReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -53,8 +53,8 @@ function App() {
     }
 
     if (currUserClass === 'represent') {
-      fetch('http://localhost:5500/member-request', {
-        // fetch('/data/memberReqData.json', {
+      // fetch('http://localhost:5500/member-request', {
+      fetch('/data/memberReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },

@@ -6,6 +6,13 @@
   height: 180px;
   margin: 10px;
 
+  .memberReqMainElemCellDiv {
+    margin: 20px 0 0 10px;
+    .memberReqMainElemCell {
+      margin: 3px;
+    }
+  }
+
   .reqBtnDiv {
     display: flex;
     position: absolute;
@@ -15,6 +22,7 @@
     .reqBtn {
       border: 1px black solid;
       border-radius: 10px;
+      margin: 3px;
       width: 80px;
       height: 40px;
       display: flex;

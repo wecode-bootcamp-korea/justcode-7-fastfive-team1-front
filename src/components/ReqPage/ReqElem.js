@@ -62,9 +62,18 @@ function App({ userData, reqListElem, currUserClass }) {
     <div>
       {currUserClass === 'represent' && (
         <div className={css.memberReqMainElem} key={reqListElem.id}>
-          <div>{reqListElem.usersId}</div>
-          <div>{reqListElem.username}</div>
-          <div>{reqListElem.email}</div>
+          <div className={css.memberReqMainElemCellDiv}>
+            <div className={css.memberReqMainElemCell}>
+              USER ID: {reqListElem.usersId}
+            </div>
+            <div className={css.memberReqMainElemCell}>
+              USER NAME: {reqListElem.username}
+            </div>
+            <div className={css.memberReqMainElemCell}>
+              E-mail: {reqListElem.email}
+            </div>
+          </div>
+
           <div className={`${css.reqBtnDiv}`}>
             <button className={`${css.reqBtn}`} onClick={clickMemberSubmitBtn}>
               수락
