@@ -63,16 +63,11 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
       {datum && (
         <select
           className={css.selectVal}
-          // defaultValue={value}
           value={value}
           name="place"
           onChange={e => handleSetId(e)}
-          disabled={optionVal === '상세' && datum.length === 0 ? true : false}
         >
-          <option
-            value="default"
-            disabled={optionVal === '상세' ? false : true}
-          >
+          <option value="default" disabled={true}>
             {optionVal}
           </option>
           {datum &&

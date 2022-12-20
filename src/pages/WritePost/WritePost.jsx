@@ -5,6 +5,7 @@ import SelectForm from '../../components/Form/SelectForm';
 import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
 import SideBar from '../../components/Sidebar/Sidebar';
+import Preview from '../../components/Preview/Preview';
 import css from './WritePost.module.scss';
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
@@ -25,7 +26,9 @@ const WritePost = () => {
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [saveTime, setSaveTime] = useState('');
+  const [pass, setPass] = useState(false);
   const [flag, setFlag] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState({
     companyName: '',
     companyShortDesc: '',
@@ -63,11 +66,13 @@ const WritePost = () => {
       headers: {
         'Content-Type': 'application/json',
         authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjcxMjg1NDYyfQ.V2uTZKMxrjetcwhRUAfAQLpOF5L65975Dpnfl_nDDH4',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
       },
     })
       .then(res => res.json())
-      .then(res => setFormData(res));
+      .then(res => {
+        setFormData(res);
+      });
   }, []);
 
   useEffect(() => {
@@ -87,7 +92,7 @@ const WritePost = () => {
       let idx = path.lastIndexOf('/');
       objKeys.forEach(key => {
         let value = formData[key];
-        value === null ? (value = '') : (value = value);
+        value = value === null ? '' : value;
         setText(prevState => {
           return { ...prevState, [key]: value };
         });
@@ -113,14 +118,21 @@ const WritePost = () => {
   };
 
   useEffect(() => {
-    if (firstCategory != '') {
-      setSecondCategory('');
-      const subCategories = categoryData[firstCategory - 1].subCategory;
-      subCategories.map(subCategory =>
-        setSecondCategory(secondCategory => [...secondCategory, subCategory])
-      );
+    if (formData) {
+      if (firstCategory !== null) {
+        setSecondCategory('');
+        const subCategories = categoryData[firstCategory - 1].subCategory;
+        subCategories.map(subCategory =>
+          setSecondCategory(secondCategory => [...secondCategory, subCategory])
+        );
+      }
     }
   }, [firstCategory]);
+
+  const preview = e => {
+    e.preventDefault();
+    setIsOpen(true);
+  };
 
   const filePreview = (e, name) => {
     e.preventDefault();
@@ -141,12 +153,33 @@ const WritePost = () => {
     e.target.value = '';
   };
 
-  const fileUpload = async e => {
-    e.preventDefault();
+  setInterval(() => {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let date = today.getDate();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    fileUpload('임시');
+    setSaveTime(
+      year +
+        '. ' +
+        month +
+        '. ' +
+        date +
+        '. ' +
+        hours +
+        '시 ' +
+        ' ' +
+        minutes +
+        '분'
+    );
+  }, 10000);
+
+  const fileUpload = async (name, e) => {
     //const token = localStorage.getItem('token');
     let formData = new FormData();
     const objKeys = Object.keys(text);
-
     for (let i = 0; i < objKeys.length; i++) {
       formData.append(objKeys[i], text[objKeys[i]]);
     }
@@ -164,18 +197,33 @@ const WritePost = () => {
     } else if (companyProfile === '') {
       formData.append('companyInfoUrl', '');
     }
-
-    await axios_({
-      method: 'PUT',
-      url: `/post-form`,
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjcxMjg1NDYyfQ.V2uTZKMxrjetcwhRUAfAQLpOF5L65975Dpnfl_nDDH4',
-      },
-      data: formData,
-    });
+    if (name === '등록') {
+      e.preventDefault();
+      await axios_({
+        method: 'PUT',
+        url: `/post`,
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
+        },
+        data: formData,
+      });
+    } else if (name === '임시') {
+      e.preventDefault();
+      await axios_({
+        method: 'PUT',
+        url: `/post-form`,
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization:
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
+        },
+        data: formData,
+      });
+    }
   };
 
   const deleteFileImage = e => {
@@ -188,29 +236,6 @@ const WritePost = () => {
       setInfoFile('');
     }
   };
-
-  setInterval(() => {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let date = today.getDate();
-    let hours = today.getHours();
-    let minutes = today.getMinutes();
-
-    setSaveTime(
-      year +
-        '. ' +
-        month +
-        '. ' +
-        date +
-        '. ' +
-        hours +
-        '시 ' +
-        ' ' +
-        minutes +
-        '분'
-    );
-  }, 60000);
 
   const urlValidation = () => {
     let leg =
@@ -389,9 +414,24 @@ const WritePost = () => {
             </div>
 
             <div className={css.btns}>
-              <button onClick={e => fileUpload(e)}>미리보기</button>
-              <button>등록하기</button>
-              <button>취소</button>
+              <button className={css.btn} onClick={preview}>
+                미리보기
+              </button>
+              {isOpen && (
+                <Preview
+                  open={isOpen}
+                  onClose={() => {
+                    setIsOpen(false);
+                  }}
+                />
+              )}
+              <button className={css.btn} onClick={e => fileUpload('등록', e)}>
+                등록하기
+              </button>
+              <button className={css.btn} onClick={e => fileUpload('임시', e)}>
+                임시저장
+              </button>
+              <button className={css.btn}>취소</button>
             </div>
           </form>
         )}

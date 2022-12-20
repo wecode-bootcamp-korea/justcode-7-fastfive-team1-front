@@ -13,19 +13,19 @@
     clip: rect(0, 0, 0, 0);
     border: 0;
   }
-  span {
+  .fileName {
     margin-left: 2%;
     color: rgb(64, 64, 64);
     font-size: 17px;
   }
 
-  h2 {
+  .title {
     display: inline-block;
     width: 10.3%;
     font-weight: 600;
     color: rgb(71, 71, 71);
   }
-  label {
+  .file {
     display: inline-block;
     padding: 8px 7px 8px 7px;
     margin-top: 1%;
