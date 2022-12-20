@@ -12,9 +12,9 @@ const Filter = () => {
   const [subCategory, setSubCategory] = useState('상세 분야');
 
   useEffect(() => {
-    const queryString = `?${area ? `areaFilter=${area}` : ''} & 
-${category ? `category=${category}` : ''} & 
-${subCategory ? `subCategory=${subCategory}` : ''}`;
+    const queryString = `?${area ? `locationsId=${area}` : ''} & 
+${category ? `categoriesLv1Id=${category}` : ''} & 
+${subCategory ? `categoriesLv2Id=${subCategory}` : ''}`;
     navigate(queryString);
   }, [area, category, subCategory, navigate]);
 

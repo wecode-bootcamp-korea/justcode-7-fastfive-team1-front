@@ -10,6 +10,7 @@ const CompanyList = () => {
   const [startPage, setStartPage] = useState(0);
   const [endPage, setEndPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
+  const [userData, setUserData] = useState();
 
   const pageNation = [];
   for (let i = 1; i <= Math.ceil(companyListData.length / 8); i++) {
@@ -29,6 +30,21 @@ const CompanyList = () => {
     setEndPage(currentPage * 8);
   }, [currentPage]);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        const userMember = res.userInfo.company;
+        setUserData(userMember);
+      });
+  }, []);
+
   return (
     <div>
       <Header />
@@ -41,10 +57,16 @@ const CompanyList = () => {
           </div>
           <div className={css.categoryContent}>
             <Filter />
-            <button className={css.companyIntroduceBtn}>
-              <span>우리회사 소개하기</span>
-              <i className="fa-solid fa-building" />
-            </button>
+            {userData.map(({ id, isCompanyMainMember }) => (
+              <div key={id}>
+                {isCompanyMainMember === 1 ? (
+                  <button className={css.companyIntroduceBtn}>
+                    <span>우리회사 소개하기</span>
+                    <i className="fa-solid fa-building" />
+                  </button>
+                ) : null}
+              </div>
+            ))}
           </div>
           <div className={css.companyList}>
             {companyListData
