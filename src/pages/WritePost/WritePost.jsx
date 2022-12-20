@@ -6,6 +6,7 @@ import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
 import SideBar from '../../components/Sidebar/Sidebar';
 import Preview from '../../components/Preview/Preview';
+
 import css from './WritePost.module.scss';
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
@@ -25,7 +26,7 @@ const WritePost = () => {
   const [fastfiveBranchesId, setfastfiveBranchesId] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
-  const [saveTime, setSaveTime] = useState('');
+  // const [saveTime, setSaveTime] = useState('');
   const [pass, setPass] = useState(false);
   const [flag, setFlag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -153,28 +154,28 @@ const WritePost = () => {
     e.target.value = '';
   };
 
-  setInterval(() => {
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = today.getMonth() + 1;
-    let date = today.getDate();
-    let hours = today.getHours();
-    let minutes = today.getMinutes();
-    fileUpload('임시');
-    setSaveTime(
-      year +
-        '. ' +
-        month +
-        '. ' +
-        date +
-        '. ' +
-        hours +
-        '시 ' +
-        ' ' +
-        minutes +
-        '분'
-    );
-  }, 10000);
+  // setInterval(() => {
+  //   let today = new Date();
+  //   let year = today.getFullYear();
+  //   let month = today.getMonth() + 1;
+  //   let date = today.getDate();
+  //   let hours = today.getHours();
+  //   let minutes = today.getMinutes();
+  //   fileUpload('임시');
+  //   setSaveTime(
+  //     year +
+  //       '. ' +
+  //       month +
+  //       '. ' +
+  //       date +
+  //       '. ' +
+  //       hours +
+  //       '시 ' +
+  //       ' ' +
+  //       minutes +
+  //       '분'
+  //   );
+  // }, 10000);
 
   const fileUpload = async (name, e) => {
     //const token = localStorage.getItem('token');
@@ -254,7 +255,7 @@ const WritePost = () => {
       <div className={css.totalWrap}>
         <h1>우리 회사 소개하기</h1>
         <h3>우측 *표시는 필수 작성 항목입니다.</h3>
-        {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>}
+        {/* {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>} */}
 
         {formData !== '' && (
           <form>
