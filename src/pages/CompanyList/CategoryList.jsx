@@ -36,35 +36,31 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/user`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token,
-      },
-    })
-      .then(res => res.json())
-      .then(res => setUserData(res.userInfo.company));
-  }, []);
-
-  useEffect(() => {
-    setStartPage((currentPage - 1) * 8);
-    setEndPage(currentPage * 8);
-  }, [currentPage]);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/user`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token,
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        const userMember = res.userInfo.company;
-        setUserData(userMember);
-      });
-  }, []);
+    if (queryString !== '') {
+      fetch(`http://localhost:5500/post?${queryString}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    } else {
+      //필터없을때
+      fetch(`http://localhost:5500/post?${queryString}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    }
+  }, [queryString]);
 
   return (
     <div>
