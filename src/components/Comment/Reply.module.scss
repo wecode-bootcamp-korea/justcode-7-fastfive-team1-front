@@ -1,8 +1,9 @@
 .comment {
   border: 1px solid black;
   border-radius: 8px;
-  width: 800px;
-  margin: 5px auto;
+  width: 770px;
+  margin: 5px 0;
+  margin-left: 54px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,7 +15,7 @@
     width: 750px;
 
     .leftArea {
-      width: 650px;
+      width: 663px;
 
       .commentInfoDiv {
         display: flex;
@@ -29,6 +30,7 @@
       .commentContent {
         width: 100%;
         margin: 3px 5px;
+        margin-bottom: 10px;
         color: gray;
         overflow: hidden;
       }
@@ -63,10 +65,9 @@
     }
 
     .rightArea {
-      position: relative;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       width: 70px;
 
