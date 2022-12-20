@@ -1,11 +1,12 @@
 .carouselContainer {
+  margin: 0 auto;
   .bannerImg {
     width: 100%;
     height: 400px;
   }
-}
-.nextBtn {
-  &:hover {
-    background-color: black;
+  @media screen and (max-width: 1500px) {
+    .carouselContainer {
+      width: 80%;
+    }
   }
 }

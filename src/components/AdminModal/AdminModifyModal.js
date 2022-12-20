@@ -4,21 +4,35 @@ import css from './AdminModifyModal.module.scss';
 
 const Adminset = ({
   onClose,
-  title,
-  content,
+  category_name,
+  description,
   id,
+  img_url,
   titleHandler,
   contentHandler,
   categoryTitle,
   categoryContent,
   onEdit,
-  addCategory,
+  imgHandler,
 }) => {
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
-        <h1 className={css.title}>Admin 설정</h1>
+        <h1 className={css.title}>Category 수정</h1>
         <div className={css.adminFormBox}>
+          <div className={css.categoryImgWrapper}>
+            <img
+              className={css.categoryImg}
+              src={img_url}
+              alt="categoryImage"
+            />
+            <input
+              className={css.uploadBtn}
+              type="file"
+              accept="image/*"
+              onChange={imgHandler}
+            />
+          </div>
           <div className={css.categoryForm}>
             <label className={css.categoryLabel} htmlFor="category">
               카테고리 이름
@@ -27,7 +41,7 @@ const Adminset = ({
               className={css.categoryInput}
               type="text"
               id="category"
-              placeholder={title}
+              placeholder={category_name}
               value={categoryTitle}
               onChange={titleHandler}
             />
@@ -40,16 +54,13 @@ const Adminset = ({
               className={css.categoryInput}
               type="text"
               id="content"
-              placeholder={content}
+              placeholder={description}
               value={categoryContent}
               onChange={contentHandler}
             />
           </div>
           <button className={css.saveBtn} onClick={() => onEdit(id)}>
             저장
-          </button>
-          <button className={css.saveBtn} onClick={() => addCategory()}>
-            등록
           </button>
         </div>
       </section>
