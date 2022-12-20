@@ -1,16 +1,17 @@
 .companyContainer {
   display: grid;
-  grid-template-rows: 3fr 1fr;
+  grid-template-rows: 2fr 1fr;
   border: 1px solid #f0f0f0;
-  box-shadow: 7px 7px 10px #cacaca9b;
   border-radius: 30px;
+  box-shadow: 7px 7px 10px #cacaca9b;
   cursor: pointer;
 
   .companyImageBox {
     display: flex;
+    height: 230px;
     .companyImage {
       width: 100%;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 30px 30px 0px 0px;
     }
   }
@@ -55,9 +56,9 @@
 
         .more {
           margin-left: 7px;
-          color: #959595;
-          font-size: 10.5px;
-          font-weight: 700;
+          color: #aaaaaa;
+          font-size: 11px;
+          font-weight: 600;
         }
       }
     }
