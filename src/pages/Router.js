@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './Home/Home';
-import ServeHome from '../components/ServeHome/ServeHome';
 import PostDetail from '../pages/PostDetail/PostDetail';
 import WritePost from './WritePost/WritePost';
 import CompanyList from './CompanyList/CompanyList';

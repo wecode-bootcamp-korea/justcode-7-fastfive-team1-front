@@ -4,10 +4,10 @@ import css from './AdminModifyModal.module.scss';
 
 const Adminset = ({
   onClose,
-  title,
-  content,
+  category_name,
+  description,
   id,
-  img,
+  img_url,
   titleHandler,
   contentHandler,
   categoryTitle,
@@ -21,7 +21,11 @@ const Adminset = ({
         <h1 className={css.title}>Category 수정</h1>
         <div className={css.adminFormBox}>
           <div className={css.categoryImgWrapper}>
-            <img className={css.categoryImg} src={img} alt="categoryImage" />
+            <img
+              className={css.categoryImg}
+              src={img_url}
+              alt="categoryImage"
+            />
             <input
               className={css.uploadBtn}
               type="file"
@@ -37,7 +41,7 @@ const Adminset = ({
               className={css.categoryInput}
               type="text"
               id="category"
-              placeholder={title}
+              placeholder={category_name}
               value={categoryTitle}
               onChange={titleHandler}
             />
@@ -50,7 +54,7 @@ const Adminset = ({
               className={css.categoryInput}
               type="text"
               id="content"
-              placeholder={content}
+              placeholder={description}
               value={categoryContent}
               onChange={contentHandler}
             />

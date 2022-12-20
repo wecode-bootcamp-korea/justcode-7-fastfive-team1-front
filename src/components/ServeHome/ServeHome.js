@@ -12,12 +12,6 @@ const ServeHome = () => {
     setOpenAdminModal(true);
   };
 
-  useEffect(() => {
-    fetch('/data/CategoryData.json')
-      .then(res => res.json())
-      .then(res => setCardData(res.data));
-  }, []);
-
   const onRemove = id => {
     setCardData(cardData.filter(category => category.id !== id));
   };
@@ -42,9 +36,9 @@ const ServeHome = () => {
         data.id === id
           ? {
               ...data,
-              title: categoryTitle,
-              content: categoryContent,
-              img: categoryImg,
+              category_name: categoryTitle,
+              description: categoryContent,
+              img_url: categoryImg,
             }
           : data
       )
@@ -57,22 +51,56 @@ const ServeHome = () => {
     setCardData(
       cardData.concat({
         id: cardId,
-        title: cardInfo.title,
-        content: cardInfo.content,
-        img: cardInfo.img,
+        category_name: cardInfo.title,
+        description: cardInfo.content,
+        img_url: cardInfo.img,
       })
     );
     setCardId(i => i + 1);
   };
+
   const openZendesk = () => {
     window.open('http://localhost:3000/zendesk', '_blank');
   };
+
+  const [target, setTarget] = useState(null);
+  const page = 1;
+
+  useEffect(() => {
+    let observer;
+    if (target) {
+      const onIntersect = async ([entry], observer) => {
+        if (entry.isIntersection) {
+          observer.unobserve(entry.target);
+          await fetchData();
+          observer.observe(entry.target);
+        }
+      };
+      observer = new IntersectionObserver(onIntersect, { threshold: 1 });
+      observer.observe(target);
+    }
+    return () => observer && observer.disconnect();
+  }, [target]);
+
+  const fetchData = async () => {
+    const response = await fetch('/data/CategoryData.json');
+    const data = await response.json();
+    setCardData(prev => prev.concat(data.data));
+    page++;
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className={css.serveHomeContainer}>
       <div className={css.bannerAd}>
         <Carousel />
       </div>
-      <button className={css.companyIntroduceBtn}>우리 회사 소개하기</button>
+      <button className={css.companyIntroduceBtn}>
+        <span>우리회사 소개하기</span>
+        <i className="fa-solid fa-building" />
+      </button>
       <div className={css.titleWrapper}>
         <h1 className={css.title}>
           업종별 살펴보기
@@ -98,9 +126,9 @@ const ServeHome = () => {
             <CategoryCard
               key={card.id}
               id={card.id}
-              title={card.title}
-              img={card.img}
-              content={card.content}
+              category_name={card.category_name}
+              img_url={card.img_url}
+              description={card.description}
               onRemove={onRemove}
               titleHandler={titleHandler}
               contentHandler={contentHandler}
@@ -112,7 +140,7 @@ const ServeHome = () => {
           );
         })}
       </div>
-      <button className={css.zendesk} onClick={openZendesk}>
+      <button className={css.zendesk} onClick={openZendesk} ref={setTarget}>
         멤버 소개 관련 문의
       </button>
     </div>
