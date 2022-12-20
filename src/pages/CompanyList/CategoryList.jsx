@@ -36,31 +36,22 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (queryString !== '') {
-      fetch(`http://localhost:5500/post?${queryString}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          setCompanyListData(data);
-        });
-    } else {
-      //필터없을때
-      fetch(`http://localhost:5500/post?${queryString}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          setCompanyListData(data);
-        });
-    }
+    fetch(`http://localhost:5500/post?${queryString}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCompanyListData(data);
+      });
   }, [queryString]);
+
+  useEffect(() => {
+    setStartPage((currentPage - 1) * 8);
+    setEndPage(currentPage * 8);
+  }, [currentPage]);
 
   return (
     <div>
@@ -69,7 +60,7 @@ const CategoryList = () => {
         <Sidebar />
         <section>
           <div className={css.companyListContent}>
-            <Link to="/categoryList">
+            <Link to="/">
               <button className={css.categoryName}>IT</button>
             </Link>
             <span>관심 있는 멤버를 찾아보세요!</span>
@@ -77,10 +68,12 @@ const CategoryList = () => {
           <div className={css.categoryContent}>
             <ListFilter setQueryString={setQueryString} />
             {userData.isCompanyMainMember === 1 ? (
-              <button className={css.companyIntroduceBtn}>
-                <span>우리회사 소개하기</span>
-                <i className="fa-solid fa-building" />
-              </button>
+              <Link to="/writePost">
+                <button className={css.companyIntroduceBtn}>
+                  <span>우리회사 소개하기</span>
+                  <i className="fa-solid fa-building" />
+                </button>
+              </Link>
             ) : null}
           </div>
           <div className={css.companyList}>

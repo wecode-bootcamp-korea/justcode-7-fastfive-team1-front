@@ -89,7 +89,7 @@ const CompanyList = () => {
         <Sidebar />
         <section>
           <div className={css.companyListContent}>
-            <Link to="/home">
+            <Link to="/">
               <button className={css.categoryName}>전체보기</button>
             </Link>
             <span>관심 있는 멤버를 찾아보세요!</span>

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import AddCategoryModal from '../AdminModal/AddCategoryModal';
 import Carousel from '../Carousel/Carousel';
 import CategoryCard from './CategoryCard';
 import css from './ServeHome.module.scss';
-
 const ServeHome = () => {
   const [cardData, setCardData] = useState([]);
   const [openAdminModal, setOpenAdminModal] = useState(false);
+
+  const location = useLocation();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const toCategoryList = id => {
+    navigate(`/categoryList/?categoriesLv1Id=${id}`);
+  };
 
   const openAdmin = () => {
     setOpenAdminModal(true);
@@ -118,7 +126,9 @@ const ServeHome = () => {
             onCreate={onCreate}
           />
         )}
-        <h2 className={css.viewAllBtn}>전체 보기</h2>
+        <Link to="/companyList">
+          <h2 className={css.viewAllBtn}>전체 보기</h2>
+        </Link>
       </div>
       <div className={css.cardComponent}>
         {cardData.map(card => {
@@ -136,6 +146,7 @@ const ServeHome = () => {
               categoryContent={categoryContent}
               onEdit={onEdit}
               imgHandler={imgHandler}
+              toCategoryList={toCategoryList}
             />
           );
         })}
