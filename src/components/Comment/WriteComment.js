@@ -39,7 +39,7 @@ function Comment({
       return;
     }
 
-    fetch('http://127.0.0.1:5500/post/commentOnPost', {
+    fetch('http://127.0.0.1:5500/commentOnPost', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ function Comment({
       }),
     });
 
-    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },

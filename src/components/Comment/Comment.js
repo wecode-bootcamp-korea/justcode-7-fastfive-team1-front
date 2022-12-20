@@ -55,7 +55,7 @@ function Comment({
   };
 
   const clickSubmitBtn = () => {
-    fetch('http://127.0.0.1:5500/post/comment', {
+    fetch('http://127.0.0.1:5500/comment', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function Comment({
       }),
     });
 
-    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },
@@ -82,7 +82,7 @@ function Comment({
   };
 
   const clickDeleteBtn = () => {
-    fetch('http://127.0.0.1:5500/post/comment', {
+    fetch('http://127.0.0.1:5500/comment', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ function Comment({
       }),
     });
 
-    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -6,6 +7,12 @@ import CommentInput from '../../components/Comment/WriteComment';
 import Header from '../../components/Header/Header';
 
 function PostDetail() {
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const ourGruop = query.get('ourGruop');
+  const [postData, setPostData] = useState({});
+  const { page } = useParams();
+
   const [copyCheck, setCopyCheck] = useState(false);
   const [commentData, setCommentData] = useState([]);
   const [totalCommentCount, setTotalCommentCount] = useState(0);
@@ -15,8 +22,34 @@ function PostDetail() {
   const commentDiv = useRef();
 
   useEffect(() => {
+    if (ourGruop) {
+      fetch(`http://localhost:5500/post?ourGruop=${ourGruop}`, {
+        headers: {
+          authorization: localStorage.getItem('authorization'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => setPostData(data));
+    }
+
+    if (page) {
+      fetch(`http://localhost:5500/post/${page}`, {
+        headers: {
+          authorization: localStorage.getItem('authorization'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => setPostData(data));
+    }
+  }, []);
+
+  useEffect(() => {
+    postData && console.log(postData);
+  }, [postData]);
+
+  useEffect(() => {
     // fetch('/data/commentData.json')
-    fetch('http://127.0.0.1:5500/post/1?page=1', {
+    fetch('http://127.0.0.1:5500/comment/1?page=1', {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },
@@ -122,7 +155,7 @@ function PostDetail() {
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5500/post/1?page=${currCommentPage}`, {
+    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
       headers: {
         authorization: localStorage.getItem('authorization'),
       },
@@ -130,10 +163,6 @@ function PostDetail() {
       .then(res => res.json())
       .then(data => setCommentData(data.data));
   }, [currCommentPage]);
-
-  // useEffect(() => {
-  //   console.log(window.getComputedStyle(commentDiv.current).height);
-  // }, [window.getComputedStyle(commentDiv.current).height]);
 
   return (
     <div className={css.postDetail}>
@@ -145,77 +174,94 @@ function PostDetail() {
             전체 보기
           </div>
           <div className={`${css.imgAndBtnDiv} ${css.topDonwMargin}`}>
-            <div className={`${css.img}`}>img</div>
+            {postData.companyImgUrl && (
+              <div
+                className={`${css.img}`}
+                style={{ backGroundImg: postData.companyImgUrl }}
+              >
+                img
+              </div>
+            )}
+
             <div className={`${css.btnDiv}`}>
               <button>수정</button>
               <div className={`${css.divider}`} />
               <button>삭제</button>
             </div>
           </div>
-          <div
-            className={`${css.title} ${css.fontEmphasis} ${css.topDonwMargin}`}
-          >
-            패스트 파이브
-          </div>
-          <div className={`${css.topDonwMargin}`}>
-            패스트파이브는 일하는 공간을 새롭게 정의합니다. 패스트파이브 오피스
-            플랫폼은 부동산 시장의 수요와 공급을 혁신적으로 통합하며, 공간을
-            채우는 콘텐츠로 기업과 오피스를 연결합니다.
-          </div>
-          <div className={`${css.workField} ${css.topDonwMargin}`}>
-            <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
-              업무 분야
+          {postData.companyName && (
+            <div
+              className={`${css.title} ${css.fontEmphasis} ${css.topDonwMargin}`}
+            >
+              {postData.companyName}
             </div>
-            <div>
-              공유 오피스, 라운지 멤버십, 프리미엄 오피스텔, 사옥 컨설팅
+          )}
+          {postData.companyShortDesc && (
+            <div className={`${css.topDonwMargin}`}>
+              {postData.companyShortDesc}
             </div>
-          </div>
-          <div className={`${css.memberBenefit} ${css.topDonwMargin}`}>
-            <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
-              멤버 혜택
+          )}
+          {postData.mainBussinessTags && (
+            <div className={`${css.workField} ${css.topDonwMargin}`}>
+              <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
+                업무 분야
+              </div>
+              <div>{postData.mainBussinessTags}</div>
             </div>
-            <div>패스트파이브 멤버 컨택 시 10% 할인 제공</div>
-          </div>
-          <div className={`${css.homepage} ${css.topDonwMargin}`}>
-            <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
-              홈페이지
+          )}
+          {postData.fastfiveBenefitDesc && (
+            <div className={`${css.memberBenefit} ${css.topDonwMargin}`}>
+              <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
+                멤버 혜택
+              </div>
+              <div>{postData.fastfiveBenefitDesc}</div>
             </div>
-            <div>https://www.dkgkrltlfgdj.co.kr</div>
-          </div>
-          <div className={`${css.address} ${css.topDonwMargin}`}>
-            <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
-              연락처
+          )}
+          {postData.homepageUrl && (
+            <div className={`${css.homepage} ${css.topDonwMargin}`}>
+              <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
+                홈페이지
+              </div>
+              <div>{postData.homepageUrl}</div>
             </div>
-            <div className={`${css.EmailAndPhoneNumber}`}>
-              <span className={`${css.Email}`} onClick={clickEmail}>
-                sample@fastfive.co.kr
-              </span>
-              , 010-1234-1234(진양철 회장)
-              {copyCheck && (
-                <div className={`${css.toastDiv}`}>
-                  copy
-                  <i className="fa-solid fa-check" />
-                </div>
-              )}
+          )}
+
+          {/* 이메일, 휴대폰 번호 분리 필요함 */}
+          {postData.companyContactAddress && (
+            <div className={`${css.address} ${css.topDonwMargin}`}>
+              <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
+                연락처
+              </div>
+              <div className={`${css.EmailAndPhoneNumber}`}>
+                <span className={`${css.Email}`} onClick={clickEmail}>
+                  sample@fastfive.co.kr
+                </span>
+                , 010-1234-1234(진양철 회장)
+                {copyCheck && (
+                  <div className={`${css.toastDiv}`}>
+                    copy
+                    <i className="fa-solid fa-check" />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-          <div className={`${css.topDonwMargin}`}>
-            패스트파이브는 일하는 공간을 새롭게 정의합니다. 패스트파이브 오피스
-            플랫폼은 부동산 시장의 수요와 공급을 혁신적으로 통합하며, 공간을
-            채우는 콘텐츠로 기업과 오피스를 연결합니다. 패스트파이브는 일하는
-            공간을 새롭게 정의합니다. 패스트 파이브 오피스 플랫펌은 부동산
-            시장의 수요와 공급을 혁신적으로 통합하며, 공간을 채우는 콘텐츠로
-            기업과 오피스를 연결합니다. <br />
-            패스트 파이브는 일하는 공간을 새롭게 정의합니다.패스트 파이브는
-            일하는 공간을 새롭게 정의합니다.패스트 파이브는 일하는 공간을 새롭게
-            정의합니다.패스트 파이브는 일하는 공간을 새롭게 정의합니다.
-          </div>
-          <div className={`${css.introduce} ${css.topDonwMargin}`}>
-            <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
-              회사 소개서
+          )}
+          {postData.companyLongDesc && (
+            <div className={`${css.topDonwMargin}`}>
+              {postData.companyLongDesc}
             </div>
-            <div>패스트파이브 회사 소개서.pdf</div>
-          </div>
+          )}
+
+          {/* 파일명 따로 보내준다고 함 */}
+          {/* 파일명 클릭 시 파일 내용 다운로드되게 하기 */}
+          {postData.companyInfoUrl && (
+            <div className={`${css.introduce} ${css.topDonwMargin}`}>
+              <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
+                회사 소개서
+              </div>
+              <div>패스트파이브 회사 소개서.pdf</div>
+            </div>
+          )}
 
           <div className={`${css.commentDiv}`} ref={commentDiv}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
@@ -226,20 +272,21 @@ function PostDetail() {
               setCommentPageTotalCount={setCommentPageTotalCount}
               totalCommentCount={totalCommentCount}
             />
-            {commentData.map(commentObj => {
-              return (
-                <Comment
-                  key={commentObj.id}
-                  commentObj={commentObj}
-                  commentPageTotalCount={commentPageTotalCount}
-                  setCurrCommentPageList={setCurrCommentPageList}
-                  currCommentPage={currCommentPage}
-                  setCommentData={setCommentData}
-                  setCommentPageTotalCount={setCommentPageTotalCount}
-                  totalCommentCount={totalCommentCount}
-                />
-              );
-            })}
+            {commentData &&
+              commentData.map(commentObj => {
+                return (
+                  <Comment
+                    key={commentObj.id}
+                    commentObj={commentObj}
+                    commentPageTotalCount={commentPageTotalCount}
+                    setCurrCommentPageList={setCurrCommentPageList}
+                    currCommentPage={currCommentPage}
+                    setCommentData={setCommentData}
+                    setCommentPageTotalCount={setCommentPageTotalCount}
+                    totalCommentCount={totalCommentCount}
+                  />
+                );
+              })}
           </div>
           <div className={`${css.commentPageDiv}`}>
             {commentPageTotalCount > 1 && (

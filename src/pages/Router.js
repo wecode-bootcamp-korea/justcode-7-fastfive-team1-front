@@ -13,6 +13,7 @@ function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<ServeHome />} />
         <Route path="/postdetail" element={<PostDetail />} />
+        <Route path="/postdetail/:page" element={<PostDetail />} />
         <Route path="/writePost" element={<WritePost />} />
         <Route path="/companyList:id" element={<CompanyList />} />
       </Routes>
