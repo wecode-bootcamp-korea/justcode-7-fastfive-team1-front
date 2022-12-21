@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import AdminModal from './AdminModal';
 import css from './AddCategoryModal.module.scss';
 
@@ -7,39 +8,6 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
   const [cardContent, setCardContent] = useState('');
   const [cardImg, setCardImg] = useState('');
 
-  const onSubmit = e => {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:5500/category', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token,
-      },
-      body: JSON.stringify({
-        img_url: cardImg,
-        category_name: cardTitle,
-        description: cardContent,
-      }),
-    })
-      .then(res => res.json())
-      .then(result => {
-        if (result.message === 'CREATE_CATEGORY') {
-          e.preventDefault();
-          onCreate({
-            category_name: cardTitle,
-            description: cardContent,
-            img_url: cardImg,
-          });
-          setCardTitle('');
-          setCardContent('');
-          setCardImg('');
-
-          alert('카테고리 생성');
-        } else {
-          alert('다시 확인해주세요');
-        }
-      });
-  };
   const onChangeTitle = e => {
     setCardTitle(e.target.value);
   };
@@ -47,13 +15,44 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
     setCardContent(e.target.value);
   };
   const onChangeImg = e => {
-    setCardImg(URL.createObjectURL(e.target.files[0]));
+    setCardImg(e.target.files[0]);
   };
+
+  const postCategory = async e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('category_name', cardTitle);
+    formData.append('description', cardContent);
+    formData.append('img_url', cardImg);
+    for (let key of formData.keys()) {
+      console.log(key, ':', formData.get(key));
+    }
+
+    await axios({
+      method: 'POST',
+      url: 'http://localhost:5500/category',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        authorization: localStorage.getItem('token'),
+      },
+      data: formData,
+    });
+    onCreate({
+      category_name: cardTitle,
+      description: cardContent,
+      img_url: cardImg,
+    });
+    setCardTitle('');
+    setCardContent('');
+    setCardImg('');
+  };
+
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
         <h1 className={css.title}>Category</h1>
-        <div className={css.adminFormBox}>
+        <form className={css.adminFormBox}>
           <div className={css.categoryImgWrapper}>
             <input
               className={css.uploadBtn}
@@ -88,10 +87,10 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
               onChange={onChangeContent}
             />
           </div>
-          <button className={css.saveBtn} onClick={onSubmit}>
+          <button className={css.saveBtn} onClick={e => postCategory(e)}>
             등록
           </button>
-        </div>
+        </form>
       </section>
     </AdminModal>
   );
