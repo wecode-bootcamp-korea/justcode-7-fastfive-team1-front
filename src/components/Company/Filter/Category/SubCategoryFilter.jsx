@@ -23,8 +23,6 @@ const SubCategoryFilter = ({ category, setSubCategory }) => {
       });
   }, [category]);
 
-  console.log(subCategoryValue);
-
   const onSubCategoryValue = e => {
     setSubCategory(e.target.value);
     setSubCategoryData(e.target.name);

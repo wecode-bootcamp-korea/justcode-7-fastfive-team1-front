@@ -16,6 +16,7 @@ const CategoryFilter = ({ setCategory, category }) => {
     })
       .then(res => res.json())
       .then(res => {
+        console.log(res.data);
         setCategoryValue(res.data);
       });
   }, []);
@@ -44,15 +45,15 @@ const CategoryFilter = ({ setCategory, category }) => {
         </button>
         {dropDown ? (
           <div className={css.categoryItems}>
-            {categoryValue.map(({ id, category }) => (
+            {categoryValue.map(({ id, category_name }) => (
               <button
                 className={css.categoryValue}
                 key={id}
-                name={category}
+                name={category_name}
                 value={id}
                 onClick={onCategoryValue}
               >
-                {category}
+                {category_name}
               </button>
             ))}
           </div>

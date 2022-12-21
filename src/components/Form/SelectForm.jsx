@@ -26,7 +26,7 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
 
   useEffect(() => {
     datum.forEach(data => {
-      if (data.name === branch) {
+      if (data.branch_name === branch) {
         setFunc(data.id);
       }
     });
@@ -39,7 +39,7 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
           if (optionVal === '상세' || optionVal === '카테고리') {
             setValue(datum[i].category);
           } else {
-            setValue(datum[i].name);
+            setValue(datum[i].branch_name);
           }
         }
       }
@@ -74,8 +74,12 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
             datum.map(data => {
               if (optionVal === '지점명') {
                 return (
-                  <option defaultValue={value} value={data.name} key={data.id}>
-                    {data.name}
+                  <option
+                    defaultValue={value}
+                    value={data.branch_name}
+                    key={data.id}
+                  >
+                    {data.branch_name}
                   </option>
                 );
               } else {
