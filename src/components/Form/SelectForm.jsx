@@ -10,7 +10,7 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
 
   useEffect(() => {
     datum.forEach(data => {
-      if (data.category === category) {
+      if (data.category_name === category) {
         setFunc(data.id);
       }
     });
@@ -36,8 +36,10 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
     if (selected) {
       for (let i in datum) {
         if (datum[i].id === selected) {
-          if (optionVal === '상세' || optionVal === '카테고리') {
+          if (optionVal === '상세') {
             setValue(datum[i].category);
+          } else if (optionVal === '카테고리') {
+            setValue(datum[i].category_name);
           } else {
             setValue(datum[i].branch_name);
           }
@@ -80,6 +82,16 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
                     key={data.id}
                   >
                     {data.branch_name}
+                  </option>
+                );
+              } else if (optionVal === '카테고리') {
+                return (
+                  <option
+                    defaultValue={value}
+                    value={data.category_name}
+                    key={data.id}
+                  >
+                    {data.category_name}
                   </option>
                 );
               } else {

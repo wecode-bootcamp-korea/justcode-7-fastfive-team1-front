@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
@@ -56,22 +55,30 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/post?${queryString}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: token,
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setCompanyListData(data);
-      });
-  }, [queryString]);
-
-  useEffect(() => {
-    setStartPage((currentPage - 1) * 8);
-    setEndPage(currentPage * 8);
-  }, [currentPage]);
+    if (queryString !== undefined) {
+      fetch(`http://localhost:5500/post?${queryString}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    } else {
+      fetch(`http://localhost:5500/post?categoriesLv1Id=${params.id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    }
+  }, [params.id, queryString]);
 
   return (
     <div>
@@ -130,4 +137,4 @@ const CategoryList = () => {
   );
 };
 
-export default CategoryList;
+export default React.memo(CategoryList);

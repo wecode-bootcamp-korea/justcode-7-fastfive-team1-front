@@ -19,7 +19,7 @@ const ServeHome = () => {
         },
       });
     } else {
-      alert(`로그인을 먼저 해주세요!`);
+      alert(`로그인 후 이용해주세요!`);
       navigate(`/`);
     }
   };
@@ -29,7 +29,7 @@ const ServeHome = () => {
     if (token !== '') {
       navigate(`/companyList`);
     } else {
-      alert(`로그인을 먼저 해주세요!`);
+      alert(`로그인 후 이용해주세요!`);
       navigate(`/`);
     }
   };

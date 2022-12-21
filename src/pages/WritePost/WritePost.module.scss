@@ -32,7 +32,7 @@
         }
         h5 {
           margin-left: 17%;
-          margin-bottom: 1.5%;
+          margin-bottom: 0.5%;
           margin-top: 1px;
           color: rgb(97, 97, 97);
           font-weight: 400;
@@ -85,7 +85,8 @@
       h4 {
         margin-left: 10.3%;
         font-weight: 400;
-        color: red;
+        margin-top: 2px;
+        color: rgb(255, 88, 88);
       }
 
       .introduce {
@@ -137,7 +138,7 @@
 
         p {
           position: absolute;
-          bottom: 65px;
+          bottom: 55px;
           right: 6px;
           color: rgb(131, 131, 131);
           &.over {
@@ -163,7 +164,6 @@
         h4 {
           text-align: left;
           margin-left: 40%;
-          margin-top: 1%;
         }
         text-align: center;
         &:hover {

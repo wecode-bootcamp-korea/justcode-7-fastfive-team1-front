@@ -27,7 +27,12 @@ const CategoryCard = ({
     <div className={css.cardContainnerWrapper}>
       <div className={css.cardContainner}>
         <div className={css.imgWrapper}>
-          <img className={css.cardImage} src={img_url} alt="카테고리 이미지" />
+          <img
+            className={css.cardImage}
+            src={img_url}
+            alt="카테고리 이미지"
+            onClick={() => toCategoryList(id)}
+          />
           {userName === 'admin' && (
             <button className={css.cardDelete} onClick={() => onRemove(id)}>
               <img
