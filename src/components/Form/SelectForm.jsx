@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import css from './SelectForm.module.scss';
 
 const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
+  console.log(datum);
   const [category, setCategory] = useState('');
   const [level2Category, setLevel2Category] = useState('');
   const [branch, setBranch] = useState('');

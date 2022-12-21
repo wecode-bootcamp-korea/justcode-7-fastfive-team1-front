@@ -358,7 +358,7 @@ const WritePost = () => {
           <h3>우측 *표시는 필수 작성 항목입니다.</h3>
           {saveTime && <h3>{saveTime}에 임시 저장 되었습니다.</h3>}
 
-          {categoryData !== '' && (
+          {formData && (
             <form>
               <SelectForm
                 title="업종 * "

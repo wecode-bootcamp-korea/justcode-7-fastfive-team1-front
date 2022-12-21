@@ -269,6 +269,7 @@ const ServeHome = () => {
               imgHandler={imgHandler}
               onEditImg={onEditImg}
               userName={userName}
+              toCategoryList={toCategoryList}
             />
           );
         })}
