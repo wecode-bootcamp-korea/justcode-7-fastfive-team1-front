@@ -5,6 +5,7 @@ import css from './Company.module.scss';
 const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
   const navigate = useNavigate();
 
+  console.log(id);
   const toPostDetail = () => {
     navigate(`/postdetail/${id}`);
   };
