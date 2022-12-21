@@ -13,77 +13,32 @@
   .memberReqMain {
     .title {
       font-size: 30px;
+      margin: 20px 0;
+      padding: 20px;
+      border-bottom: 1px gray solid;
     }
     .memberReqMainElemDiv {
       display: flex;
       flex-wrap: wrap;
-      border: 1px solid black;
       width: 1100px;
-
-      .memberReqMainElem {
-        position: relative;
-        border: 1px solid black;
-        border-radius: 10px;
-        width: 250px;
-        height: 180px;
-        margin: 10px;
-
-        .reqBtnDiv {
-          display: flex;
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-
-          .reqBtn {
-            border: 1px black solid;
-            border-radius: 10px;
-            width: 80px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
-      }
+      min-height: 400px;
     }
   }
 
   .representReqMain {
     .title {
       font-size: 30px;
+      margin: 20px 0;
+      padding: 20px;
+      border-bottom: 1px gray solid;
     }
 
     .representReqMainElemDiv {
       display: flex;
+
       flex-wrap: wrap;
-      border: 1px solid black;
-      width: 1000px;
-
-      .representReqMainElem {
-        position: relative;
-        border: 1px solid black;
-        border-radius: 10px;
-        width: 300px;
-        height: 200px;
-        margin: 10px;
-
-        .reqBtnDiv {
-          display: flex;
-          position: absolute;
-          bottom: 10px;
-          right: 10px;
-
-          .reqBtn {
-            border: 1px black solid;
-            border-radius: 10px;
-            width: 80px;
-            height: 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-          }
-        }
-      }
+      width: 1100px;
+      min-height: 400px;
     }
   }
 }
