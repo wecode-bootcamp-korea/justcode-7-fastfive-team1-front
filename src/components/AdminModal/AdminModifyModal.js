@@ -12,15 +12,15 @@ const Adminset = ({
   contentHandler,
   categoryTitle,
   categoryContent,
-  onEdit,
   imgHandler,
-  onEditImg,
+  onEdit,
+  editCategory,
 }) => {
   return (
     <AdminModal onClose={onClose}>
       <section className={css.adminContainer}>
         <h1 className={css.title}>Category 수정</h1>
-        <div className={css.adminFormBox}>
+        <form className={css.adminFormBox}>
           <div className={css.categoryImgWrapper}>
             <img
               className={css.categoryImg}
@@ -34,7 +34,10 @@ const Adminset = ({
                 accept="image/*"
                 onChange={imgHandler}
               />
-              <button className={css.saveBtn} onClick={() => onEditImg(id)}>
+              <button
+                className={css.saveBtn}
+                onClick={e => editCategory(e, id)}
+              >
                 이미지 변경
               </button>
             </div>
@@ -68,7 +71,7 @@ const Adminset = ({
           <button className={css.saveBtn} onClick={() => onEdit(id)}>
             저장
           </button>
-        </div>
+        </form>
       </section>
     </AdminModal>
   );

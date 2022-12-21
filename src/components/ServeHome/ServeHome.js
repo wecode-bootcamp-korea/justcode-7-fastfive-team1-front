@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import AddCategoryModal from '../AdminModal/AddCategoryModal';
 import Carousel from '../Carousel/Carousel';
 import CategoryCard from './CategoryCard';
@@ -49,7 +50,7 @@ const ServeHome = () => {
     setCategoryContent(e.target.value);
   };
   const imgHandler = e => {
-    setCategoryImg(URL.createObjectURL(e.target.files[0]));
+    setCategoryImg(e.target.files[0]);
   };
 
   const openZendesk = () => {
@@ -143,37 +144,32 @@ const ServeHome = () => {
       });
   };
 
-  const onEditImg = id => {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:5500/category/img', {
+  const editCategory = async (e, id) => {
+    e.preventDefault();
+    const imgData = new FormData();
+    imgData.append('categoryId', id);
+    imgData.append('img_url', categoryImg);
+
+    await axios({
       method: 'PATCH',
+      url: 'http://localhost:5500/category/img',
+      mode: 'cors',
       headers: {
-        'Content-Type': 'application/json',
-        authorization: token,
+        'Content-Type': 'multipart/form-data',
+        authorization: localStorage.getItem('token'),
       },
-      body: JSON.stringify({
-        categoryId: id,
-        img_url: categoryImg,
-      }),
-    })
-      .then(res => res.json())
-      .then(result => {
-        if (result.message === 'UPDATE_CATEGORY_IMG') {
-          setCardData(
-            cardData.map(data =>
-              data.id === id
-                ? {
-                    ...data,
-                    img_url: categoryImg,
-                  }
-                : data
-            )
-          );
-          alert('수정완료');
-        } else {
-          alert('수정 실패');
-        }
-      });
+      data: imgData,
+    });
+    setCardData(
+      cardData.map(data =>
+        data.id === id
+          ? {
+              ...data,
+              img_url: categoryImg,
+            }
+          : data
+      )
+    );
   };
 
   const onCreate = cardInfo => {
@@ -221,13 +217,12 @@ const ServeHome = () => {
       <div className={css.bannerAd}>
         <Carousel />
       </div>
-      {userInfo === 0 ||
-        (userName === 'admin' && (
-          <button className={css.companyIntroduceBtn}>
-            <span>우리회사 소개하기</span>
-            <i className="fa-solid fa-building" />
-          </button>
-        ))}
+      {userInfo === 1 && (
+        <button className={css.companyIntroduceBtn}>
+          <span>우리회사 소개하기</span>
+          <i className="fa-solid fa-building" />
+        </button>
+      )}
       <div className={css.titleWrapper}>
         <h1 className={css.title}>
           업종별 살펴보기
@@ -267,8 +262,9 @@ const ServeHome = () => {
               categoryContent={categoryContent}
               onEdit={onEdit}
               imgHandler={imgHandler}
-              onEditImg={onEditImg}
               userName={userName}
+              toCategoryList={toCategoryList}
+              editCategory={editCategory}
             />
           );
         })}

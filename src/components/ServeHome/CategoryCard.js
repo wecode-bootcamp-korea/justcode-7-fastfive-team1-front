@@ -12,11 +12,11 @@ const CategoryCard = ({
   contentHandler,
   categoryTitle,
   categoryContent,
-  onEdit,
   imgHandler,
-  onEditImg,
+  onEdit,
   userName,
   toCategoryList,
+  editCategory,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
@@ -25,7 +25,7 @@ const CategoryCard = ({
   };
   return (
     <div className={css.cardContainnerWrapper}>
-      <div className={css.cardContainner} onClick={() => toCategoryList(id)}>
+      <div className={css.cardContainner}>
         <div className={css.imgWrapper}>
           <img className={css.cardImage} src={img_url} alt="카테고리 이미지" />
           {userName === 'admin' && (
@@ -61,7 +61,7 @@ const CategoryCard = ({
                 categoryContent={categoryContent}
                 onEdit={onEdit}
                 imgHandler={imgHandler}
-                onEditImg={onEditImg}
+                editCategory={editCategory}
               />
             )}
           </div>
