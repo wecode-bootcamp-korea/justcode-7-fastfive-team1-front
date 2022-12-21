@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
@@ -48,7 +48,6 @@ const CompanyList = () => {
           setCompanyListData(data);
         });
     } else {
-      //필터없을때
       fetch(`http://localhost:5500/post?${queryString}`, {
         headers: {
           'Content-Type': 'application/json',

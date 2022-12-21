@@ -4,16 +4,15 @@ import AreaFilter from './Category/AreaFilter';
 import SubCategoryFilter from './Category/SubCategoryFilter';
 import css from './ListFilter.module.scss';
 
-const ListFilter = ({ setQueryString }) => {
+const ListFilter = React.memo(function ListFilter({ setQueryString }) {
   const navigate = useNavigate();
   const [area, setArea] = useState();
-  const [category, setCategory] = useState();
   const [subCategory, setSubCategory] = useState();
 
   const params = useParams();
+  const category = params.id;
 
   useEffect(() => {
-    setCategory(params.id);
     const queryString = `${area ? `locationsId=${area}&` : ''}${
       category ? `categoriesLv1Id=${category}` : ''
     }${subCategory ? `&categoriesLv2Id=${subCategory}` : ''}`;
@@ -31,6 +30,6 @@ const ListFilter = ({ setQueryString }) => {
       />
     </div>
   );
-};
+});
 
-export default ListFilter;
+export default React.memo(ListFilter);

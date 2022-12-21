@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -23,7 +23,7 @@ function PostDetail() {
   const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
   const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
   const commentDiv = useRef();
-
+  let navigate = useNavigate();
   useEffect(() => {
     fetch(`http://localhost:5500/user`, {
       headers: {
@@ -217,7 +217,7 @@ function PostDetail() {
             <div>
               {userInfo && postData && userInfo.id === postData.usersId && (
                 <div className={`${css.btnDiv}`}>
-                  <button className={css.modifyBtn}>수정</button>
+                  <button onClick={e => navigate('/writePost', { state: '수정' })} className={css.modifyBtn}>수정</button>
                   <div className={`${css.divider}`} />
                   <button className={css.deleteBtn}>삭제</button>
                 </div>
