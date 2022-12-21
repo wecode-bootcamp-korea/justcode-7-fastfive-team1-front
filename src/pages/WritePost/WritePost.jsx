@@ -10,6 +10,7 @@ import Header from '../../components/Header/Header';
 import css from './WritePost.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { async } from 'q';
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
 });
@@ -159,7 +160,7 @@ const WritePost = () => {
   };
 
   useEffect(() => {
-    if (formData) {
+    if (formData && categoryData) {
       if (firstCategory !== null || firstCategory !== '') {
         setSecondCategory('');
         const subCategories = categoryData[firstCategory - 1].subCategory;
