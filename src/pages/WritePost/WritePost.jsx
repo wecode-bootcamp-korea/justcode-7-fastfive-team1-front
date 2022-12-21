@@ -6,8 +6,10 @@ import ImageUpload from '../../components/Form/ImageUpload';
 import InputForm from '../../components/Form/InputForm';
 import SideBar from '../../components/Sidebar/Sidebar';
 import Preview from '../../components/Preview/Preview';
-
+import Header from '../../components/Header/Header';
 import css from './WritePost.module.scss';
+import { useNavigate } from 'react-router-dom';
+
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
 });
@@ -24,9 +26,11 @@ const WritePost = () => {
   const [secondCategory, setSecondCategory] = useState([]);
   const [level2CategoriesId, setlevel2CategoriesId] = useState('');
   const [fastfiveBranchesId, setfastfiveBranchesId] = useState('');
+  const [userData, setUserData] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
-  // const [saveTime, setSaveTime] = useState('');
+  const [checked, setChecked] = useState('');
+  const [saveTime, setSaveTime] = useState('');
   const [pass, setPass] = useState(false);
   const [flag, setFlag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -48,15 +52,57 @@ const WritePost = () => {
     fastfiveBenefitDesc,
     companyContactAddress,
   } = text;
-
+  const [require, setRequire] = useState({
+    mainCategory: true,
+    logoURL: true,
+    shortDesc: true,
+    field: true,
+    branch: true,
+    ContactAddress: true,
+    isChecked: true,
+  });
+  const {
+    mainCategory,
+    logoURL,
+    shortDesc,
+    field,
+    branch,
+    ContactAddress,
+    isChecked,
+  } = require;
   let count = 0;
-
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch('/data/place.json')
+    fetch('http://localhost:5500/branch', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    })
       .then(res => res.json())
-      .then(res => setPlaces(res.place));
+      .then(res => {
+        setPlaces(res.data);
+      });
+    fetch('http://localhost:5500/user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        setUserData(res.userInfo.company);
+      });
 
-    fetch('/data/category.json')
+    fetch('http://localhost:5500/category', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    })
       .then(res => res.json())
       .then(res => {
         setCategoryData(res.data);
@@ -66,8 +112,7 @@ const WritePost = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
+        authorization: localStorage.getItem('token'),
       },
     })
       .then(res => res.json())
@@ -154,39 +199,36 @@ const WritePost = () => {
     e.target.value = '';
   };
 
-  // setInterval(() => {
-  //   let today = new Date();
-  //   let year = today.getFullYear();
-  //   let month = today.getMonth() + 1;
-  //   let date = today.getDate();
-  //   let hours = today.getHours();
-  //   let minutes = today.getMinutes();
-  //   fileUpload('임시');
-  //   setSaveTime(
-  //     year +
-  //       '. ' +
-  //       month +
-  //       '. ' +
-  //       date +
-  //       '. ' +
-  //       hours +
-  //       '시 ' +
-  //       ' ' +
-  //       minutes +
-  //       '분'
-  //   );
-  // }, 10000);
+  const getTime = () => {
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth() + 1;
+    let date = today.getDate();
+    let hours = today.getHours();
+    let minutes = today.getMinutes();
+    setSaveTime(
+      year +
+        '. ' +
+        month +
+        '. ' +
+        date +
+        '. ' +
+        hours +
+        '시 ' +
+        ' ' +
+        minutes +
+        '분'
+    );
+  };
 
   const fileUpload = async (name, e) => {
-    //const token = localStorage.getItem('token');
     let formData = new FormData();
     const objKeys = Object.keys(text);
     for (let i = 0; i < objKeys.length; i++) {
       formData.append(objKeys[i], text[objKeys[i]]);
     }
-
-    formData.append('companiesId', 1);
-    formData.append('fastfiveBranchesId', 1);
+    formData.append('companiesId', userData.id);
+    formData.append('fastfiveBranchesId', fastfiveBranchesId);
     formData.append('level2CategoriesId', level2CategoriesId);
     if (logoFile && logoImageURL) {
       formData.append('companyImgUrl', logoFile);
@@ -198,32 +240,60 @@ const WritePost = () => {
     } else if (companyProfile === '') {
       formData.append('companyInfoUrl', '');
     }
+
     if (name === '등록') {
+      let passUrl = true;
       e.preventDefault();
-      await axios_({
-        method: 'PUT',
-        url: `/post`,
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          authorization:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
-        },
-        data: formData,
-      });
+      if (homepageUrl) {
+        passUrl = urlValidation();
+      }
+      if (passUrl) {
+        submitCheck();
+        getTime();
+        if (pass) {
+          await axios_({
+            method: 'PUT',
+            url: `/post`,
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              authorization: localStorage.getItem('token'),
+            },
+            data: formData,
+          });
+          await axios_({
+            method: 'PUT',
+            url: `/post-form`,
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              authorization: localStorage.getItem('token'),
+            },
+            data: formData,
+          });
+        }
+      }
     } else if (name === '임시') {
       e.preventDefault();
+      getTime();
       await axios_({
         method: 'PUT',
         url: `/post-form`,
         mode: 'cors',
         headers: {
           'Content-Type': 'multipart/form-data',
-          authorization:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjcxNDY0MjE3fQ.dMRIq1OlZBUl3Yi3nvUF4nTVjVw3auwGdG3IB-yvn0g',
+          authorization: localStorage.getItem('token'),
         },
         data: formData,
       });
+    }
+  };
+
+  const changeCheck = e => {
+    if (e.target.checked) {
+      setChecked(true);
+    } else {
+      setChecked(false);
     }
   };
 
@@ -242,202 +312,253 @@ const WritePost = () => {
     let leg =
       /(http|https):\/\/((\w+)[.])+(cc|com|jp|kr|net|uk|us)(\/(\w*))*$/i;
     let urlTest = leg.test(homepageUrl);
-    urlTest ? alert('pass') : alert('reject');
+    if (!urlTest) {
+      alert('홈페이지 url을 다시 확인해 주세요.');
+    }
+    return urlTest ? true : false;
+  };
+  const submitCheck = () => {
+    if (checked === false) {
+      setChecked('');
+    }
+    const array = {
+      mainCategory: firstCategory,
+      logoURL: logoImageURL,
+      shortDesc: companyShortDesc,
+      field: mainBussinessTags,
+      ContactAddress: companyContactAddress,
+      branch: places,
+      isChecked: checked,
+    };
+    const flag = [];
+
+    for (let i in require) {
+      setRequire(prevState => {
+        return {
+          ...prevState,
+          [i]: String(array[i]).replace(/ /g, '').length > 0 ? true : false,
+        };
+      });
+      flag.push(String(array[i]).replace(/ /g, '').length > 0 ? true : false);
+    }
+    if (!flag.includes(false)) {
+      setPass(true);
+      alert('등록되었습니다!');
+    }
   };
 
-  useEffect(() => {}, [level2CategoriesId]);
   return (
-    <div className={css.container}>
-      <div>
-        <SideBar />
-      </div>
+    <>
+      <Header />
+      <div className={css.container}>
+        <div>
+          <SideBar />
+        </div>
 
-      <div className={css.totalWrap}>
-        <h1>우리 회사 소개하기</h1>
-        <h3>우측 *표시는 필수 작성 항목입니다.</h3>
-        {/* {saveTime && <h3>{saveTime}에 자동 저장되었습니다.</h3>} */}
+        <div className={css.totalWrap}>
+          <h1>우리 회사 소개하기</h1>
+          <h3>우측 *표시는 필수 작성 항목입니다.</h3>
+          {saveTime && <h3>{saveTime}에 임시 저장 되었습니다.</h3>}
 
-        {formData !== '' && (
-          <form>
-            <SelectForm
-              title="업종 * "
-              optionVal="카테고리"
-              datum={categoryData}
-              setFunc={setFirstCategory}
-              selected={firstCategory}
-            />
-            <SelectForm
-              optionVal="상세"
-              datum={secondCategory}
-              setFunc={setlevel2CategoriesId}
-              selected={level2CategoriesId}
-            />
-            <br />
-            <InputForm
-              title="회사이름"
-              type="text"
-              onChange={change}
-              name="companyName"
-              value={companyName || ''}
-            />
-            <br />
-            <div className={css.companyImage}>
-              <ImageUpload
-                title="회사 로고 or 대표 이미지 * "
-                accept="image/png,image/jpg"
-                desc="10mb 이하의 jpg, png 파일을 선택해주세요."
-                onChange={e => filePreview(e, 'file1', this)}
-                fileImage={logoImageURL}
-                alt="companyLogo"
-                type="img"
-                forId="imgUpload"
-                deleteFileImage={deleteFileImage}
+          {formData !== '' && (
+            <form>
+              <SelectForm
+                title="업종 * "
+                optionVal="카테고리"
+                datum={categoryData}
+                setFunc={setFirstCategory}
+                selected={firstCategory}
               />
-            </div>
-            <div className={css.introduce}>
-              <InputForm
-                title="회사 소개 * "
-                type="textarea"
-                placeholder="100자 이내로 간단하게 설명해 주세요."
-                onChange={change}
-                name="companyShortDesc"
-                value={companyShortDesc || ''}
-                max={100}
+              <SelectForm
+                optionVal="상세"
+                datum={secondCategory}
+                setFunc={setlevel2CategoriesId}
+                selected={level2CategoriesId}
               />
-              <p
-                className={`${
-                  companyShortDesc.length > 99 ? ' ' + css.over : ' '
-                }`}
-              >
-                {companyShortDesc.length}/100
-              </p>
-            </div>
-            <br />
-            <div id={css.companyURL}>
-              <InputForm
-                title="홈페이지"
-                type="text"
-                placeholder="우리 회사의 홈페이지 주소를 알려주세요."
-                onChange={change}
-                name="homepageUrl"
-                value={homepageUrl || ''}
-              />
-            </div>
-            <br />
-            <div id={css.field}>
-              <InputForm
-                title="주력 업무 분야 * "
-                type="text"
-                placeholder="5개 이하의 주요 업무를 쉼표로 구분하여 입력해주세요. ex) 디지털 마케팅, 콘텐츠 제장, 영상제작 "
-                onChange={change}
-                name="mainBussinessTags"
-                value={mainBussinessTags || ''}
-              />
-              {flag && <h4>주요 업무는 5개 이하로 소개해주세요.</h4>}
-            </div>
-
-            <div className={css.detail}>
-              <InputForm
-                title="자세한 소개 및 업무 레퍼런스 "
-                type="textarea"
-                placeholder="우리 회사 소개,패스트파이브 멤버들과 협업하고 싶은 프로젝트, 지금까지의 업무 레퍼런스 등 자세한 내용을 공유해주세요."
-                onChange={change}
-                name="companyLongDesc"
-                value={companyLongDesc || ''}
-                max={1000}
-              />
-              <p
-                className={`${
-                  companyLongDesc.length > 999 ? ' ' + css.over : ' '
-                }`}
-              >
-                {companyLongDesc.length}/1000
-              </p>
-            </div>
-
-            <div className={css.detail}>
-              <InputForm
-                title="패스트파이브 멤버 혜택 "
-                type="textarea"
-                placeholder="패스트파이브 멤버에게만 제공되는 혜택이 있다면 알려주세요.&#13;&#10; ex)패스트파이브 멤버 컨택 시 견적의 10% 할인제공"
-                onChange={change}
-                name="fastfiveBenefitDesc"
-                value={fastfiveBenefitDesc || ''}
-                max={100}
-              />
-              <p
-                className={`${
-                  fastfiveBenefitDesc.length > 99 ? ' ' + css.over : ' '
-                }`}
-              >
-                {fastfiveBenefitDesc.length}/100
-              </p>
-            </div>
-
-            <div id={css.field}>
-              <InputForm
-                title="대표연락처 * "
-                type="text"
-                placeholder="업무상 컨택이 가능한 연락처를 알려주세요. ex) sample@fastfive.co.kr, 010-1234-1234 "
-                onChange={change}
-                name="companyContactAddress"
-                value={companyContactAddress || ''}
-              />
-            </div>
-
-            <div className={css.companyInfo}>
-              <ImageUpload
-                title="회사 소개서"
-                accept="application/pdf,image/png,image/jpg"
-                desc="30mb 이하의 pdf, jpg, png 파일을 선택해주세요."
-                onChange={e => filePreview(e, 'file2', this)}
-                type="document"
-                forId="documentUpload"
-                fileName={companyProfile}
-                deleteFileImage={deleteFileImage}
-              />
-            </div>
-            <br />
-
-            <SelectForm
-              title="이용 중인 지점 * "
-              optionVal="지점명"
-              datum={places}
-              setFunc={setfastfiveBranchesId}
-              selected={fastfiveBranchesId}
-            />
-            <br />
-            <div className={css.agree}>
-              <label>
-                <input type="checkbox" />
-                패스트파이브 서비스 이용약관에 동의하십니까?(필수)
-              </label>
-            </div>
-
-            <div className={css.btns}>
-              <button className={css.btn} onClick={preview}>
-                미리보기
-              </button>
-              {isOpen && (
-                <Preview
-                  open={isOpen}
-                  onClose={() => {
-                    setIsOpen(false);
-                  }}
+              {!mainCategory && <h4>필수 작성 항목입니다.</h4>}
+              <br />
+              <div className={css.companyName}>
+                <InputForm
+                  title="회사이름"
+                  type="text"
+                  onChange={change}
+                  name="companyName"
+                  value={companyName}
                 />
-              )}
-              <button className={css.btn} onClick={e => fileUpload('등록', e)}>
-                등록하기
-              </button>
-              <button className={css.btn} onClick={e => fileUpload('임시', e)}>
-                임시저장
-              </button>
-              <button className={css.btn}>취소</button>
-            </div>
-          </form>
-        )}
+              </div>
+              <br />
+              <div className={css.companyImage}>
+                <ImageUpload
+                  title="회사 로고 or 대표 이미지 * "
+                  accept="image/png,image/jpg"
+                  desc="10mb 이하의 jpg, png 파일을 선택해주세요."
+                  onChange={e => filePreview(e, 'file1', this)}
+                  fileImage={logoImageURL}
+                  alt="companyLogo"
+                  type="img"
+                  forId="imgUpload"
+                  deleteFileImage={deleteFileImage}
+                />
+                {!logoURL && <h4>필수 작성 항목입니다.</h4>}
+              </div>
+              <div className={css.introduce}>
+                <InputForm
+                  title="회사 소개 * "
+                  type="textarea"
+                  placeholder="100자 이내로 간단하게 설명해 주세요."
+                  onChange={change}
+                  name="companyShortDesc"
+                  value={companyShortDesc || ''}
+                  max={100}
+                />
+                <p
+                  className={`${
+                    companyShortDesc.length > 99 ? ' ' + css.over : ' '
+                  }`}
+                >
+                  {companyShortDesc.length}/100
+                </p>
+                {!shortDesc && <h4>필수 작성 항목입니다.</h4>}
+              </div>
+              <br />
+              <div id={css.companyURL}>
+                <InputForm
+                  title="홈페이지"
+                  type="text"
+                  placeholder="우리 회사의 홈페이지 주소를 알려주세요."
+                  onChange={change}
+                  name="homepageUrl"
+                  value={homepageUrl || ''}
+                />
+              </div>
+              <br />
+              <div id={css.field}>
+                <InputForm
+                  title="주력 업무 분야 * "
+                  type="text"
+                  placeholder="5개 이하의 주요 업무를 쉼표로 구분하여 입력해주세요. ex) 디지털 마케팅, 콘텐츠 제장, 영상제작 "
+                  onChange={change}
+                  name="mainBussinessTags"
+                  value={mainBussinessTags || ''}
+                />
+                {flag && <h4>주요 업무는 5개 이하로 소개해주세요.</h4>}
+                {!field && <h4>필수 작성 항목입니다.</h4>}
+              </div>
+
+              <div className={css.detail}>
+                <InputForm
+                  title="자세한 소개 및 업무 레퍼런스 "
+                  type="textarea"
+                  placeholder="우리 회사 소개,패스트파이브 멤버들과 협업하고 싶은 프로젝트, 지금까지의 업무 레퍼런스 등 자세한 내용을 공유해주세요."
+                  onChange={change}
+                  name="companyLongDesc"
+                  value={companyLongDesc || ''}
+                  max={1000}
+                />
+                <p
+                  className={`${
+                    companyLongDesc.length > 999 ? ' ' + css.over : ' '
+                  }`}
+                >
+                  {companyLongDesc.length}/1000
+                </p>
+              </div>
+
+              <div className={css.detail}>
+                <InputForm
+                  title="패스트파이브 멤버 혜택 "
+                  type="textarea"
+                  placeholder="패스트파이브 멤버에게만 제공되는 혜택이 있다면 알려주세요.&#13;&#10; ex)패스트파이브 멤버 컨택 시 견적의 10% 할인제공"
+                  onChange={change}
+                  name="fastfiveBenefitDesc"
+                  value={fastfiveBenefitDesc || ''}
+                  max={100}
+                />
+                <p
+                  className={`${
+                    fastfiveBenefitDesc.length > 99 ? ' ' + css.over : ' '
+                  }`}
+                >
+                  {fastfiveBenefitDesc.length}/100
+                </p>
+              </div>
+
+              <div id={css.field}>
+                <InputForm
+                  title="대표연락처 * "
+                  type="text"
+                  placeholder="업무상 컨택이 가능한 연락처를 알려주세요. ex) sample@fastfive.co.kr, 010-1234-1234 "
+                  onChange={change}
+                  name="companyContactAddress"
+                  value={companyContactAddress || ''}
+                />
+                {!ContactAddress && <h4>필수 작성 항목입니다.</h4>}
+              </div>
+
+              <div className={css.companyInfo}>
+                <ImageUpload
+                  title="회사 소개서"
+                  accept="application/pdf,image/png,image/jpg"
+                  desc="30mb 이하의 pdf, jpg, png 파일을 선택해주세요."
+                  onChange={e => filePreview(e, 'file2', this)}
+                  type="document"
+                  forId="documentUpload"
+                  fileName={companyProfile}
+                  deleteFileImage={deleteFileImage}
+                />
+              </div>
+              <br />
+
+              <SelectForm
+                title="이용 중인 지점 * "
+                optionVal="지점명"
+                datum={places}
+                setFunc={setfastfiveBranchesId}
+                selected={fastfiveBranchesId}
+              />
+              {!branch && <h4>필수 작성 항목입니다.</h4>}
+              <br />
+              <div className={css.agree}>
+                <label>
+                  <input type="checkbox" onChange={changeCheck} />
+                  패스트파이브 서비스 이용약관에 동의하십니까?(필수)
+                </label>
+                {!isChecked && <h4>서비스 이용 약관에 동의해 주세요.</h4>}
+              </div>
+
+              <div className={css.btns}>
+                <button className={css.btn} onClick={preview}>
+                  미리보기
+                </button>
+                {isOpen && (
+                  <Preview
+                    open={isOpen}
+                    onClose={() => {
+                      setIsOpen(false);
+                    }}
+                  />
+                )}
+                <button
+                  className={css.btn}
+                  onClick={e => fileUpload('등록', e)}
+                >
+                  등록하기
+                </button>
+                <button
+                  className={css.btn}
+                  onClick={e => fileUpload('임시', e)}
+                >
+                  임시저장
+                </button>
+                <button className={css.btn} onClick={e => navigate('/')}>
+                  취소
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

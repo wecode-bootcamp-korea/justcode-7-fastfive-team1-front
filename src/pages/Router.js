@@ -7,7 +7,6 @@ import CompanyList from './CompanyList/CompanyList';
 import Zendesk from './Zendesk/Zendesk';
 import Reqpage from './Reqpage/Reqpage';
 import CategoryList from './CompanyList/CategoryList';
-
 function Router() {
   return (
     <BrowserRouter>
@@ -20,6 +19,7 @@ function Router() {
         <Route path="/reqpage" element={<Reqpage />} />
         <Route path="/companyList" element={<CompanyList />} />
         <Route path="/categoryList" element={<CategoryList />} />
+        <Route path="/categoryList/:id" element={<CategoryList />} />
       </Routes>
     </BrowserRouter>
   );

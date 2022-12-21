@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminModal from './AdminModal';
 import css from './AddCategoryModal.module.scss';
 
@@ -8,13 +8,38 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
   const [cardImg, setCardImg] = useState('');
 
   const onSubmit = e => {
-    e.preventDefault();
-    onCreate({ title: cardTitle, content: cardContent, img: cardImg });
-    setCardTitle('');
-    setCardContent('');
-    setCardImg('');
-  };
+    const token = localStorage.getItem('token');
+    fetch('http://localhost:5500/category', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+      body: JSON.stringify({
+        img_url: cardImg,
+        category_name: cardTitle,
+        description: cardContent,
+      }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.message === 'CREATE_CATEGORY') {
+          e.preventDefault();
+          onCreate({
+            category_name: cardTitle,
+            description: cardContent,
+            img_url: cardImg,
+          });
+          setCardTitle('');
+          setCardContent('');
+          setCardImg('');
 
+          alert('카테고리 생성');
+        } else {
+          alert('다시 확인해주세요');
+        }
+      });
+  };
   const onChangeTitle = e => {
     setCardTitle(e.target.value);
   };
