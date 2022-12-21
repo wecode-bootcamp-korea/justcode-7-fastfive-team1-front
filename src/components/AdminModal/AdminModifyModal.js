@@ -14,6 +14,7 @@ const Adminset = ({
   categoryContent,
   onEdit,
   imgHandler,
+  onEditImg,
 }) => {
   return (
     <AdminModal onClose={onClose}>
@@ -26,12 +27,17 @@ const Adminset = ({
               src={img_url}
               alt="categoryImage"
             />
-            <input
-              className={css.uploadBtn}
-              type="file"
-              accept="image/*"
-              onChange={imgHandler}
-            />
+            <div className={css.imgUploadWrapper}>
+              <input
+                className={css.uploadBtn}
+                type="file"
+                accept="image/*"
+                onChange={imgHandler}
+              />
+              <button className={css.saveBtn} onClick={() => onEditImg(id)}>
+                이미지 변경
+              </button>
+            </div>
           </div>
           <div className={css.categoryForm}>
             <label className={css.categoryLabel} htmlFor="category">
@@ -48,7 +54,7 @@ const Adminset = ({
           </div>
           <div className={css.contentForm}>
             <label className={css.categoryLabel} htmlFor="content">
-              카테고리 한줄
+              카테고리 설명
             </label>
             <input
               className={css.categoryInput}
