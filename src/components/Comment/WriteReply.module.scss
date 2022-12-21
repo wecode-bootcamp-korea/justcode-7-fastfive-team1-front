@@ -1,5 +1,5 @@
 .comment {
-  border: 1px solid black;
+  border: 1px solid rgba(128, 128, 128, 0.399);
   border-radius: 8px;
   width: 770px;
   margin: 5px 0;
@@ -7,6 +7,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
 
   .commentMarginDiv {
     margin: 10px auto;
@@ -45,20 +46,26 @@
         display: flex;
         justify-content: flex-end;
 
+        .countLetter {
+          color: gray;
+        }
+
         // margin-bottom: 10px;
 
         .lockDiv {
           display: flex;
           justify-content: center;
           width: 30px;
+          cursor: pointer;
 
           .lock {
-            color: coral;
+            color: rgb(236, 118, 111);
+            transform: translateY(-2px);
           }
 
           .lockOpen {
             color: gray;
-            transform: translateX(2px);
+            transform: translateX(2px) translateY(-2px);
           }
         }
       }
@@ -70,6 +77,11 @@
       justify-content: center;
       align-items: center;
       width: 70px;
+
+      .submitBtn {
+        color: gray;
+        cursor: pointer;
+      }
 
       .rightAreaBtnDiv {
         display: flex;
