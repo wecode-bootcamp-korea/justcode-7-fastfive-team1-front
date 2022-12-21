@@ -26,7 +26,7 @@ const WritePost = () => {
   const [secondCategory, setSecondCategory] = useState([]);
   const [level2CategoriesId, setlevel2CategoriesId] = useState('');
   const [fastfiveBranchesId, setfastfiveBranchesId] = useState('');
-  const [userData, setUserData] = useState('');
+  // const [userData, setUserData] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [checked, setChecked] = useState('');
@@ -71,6 +71,7 @@ const WritePost = () => {
     isChecked,
   } = require;
   let count = 0;
+
   const navigate = useNavigate();
   useEffect(() => {
     fetch('http://localhost:5500/branch', {
@@ -84,7 +85,8 @@ const WritePost = () => {
       .then(res => {
         setPlaces(res.data);
       });
-    fetch('http://localhost:5500/user', {
+
+    fetch('http://localhost:5500/post-form', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +95,7 @@ const WritePost = () => {
     })
       .then(res => res.json())
       .then(res => {
-        setUserData(res.userInfo.company);
+        setFormData(res);
       });
 
     fetch('http://localhost:5500/category', {
@@ -106,18 +108,6 @@ const WritePost = () => {
       .then(res => res.json())
       .then(res => {
         setCategoryData(res.data);
-      });
-
-    fetch('http://localhost:5500/post-form', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setFormData(res);
       });
   }, []);
 
@@ -139,6 +129,9 @@ const WritePost = () => {
       objKeys.forEach(key => {
         let value = formData[key];
         value = value === null ? '' : value;
+        if (key === 'companyName') {
+          value = formData.company.companyName;
+        }
         setText(prevState => {
           return { ...prevState, [key]: value };
         });
@@ -222,28 +215,30 @@ const WritePost = () => {
   };
 
   const fileUpload = async (name, e) => {
-    let formData = new FormData();
+    e.preventDefault();
+    let outFormData = new FormData();
     const objKeys = Object.keys(text);
     for (let i = 0; i < objKeys.length; i++) {
-      formData.append(objKeys[i], text[objKeys[i]]);
+      outFormData.append(objKeys[i], text[objKeys[i]]);
     }
-    formData.append('companiesId', userData.id);
-    formData.append('fastfiveBranchesId', fastfiveBranchesId);
-    formData.append('level2CategoriesId', level2CategoriesId);
+
+    outFormData.append('companiesId', formData.company.id);
+    outFormData.append('fastfiveBranchesId', fastfiveBranchesId);
+    outFormData.append('level2CategoriesId', level2CategoriesId);
     if (logoFile && logoImageURL) {
-      formData.append('companyImgUrl', logoFile);
+      outFormData.append('companyImgUrl', logoFile);
     } else if (logoImageURL === '') {
-      formData.append('companyImgUrl', '');
+      outFormData.append('companyImgUrl', '');
     }
     if (infoFile && companyProfile) {
-      formData.append('companyInfoUrl', infoFile);
+      outFormData.append('companyInfoUrl', infoFile);
     } else if (companyProfile === '') {
-      formData.append('companyInfoUrl', '');
+      outFormData.append('companyInfoUrl', '');
     }
 
     if (name === '등록') {
       let passUrl = true;
-      e.preventDefault();
+
       if (homepageUrl) {
         passUrl = urlValidation();
       }
@@ -251,6 +246,7 @@ const WritePost = () => {
         submitCheck();
         getTime();
         if (pass) {
+          console.log('in');
           await axios_({
             method: 'PUT',
             url: `/post`,
@@ -259,7 +255,7 @@ const WritePost = () => {
               'Content-Type': 'multipart/form-data',
               authorization: localStorage.getItem('token'),
             },
-            data: formData,
+            data: outFormData,
           });
           await axios_({
             method: 'PUT',
@@ -269,12 +265,11 @@ const WritePost = () => {
               'Content-Type': 'multipart/form-data',
               authorization: localStorage.getItem('token'),
             },
-            data: formData,
+            data: outFormData,
           });
         }
       }
     } else if (name === '임시') {
-      e.preventDefault();
       getTime();
       await axios_({
         method: 'PUT',
@@ -284,7 +279,7 @@ const WritePost = () => {
           'Content-Type': 'multipart/form-data',
           authorization: localStorage.getItem('token'),
         },
-        data: formData,
+        data: outFormData,
       });
     }
   };
@@ -344,6 +339,9 @@ const WritePost = () => {
     if (!flag.includes(false)) {
       setPass(true);
       alert('등록되었습니다!');
+      // navigate(`/postdetail/${formData.company.id}`);
+    } else {
+      window.scrollTo(0, 0);
     }
   };
 
@@ -360,7 +358,7 @@ const WritePost = () => {
           <h3>우측 *표시는 필수 작성 항목입니다.</h3>
           {saveTime && <h3>{saveTime}에 임시 저장 되었습니다.</h3>}
 
-          {formData !== '' && (
+          {categoryData !== '' && (
             <form>
               <SelectForm
                 title="업종 * "

@@ -10,7 +10,7 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
 
   useEffect(() => {
     datum.forEach(data => {
-      if (data.category === category) {
+      if (data.category_name === category) {
         setFunc(data.id);
       }
     });
@@ -80,6 +80,16 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
                     key={data.id}
                   >
                     {data.branch_name}
+                  </option>
+                );
+              } else if (optionVal === '카테고리') {
+                return (
+                  <option
+                    defaultValue={value}
+                    value={data.category_name}
+                    key={data.id}
+                  >
+                    {data.category_name}
                   </option>
                 );
               } else {
