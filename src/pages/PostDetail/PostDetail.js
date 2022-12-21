@@ -217,7 +217,12 @@ function PostDetail() {
             <div>
               {userInfo && postData && userInfo.id === postData.usersId && (
                 <div className={`${css.btnDiv}`}>
-                  <button onClick={e => navigate('/writePost', { state: '수정' })} className={css.modifyBtn}>수정</button>
+                  <button
+                    onClick={e => navigate('/writePost', { state: '수정' })}
+                    className={css.modifyBtn}
+                  >
+                    수정
+                  </button>
                   <div className={`${css.divider}`} />
                   <button className={css.deleteBtn}>삭제</button>
                 </div>
