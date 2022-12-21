@@ -9,7 +9,7 @@ import Preview from '../../components/Preview/Preview';
 import Header from '../../components/Header/Header';
 import css from './WritePost.module.scss';
 import { useNavigate } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
 });
@@ -71,8 +71,10 @@ const WritePost = () => {
     isChecked,
   } = require;
   let count = 0;
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const stateText = location.state;
+
   useEffect(() => {
     fetch('http://localhost:5500/branch', {
       method: 'GET',
@@ -246,7 +248,6 @@ const WritePost = () => {
         submitCheck();
         getTime();
         if (pass) {
-          console.log('in');
           await axios_({
             method: 'PUT',
             url: `/post`,
@@ -358,7 +359,7 @@ const WritePost = () => {
           <h3>우측 *표시는 필수 작성 항목입니다.</h3>
           {saveTime && <h3>{saveTime}에 임시 저장 되었습니다.</h3>}
 
-          {formData && (
+          {formData && places && categoryData && (
             <form>
               <SelectForm
                 title="업종 * "
@@ -540,7 +541,7 @@ const WritePost = () => {
                   className={css.btn}
                   onClick={e => fileUpload('등록', e)}
                 >
-                  등록하기
+                  {stateText === '수정' ? '수정하기' : '등록하기'}
                 </button>
                 <button
                   className={css.btn}
