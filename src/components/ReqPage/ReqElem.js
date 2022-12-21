@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './ReqElem.module.scss';
 
-function App({ userData, reqListElem, currUserClass }) {
+function App({ userData, reqListElem, currUserClass, setReqData }) {
   const clickMemberSubmitBtn = () => {
     fetch('http://localhost:5500/member', {
       method: 'POST',
@@ -10,9 +10,26 @@ function App({ userData, reqListElem, currUserClass }) {
         authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
-        companyId: userData.company.id,
+        companyId: userData.userInfo.company.id,
+        requestId: reqListElem.id,
+        userId: reqListElem.usersId,
       }),
-    });
+    })
+      .then(res => res.json())
+      .then(data => {
+        fetch('http://localhost:5500/member-request', {
+          // fetch('/data/memberReqData.json', {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        })
+          .then(res => res.json())
+          .then(data => setReqData(data.memberList));
+
+        if (data.message === 'APPROVE_SUCCESSFULLY') {
+          alert('멤버 요청이 승인되었습니다');
+        }
+      });
   };
 
   const clickMemberRefuseBtn = () => {
@@ -25,7 +42,24 @@ function App({ userData, reqListElem, currUserClass }) {
       body: JSON.stringify({
         requestId: reqListElem.id,
       }),
-    });
+    })
+      .then(res => res.json())
+      .then(data => {
+        fetch('http://localhost:5500/member-request', {
+          // fetch('/data/memberReqData.json', {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            setReqData(data.memberList);
+          });
+
+        if (data.message === 'REFUSE_SUCCESSFULLY') {
+          alert('멤버 요청이 거부되었습니다');
+        }
+      });
   };
 
   const clickRepresentSubmitBtn = () => {
@@ -42,7 +76,26 @@ function App({ userData, reqListElem, currUserClass }) {
         userId: reqListElem.usersId,
         requestId: reqListElem.id,
       }),
-    });
+    })
+      .then(res => res.json())
+      .then(data => {
+        fetch('http://localhost:5500/company-request', {
+          // fetch('/data/representReqData.json', {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            // console.log(data.companyList);
+            // setReqData(data.companyList);
+            window.location.reload();
+          });
+
+        if (data.message === 'APPROVE_SUCCESSFULLY') {
+          alert('대표 요청이 승인되었습니다');
+        }
+      });
   };
 
   const clickRepresentRefuseBtn = () => {
@@ -55,7 +108,26 @@ function App({ userData, reqListElem, currUserClass }) {
       body: JSON.stringify({
         requestId: reqListElem.id,
       }),
-    });
+    })
+      .then(res => res.json())
+      .then(data => {
+        fetch('http://localhost:5500/company-request', {
+          // fetch('/data/memberReqData.json', {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        })
+          .then(res => res.json())
+          .then(data => {
+            // console.log(data.companyList);
+            // setReqData(data.companyList);
+            window.location.reload();
+          });
+
+        if (data.message === 'REFUSE_SUCCESSFULLY') {
+          alert('대표 요청이 거부되었습니다');
+        }
+      });
   };
 
   return (
@@ -75,10 +147,16 @@ function App({ userData, reqListElem, currUserClass }) {
           </div>
 
           <div className={`${css.reqBtnDiv}`}>
-            <button className={`${css.reqBtn}`} onClick={clickMemberSubmitBtn}>
+            <button
+              className={`${css.reqBtn} ${css.leftBtn}`}
+              onClick={clickMemberSubmitBtn}
+            >
               수락
             </button>
-            <button className={`${css.reqBtn}`} onClick={clickMemberRefuseBtn}>
+            <button
+              className={`${css.reqBtn} ${css.rightBtn}`}
+              onClick={clickMemberRefuseBtn}
+            >
               거절
             </button>
           </div>
@@ -87,20 +165,33 @@ function App({ userData, reqListElem, currUserClass }) {
 
       {currUserClass === 'admin' && (
         <div className={css.representReqMainElem} key={reqListElem.id}>
-          <div>{reqListElem.companyName}</div>
-          <div>{reqListElem.startDate}</div>
-          <div>{reqListElem.endDate}</div>
-          <div>{reqListElem.id}</div>
-          <div>{reqListElem.usersId}</div>
+          <div className={css.representReqMainElemCellDiv}>
+            <div className={css.representReqMainElemCell}>
+              COMPANY NAME: {reqListElem.companyName}
+            </div>
+            <div className={css.representReqMainElemCell}>
+              START DATE: {reqListElem.startDate}
+            </div>
+            <div className={css.representReqMainElemCell}>
+              END DATE: {reqListElem.endDate}
+            </div>
+            <div className={css.representReqMainElemCell}>
+              {' '}
+              REQUEST ID:{reqListElem.id}
+            </div>
+            <div className={css.representReqMainElemCell}>
+              USER ID: {reqListElem.usersId}
+            </div>
+          </div>
           <div className={`${css.reqBtnDiv}`}>
             <button
-              className={`${css.reqBtn}`}
+              className={`${css.reqBtn} ${css.leftBtn}`}
               onClick={clickRepresentSubmitBtn}
             >
               수락
             </button>
             <button
-              className={`${css.reqBtn}`}
+              className={`${css.reqBtn} ${css.rightBtn}`}
               onClick={clickRepresentRefuseBtn}
             >
               거절

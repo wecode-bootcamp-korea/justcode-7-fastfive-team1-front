@@ -26,35 +26,34 @@ function App() {
           return;
         }
 
-        if (data.userInfo.company.isCompanyMainMember === 0) {
-          setCurrUserClass('nomal');
+        if (data.userInfo.company.isCompanyMainMember === 1) {
+          setCurrUserClass('represent');
           return;
         }
 
-        if (data.userInfo.company.isCompanyMainMember === 1) {
-          setCurrUserClass('represent');
+        if (data.userInfo.company.isCompanyMainMember === 0) {
+          setCurrUserClass('nomal');
           return;
         }
       });
   }, []);
 
   useEffect(() => {
+    console.log(currUserClass);
     if (currUserClass === 'admin') {
-      // fetch('http://localhost:5500/company-request', {
-      fetch('/data/representReqData.json', {
+      fetch('http://localhost:5500/company-request', {
+        // fetch('/data/representReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },
       })
         .then(res => res.json())
-        .then(data => {
-          setReqData(data.companyList);
-        });
+        .then(data => setReqData(data.companyList));
     }
 
     if (currUserClass === 'represent') {
-      // fetch('http://localhost:5500/member-request', {
-      fetch('/data/memberReqData.json', {
+      fetch('http://localhost:5500/member-request', {
+        // fetch('/data/memberReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -68,9 +67,9 @@ function App() {
   //   console.log(reqData);
   // }, [reqData]);
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
 
   return (
     <>
@@ -81,6 +80,9 @@ function App() {
         {currUserClass === 'nomal' && (
           <div className={css.noPermission}>권한이 없습니다</div>
         )}
+        {!currUserClass && (
+          <div className={css.noPermission}>권한이 없습니다</div>
+        )}
 
         {currUserClass === 'represent' && (
           <div className={css.memberReqMain}>
@@ -88,14 +90,16 @@ function App() {
               {reqData[0] && reqData[0].company.companyName} 멤버 요청
             </div>
             <div className={css.memberReqMainElemDiv}>
-              {reqData.map(reqListElem => (
-                <ReqElem
-                  key={reqListElem.id}
-                  reqListElem={reqListElem}
-                  userData={userData}
-                  currUserClass={currUserClass}
-                />
-              ))}
+              {reqData &&
+                reqData.map(reqListElem => (
+                  <ReqElem
+                    key={reqListElem.id}
+                    reqListElem={reqListElem}
+                    userData={userData}
+                    currUserClass={currUserClass}
+                    setReqData={setReqData}
+                  />
+                ))}
             </div>
           </div>
         )}

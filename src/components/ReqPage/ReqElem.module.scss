@@ -1,10 +1,11 @@
 .memberReqMainElem {
   position: relative;
-  border: 1px solid black;
   border-radius: 10px;
   width: 250px;
   height: 180px;
   margin: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.173);
+  box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
 
   .memberReqMainElemCellDiv {
     margin: 20px 0 0 10px;
@@ -20,7 +21,6 @@
     right: 10px;
 
     .reqBtn {
-      border: 1px black solid;
       border-radius: 10px;
       margin: 3px;
       width: 80px;
@@ -29,16 +29,34 @@
       justify-content: center;
       align-items: center;
     }
+
+    .leftBtn {
+      background-color: rgb(236, 118, 111);
+      color: white;
+    }
+
+    .rightBtn {
+      border: 1px rgba(128, 128, 128, 0.195) solid;
+      box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
+    }
   }
 }
 
 .representReqMainElem {
   position: relative;
-  border: 1px solid black;
   border-radius: 10px;
-  width: 300px;
-  height: 200px;
+  width: 330px;
+  height: 180px;
   margin: 10px;
+  border: 1px solid rgba(128, 128, 128, 0.173);
+  box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
+
+  .representReqMainElemCellDiv {
+    margin: 20px 0 0 10px;
+    .representReqMainElemCell {
+      margin: 3px;
+    }
+  }
 
   .reqBtnDiv {
     display: flex;
@@ -47,13 +65,23 @@
     right: 10px;
 
     .reqBtn {
-      border: 1px black solid;
       border-radius: 10px;
+      margin: 3px;
       width: 80px;
       height: 40px;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .leftBtn {
+      background-color: rgb(236, 118, 111);
+      color: white;
+    }
+
+    .rightBtn {
+      border: 1px rgba(128, 128, 128, 0.195) solid;
+      box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
     }
   }
 }
