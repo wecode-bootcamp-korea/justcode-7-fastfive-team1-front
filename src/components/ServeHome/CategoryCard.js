@@ -15,16 +15,16 @@ const CategoryCard = ({
   onEdit,
   addCategory,
   imgHandler,
+  toCategoryList,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
   const openAdmin = () => {
     setOpenAdminModal(true);
   };
-
   return (
     <div className={css.cardContainnerWrapper}>
-      <div className={css.cardContainner}>
+      <div className={css.cardContainner} onClick={() => toCategoryList(id)}>
         <div className={css.imgWrapper}>
           <img className={css.cardImage} src={img_url} alt="카테고리 이미지" />
           <button className={css.cardDelete} onClick={() => onRemove(id)}>

@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AddCategoryModal from '../AdminModal/AddCategoryModal';
 import Carousel from '../Carousel/Carousel';
 import CategoryCard from './CategoryCard';
 import css from './ServeHome.module.scss';
-
 const ServeHome = () => {
   const [cardData, setCardData] = useState([]);
   const [openAdminModal, setOpenAdminModal] = useState(false);
+  const navigate = useNavigate();
+
+  const toCategoryList = id => {
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      navigate(`/categoryList/${id}`, {
+        state: {
+          id: id,
+        },
+      });
+    } else {
+      alert(`로그인을 먼저 해주세요!`);
+      navigate(`/`);
+    }
+  };
+
+  const toCompanyList = () => {
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      navigate(`/companyList`);
+    } else {
+      alert(`로그인을 먼저 해주세요!`);
+      navigate(`/`);
+    }
+  };
 
   const openAdmin = () => {
     setOpenAdminModal(true);
@@ -118,7 +143,9 @@ const ServeHome = () => {
             onCreate={onCreate}
           />
         )}
-        <h2 className={css.viewAllBtn}>전체 보기</h2>
+        <h2 className={css.viewAllBtn} onClick={toCompanyList}>
+          전체 보기
+        </h2>
       </div>
       <div className={css.cardComponent}>
         {cardData.map(card => {
@@ -136,6 +163,7 @@ const ServeHome = () => {
               categoryContent={categoryContent}
               onEdit={onEdit}
               imgHandler={imgHandler}
+              toCategoryList={toCategoryList}
             />
           );
         })}
