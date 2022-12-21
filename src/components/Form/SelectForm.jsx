@@ -36,8 +36,10 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
     if (selected) {
       for (let i in datum) {
         if (datum[i].id === selected) {
-          if (optionVal === '상세' || optionVal === '카테고리') {
+          if (optionVal === '상세') {
             setValue(datum[i].category);
+          } else if (optionVal === '카테고리') {
+            setValue(datum[i].category_name);
           } else {
             setValue(datum[i].branch_name);
           }

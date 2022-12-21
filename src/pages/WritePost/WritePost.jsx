@@ -160,7 +160,7 @@ const WritePost = () => {
 
   useEffect(() => {
     if (formData) {
-      if (firstCategory !== null) {
+      if (firstCategory !== null || firstCategory !== '') {
         setSecondCategory('');
         const subCategories = categoryData[firstCategory - 1].subCategory;
         subCategories.map(subCategory =>
@@ -340,7 +340,7 @@ const WritePost = () => {
     if (!flag.includes(false)) {
       setPass(true);
       alert('등록되었습니다!');
-      // navigate(`/postdetail/${formData.company.id}`);
+      navigate(`/companyList`);
     } else {
       window.scrollTo(0, 0);
     }
