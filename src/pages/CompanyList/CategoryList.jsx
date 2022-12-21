@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
@@ -12,12 +13,31 @@ const CategoryList = () => {
   const [endPage, setEndPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
+  const [categoryTitle, setCategoryTitle] = useState([]);
   const [queryString, setQueryString] = useState();
-
   const pageNation = [];
   for (let i = 1; i <= Math.ceil(companyListData.length / 8); i++) {
     pageNation.push(i);
   }
+
+  const params = useParams();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/category`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        const category = res.data.filter(
+          items => items.id === Number(params.id)
+        );
+        setCategoryTitle(category);
+      });
+  }, [params.id]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -61,7 +81,11 @@ const CategoryList = () => {
         <section>
           <div className={css.companyListContent}>
             <Link to="/">
-              <button className={css.categoryName}>IT</button>
+              {categoryTitle.map(({ id, category_name }) => (
+                <button className={css.categoryName} key={id}>
+                  {category_name}
+                </button>
+              ))}
             </Link>
             <span>관심 있는 멤버를 찾아보세요!</span>
           </div>
@@ -82,6 +106,7 @@ const CategoryList = () => {
               .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
                 <Company
                   key={id}
+                  id={id}
                   companyName={companyName}
                   companyShortDesc={companyShortDesc}
                   companyImgUrl={companyImgUrl}

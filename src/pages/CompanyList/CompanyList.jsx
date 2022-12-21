@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
@@ -97,10 +97,12 @@ const CompanyList = () => {
           <div className={css.categoryContent}>
             <Filter setQueryString={setQueryString} />
             {userData.isCompanyMainMember === 1 ? (
-              <button className={css.companyIntroduceBtn}>
-                <span>우리회사 소개하기</span>
-                <i className="fa-solid fa-building" />
-              </button>
+              <Link to="/writePost">
+                <button className={css.companyIntroduceBtn}>
+                  <span>우리회사 소개하기</span>
+                  <i className="fa-solid fa-building" />
+                </button>
+              </Link>
             ) : null}
           </div>
           <div className={css.companyList}>
@@ -109,6 +111,7 @@ const CompanyList = () => {
               .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
                 <Company
                   key={id}
+                  id={id}
                   companyName={companyName}
                   companyShortDesc={companyShortDesc}
                   companyImgUrl={companyImgUrl}

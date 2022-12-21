@@ -7,19 +7,9 @@ import CompanyList from './CompanyList/CompanyList';
 import Zendesk from './Zendesk/Zendesk';
 import Reqpage from './Reqpage/Reqpage';
 import CategoryList from './CompanyList/CategoryList';
-// import { QueryParamProvider } from 'use-query-params';
-// import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-// import { parse, stringify } from 'query-string';
 function Router() {
   return (
     <BrowserRouter>
-      {/* <QueryParamProvider
-      // adapter={ReactRouter6Adapter}
-      // options={{
-      //   searchStringToObject: parse,
-      //   objectToSearchString: stringify,
-      // }}
-      > */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/postdetail" element={<PostDetail />} />
@@ -31,7 +21,6 @@ function Router() {
         <Route path="/categoryList" element={<CategoryList />} />
         <Route path="/categoryList/:id" element={<CategoryList />} />
       </Routes>
-      {/* </QueryParamProvider> */}
     </BrowserRouter>
   );
 }

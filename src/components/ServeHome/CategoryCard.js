@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import AdminModifyModal from '../AdminModal/AdminModifyModal';
 import css from './CategoryCard.module.scss';
-// import { useQueryParam, StringParam } from 'use-query-params';
 
 const CategoryCard = ({
   id,
@@ -19,8 +18,6 @@ const CategoryCard = ({
   toCategoryList,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
-  // const [curCate] = useQueryParam('categoriesLv1Id', StringParam);
-  // console.log('curCate: ', curCate);
 
   const openAdmin = () => {
     setOpenAdminModal(true);

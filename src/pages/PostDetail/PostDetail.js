@@ -25,7 +25,7 @@ function PostDetail() {
     if (ourGruop) {
       fetch(`http://localhost:5500/post?ourGruop=${ourGruop}`, {
         headers: {
-          authorization: localStorage.getItem('authorization'),
+          authorization: localStorage.getItem('token'),
         },
       })
         .then(res => res.json())
@@ -35,7 +35,7 @@ function PostDetail() {
     if (page) {
       fetch(`http://localhost:5500/post/${page}`, {
         headers: {
-          authorization: localStorage.getItem('authorization'),
+          authorization: localStorage.getItem('token'),
         },
       })
         .then(res => res.json())
@@ -51,7 +51,7 @@ function PostDetail() {
     // fetch('/data/commentData.json')
     fetch('http://127.0.0.1:5500/comment/1?page=1', {
       headers: {
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
     })
       .then(res => res.json())
@@ -157,7 +157,7 @@ function PostDetail() {
   useEffect(() => {
     fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
       headers: {
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
     })
       .then(res => res.json())
