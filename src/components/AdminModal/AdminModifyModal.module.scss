@@ -1,0 +1,73 @@
+.adminContainer {
+  position: relative;
+  padding: 70px 40px 40px 40px;
+  text-align: start;
+  .title {
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: #fe6d6a;
+    cursor: default;
+  }
+  .categoryImgWrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    .categoryImg {
+      width: 200px;
+      height: 150px;
+      border-radius: 10px;
+    }
+    .imgUploadBtn {
+      height: 45px;
+      margin-top: 100px;
+      border-radius: 10px;
+      background-color: #fe6d6a;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .uploadBtn {
+      width: 130px;
+      margin-top: 100px;
+    }
+  }
+  .adminFormBox {
+    display: grid;
+    margin-top: 45px;
+    .categoryLabel {
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .categoryInput {
+      height: 20px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      font-size: 14px;
+      &:focus {
+        border: 1px solid #fe6d6a;
+        color: #fe6d6a;
+      }
+    }
+    .categoryForm,
+    .contentForm {
+      display: grid;
+    }
+    .saveBtn {
+      height: 45px;
+      margin-top: 10px;
+      border-radius: 10px;
+      background-color: #fe6d6a;
+      color: white;
+      text-align: center;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  }
+}

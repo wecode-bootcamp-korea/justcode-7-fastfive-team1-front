@@ -1,0 +1,30 @@
+.memberRequestForm {
+  display: grid;
+  margin-top: 130px;
+
+  p {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  select {
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 17px;
+  }
+
+  .submitBtn {
+    height: 45px;
+    margin-top: 35px;
+    border-radius: 10px;
+    background-color: #fe6d6a;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+  }
+}

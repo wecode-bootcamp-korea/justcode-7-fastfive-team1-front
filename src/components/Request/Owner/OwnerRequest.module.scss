@@ -1,0 +1,39 @@
+.ownerRequestForm {
+  display: grid;
+  margin-top: 90px;
+
+  .companyNameBox,
+  .leasedTerm {
+    display: grid;
+  }
+
+  label {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  .companyName {
+    height: 20px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    font-size: 14px;
+
+    &:focus {
+      border: 1px solid #fe6d6a;
+      color: #fe6d6a;
+    }
+  }
+
+  .submitBtn {
+    height: 45px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: #fe6d6a;
+    color: white;
+    text-align: center;
+    font-size: 15px;
+    cursor: pointer;
+  }
+}
