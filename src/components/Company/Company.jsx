@@ -1,9 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import css from './Company.module.scss';
 
-const Company = ({ companyName, companyShortDesc, companyImgUrl }) => {
+const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
+  const navigate = useNavigate();
+
+  const toPostDetail = () => {
+    navigate(`/postdetail/${id}`);
+  };
   return (
-    <div className={css.companyContainer}>
+    <div className={css.companyContainer} onClick={toPostDetail}>
       <div className={css.companyImageBox}>
         <img
           src={companyImgUrl}

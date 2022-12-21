@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
@@ -12,12 +13,31 @@ const CategoryList = () => {
   const [endPage, setEndPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
+  const [categoryTitle, setCategoryTitle] = useState([]);
   const [queryString, setQueryString] = useState();
-
   const pageNation = [];
   for (let i = 1; i <= Math.ceil(companyListData.length / 8); i++) {
     pageNation.push(i);
   }
+
+  const params = useParams();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    fetch(`http://localhost:5500/category`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        const category = res.data.filter(
+          items => items.id === Number(params.id)
+        );
+        setCategoryTitle(category);
+      });
+  }, [params.id]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -36,31 +56,22 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (queryString !== '') {
-      fetch(`http://localhost:5500/post?${queryString}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          setCompanyListData(data);
-        });
-    } else {
-      //필터없을때
-      fetch(`http://localhost:5500/post?${queryString}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
-        .then(res => res.json())
-        .then(data => {
-          setCompanyListData(data);
-        });
-    }
+    fetch(`http://localhost:5500/post?${queryString}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: token,
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCompanyListData(data);
+      });
   }, [queryString]);
+
+  useEffect(() => {
+    setStartPage((currentPage - 1) * 8);
+    setEndPage(currentPage * 8);
+  }, [currentPage]);
 
   return (
     <div>
@@ -69,18 +80,24 @@ const CategoryList = () => {
         <Sidebar />
         <section>
           <div className={css.companyListContent}>
-            <Link to="/categoryList">
-              <button className={css.categoryName}>IT</button>
+            <Link to="/">
+              {categoryTitle.map(({ id, category_name }) => (
+                <button className={css.categoryName} key={id}>
+                  {category_name}
+                </button>
+              ))}
             </Link>
             <span>관심 있는 멤버를 찾아보세요!</span>
           </div>
           <div className={css.categoryContent}>
             <ListFilter setQueryString={setQueryString} />
             {userData.isCompanyMainMember === 1 ? (
-              <button className={css.companyIntroduceBtn}>
-                <span>우리회사 소개하기</span>
-                <i className="fa-solid fa-building" />
-              </button>
+              <Link to="/writePost">
+                <button className={css.companyIntroduceBtn}>
+                  <span>우리회사 소개하기</span>
+                  <i className="fa-solid fa-building" />
+                </button>
+              </Link>
             ) : null}
           </div>
           <div className={css.companyList}>
@@ -89,6 +106,7 @@ const CategoryList = () => {
               .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
                 <Company
                   key={id}
+                  id={id}
                   companyName={companyName}
                   companyShortDesc={companyShortDesc}
                   companyImgUrl={companyImgUrl}

@@ -16,6 +16,7 @@ const CategoryCard = ({
   imgHandler,
   onEditImg,
   userName,
+  toCategoryList,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
@@ -24,7 +25,7 @@ const CategoryCard = ({
   };
   return (
     <div className={css.cardContainnerWrapper}>
-      <div className={css.cardContainner}>
+      <div className={css.cardContainner} onClick={() => toCategoryList(id)}>
         <div className={css.imgWrapper}>
           <img className={css.cardImage} src={img_url} alt="카테고리 이미지" />
           {userName === 'admin' && (
