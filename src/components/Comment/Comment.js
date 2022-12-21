@@ -8,6 +8,8 @@ function Comment({
   setCommentData,
   setCommentPageTotalCount,
   totalCommentCount,
+  postData,
+  commentPageTotalCount,
 }) {
   const [replyOpenState, setReplyOpenState] = useState(commentObj.lastComment);
   const [modifyChecked, setModifyChecked] = useState(false);
@@ -15,6 +17,7 @@ function Comment({
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
+  const submitBtn = useRef();
 
   const [placeHolderValue, setPlaceHolderValue] = useState();
   useEffect(() => {
@@ -49,6 +52,12 @@ function Comment({
   };
 
   const changeTextarea = event => {
+    const textLength = textarea.current.value.length;
+    if (textLength !== undefined) {
+      submitBtn.current.style.color = textLength === 0 ? 'gray' : 'black';
+      submitBtn.current.style.fontWeight = textLength === 0 ? '400' : '600';
+    }
+
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
     setTextareaLength(textarea.current.value.length);
@@ -67,11 +76,14 @@ function Comment({
         commentId: commentObj.id,
       }),
     }).then(() => {
-      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-        headers: {
-          authorization: localStorage.getItem('token'),
-        },
-      })
+      fetch(
+        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        }
+      )
         .then(res => res.json())
         .then(data => {
           setCommentData(data.data);
@@ -92,11 +104,14 @@ function Comment({
         commentId: commentObj.id,
       }),
     }).then(() => {
-      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-        headers: {
-          authorization: localStorage.getItem('token'),
-        },
-      })
+      fetch(
+        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        }
+      )
         .then(res => res.json())
         .then(data => setCommentData(data.data));
     });
@@ -153,7 +168,7 @@ function Comment({
             )}
             {modifyChecked && (
               <div className={css.letterCount}>
-                <span>{textareaLength}/1000</span>
+                <span className={css.countLetter}>{textareaLength}/1000</span>
                 <div className={css.lockDiv}>
                   <i
                     className={`${
@@ -172,13 +187,23 @@ function Comment({
                   수정
                 </button>
                 <div className={css.divider} />
-                <button onClick={clickDeleteBtn}>삭제</button>
+                <button className={css.deleteBtn} onClick={clickDeleteBtn}>
+                  삭제
+                </button>
               </div>
             ) : (
               <div className={css.rightAreaBtnDiv} />
             )}
 
-            {modifyChecked && <button onClick={clickSubmitBtn}>등록</button>}
+            {modifyChecked && (
+              <button
+                className={css.submitBtn}
+                onClick={clickSubmitBtn}
+                ref={submitBtn}
+              >
+                등록
+              </button>
+            )}
             {!modifyChecked && (
               <button className={css.submitBtn} onClick={changeReplyOpenState}>
                 답글 쓰기
@@ -190,11 +215,13 @@ function Comment({
       {replyOpenState && (
         <Reply
           commentObj={commentObj}
+          commentPageTotalCount={commentPageTotalCount}
           setCommentPageTotalCount={setCommentPageTotalCount}
           currCommentPage={currCommentPage}
           setCommentData={setCommentData}
           setReplyOpenState={setReplyOpenState}
           totalCommentCount={totalCommentCount}
+          postData={postData}
         />
       )}
     </>

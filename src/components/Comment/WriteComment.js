@@ -7,11 +7,13 @@ function Comment({
   setCommentPageTotalCount,
   commentPageTotalCount,
   totalCommentCount,
+  postData,
 }) {
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);
   const [lockState, setLockState] = useState(false);
   const textarea = useRef();
+  const submitBtn = useRef();
 
   const [placeHolderValue, setPlaceHolderValue] = useState();
   useEffect(() => {
@@ -35,9 +37,7 @@ function Comment({
   const clickSubmitBtn = () => {
     const textLength = textarea.current.value.length;
     if (textLength < 1 || textLength > 1000) return;
-    if (commentPageTotalCount > 50) {
-      return;
-    }
+    if (commentPageTotalCount > 50) return;
 
     fetch('http://127.0.0.1:5500/commentOnPost', {
       method: 'POST',
@@ -48,23 +48,34 @@ function Comment({
       body: JSON.stringify({
         comment: textarea.current.value,
         is_secret: lockState ? 1 : 0,
-        postId: 1,
+        postId: postData.id,
       }),
     }).then(() => {
-      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-        headers: {
-          authorization: localStorage.getItem('token'),
-        },
-      })
+      fetch(
+        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        }
+      )
         .then(res => res.json())
         .then(data => {
           setCommentData(data.data);
           setCommentPageTotalCount(Math.ceil(data.length / 20));
         });
     });
+
+    textarea.current.value = '';
   };
 
   const changeTextarea = event => {
+    const textLength = textarea.current.value.length;
+    if (textLength !== undefined) {
+      submitBtn.current.style.color = textLength === 0 ? 'gray' : 'black';
+      submitBtn.current.style.fontWeight = textLength === 0 ? '400' : '600';
+    }
+
     textarea.current.style.height = 'auto';
     textarea.current.style.height = textarea.current.scrollHeight + 'px';
     setTextareaLength(textarea.current.value.length);
@@ -95,7 +106,7 @@ function Comment({
             placeholder={placeHolderValue}
           />
           <div className={css.letterCount}>
-            <span>{textareaLength}/1000</span>
+            <span className={css.countLetter}>{textareaLength}/1000</span>
             <div className={css.lockDiv}>
               <i
                 className={`${
@@ -107,7 +118,13 @@ function Comment({
           </div>
         </div>
         <div className={css.rightArea}>
-          <button onClick={clickSubmitBtn}>등록</button>
+          <button
+            className={css.submitBtn}
+            onClick={clickSubmitBtn}
+            ref={submitBtn}
+          >
+            등록
+          </button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -7,6 +7,9 @@ import CommentInput from '../../components/Comment/WriteComment';
 import Header from '../../components/Header/Header';
 
 function PostDetail() {
+  const [userInfo, setUserInfo] = useState();
+  const [userGrade, setUserGrade] = useState();
+
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const ourGruop = query.get('ourGruop');
@@ -20,6 +23,30 @@ function PostDetail() {
   const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
   const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
   const commentDiv = useRef();
+
+  useEffect(() => {
+    fetch(`http://localhost:5500/user`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => {
+        setUserInfo(data.userInfo);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`http://localhost:5500/grade`, {
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    })
+      .then(res => res.json())
+      .then(data => setUserGrade(data.userGradeInfo));
+  }, []);
 
   useEffect(() => {
     if (ourGruop) {
@@ -44,35 +71,32 @@ function PostDetail() {
   }, []);
 
   useEffect(() => {
-    postData && console.log(postData);
-  }, [postData]);
-
-  useEffect(() => {
     // fetch('/data/commentData.json')
-    fetch('http://127.0.0.1:5500/comment/1?page=1', {
-      headers: {
-        authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setTotalCommentCount(data.length);
-        setCommentPageTotalCount(Math.ceil(data.length / 20));
 
-        //마지막 대댓글 찾는 코드
-        const processedCommentArr = [];
-        for (let i = 0; i < data.data.length; i++) {
-          const nextElemDepth =
-            data.data[i + 1] === undefined ? false : data.data[i + 1].depth;
-          if (nextElemDepth === 1 || i === data.data.length - 1) {
-            data.data[i].lastComment = true;
+    if (Object.keys(postData).length !== 0)
+      fetch(`http://127.0.0.1:5500/comment/${postData.id}?page=1`, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setTotalCommentCount(data.length);
+          setCommentPageTotalCount(Math.ceil(data.length / 20));
+
+          //마지막 대댓글 찾는 코드
+          const processedCommentArr = [];
+          for (let i = 0; i < data.data.length; i++) {
+            const nextElemDepth =
+              data.data[i + 1] === undefined ? false : data.data[i + 1].depth;
+            if (nextElemDepth === 1 || i === data.data.length - 1) {
+              data.data[i].lastComment = true;
+            }
+            processedCommentArr.push(data.data[i]);
           }
-          processedCommentArr.push(data.data[i]);
-        }
-        console.log(processedCommentArr);
-        setCommentData(processedCommentArr);
-      });
-  }, []);
+          setCommentData(processedCommentArr);
+        });
+  }, [postData]);
 
   useEffect(() => {
     const commentPageList = [];
@@ -122,6 +146,9 @@ function PostDetail() {
   };
 
   const clickPrevCommentPageBtn = () => {
+    if (commentPageTotalCount <= 10) {
+      setCurrCommentPage(1);
+    }
     if (commentPageTotalCount > 10 && currCommentPage > 10) {
       setCurrCommentPage(currCommentPage - 10);
     }
@@ -131,6 +158,9 @@ function PostDetail() {
   };
 
   const clickNextCommentPageBtn = () => {
+    if (commentPageTotalCount <= 10) {
+      setCurrCommentPage(commentPageTotalCount);
+    }
     if (
       commentPageTotalCount > 10 &&
       currCommentPage + 10 > commentPageTotalCount
@@ -155,14 +185,18 @@ function PostDetail() {
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-      headers: {
-        authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => setCommentData(data.data));
-  }, [currCommentPage]);
+    if (Object.keys(postData).length !== 0)
+      fetch(
+        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        {
+          headers: {
+            authorization: localStorage.getItem('token'),
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => setCommentData(data.data));
+  }, [postData, currCommentPage]);
 
   return (
     <div className={css.postDetail}>
@@ -177,16 +211,17 @@ function PostDetail() {
             {postData.companyImgUrl && (
               <div
                 className={`${css.img}`}
-                style={{ backGroundImg: postData.companyImgUrl }}
-              >
-                img
-              </div>
+                style={{ backgroundImage: `url(${postData.companyImgUrl})` }}
+              />
             )}
-
-            <div className={`${css.btnDiv}`}>
-              <button>수정</button>
-              <div className={`${css.divider}`} />
-              <button>삭제</button>
+            <div>
+              {userInfo && postData && userInfo.id === postData.usersId && (
+                <div className={`${css.btnDiv}`}>
+                  <button className={css.modifyBtn}>수정</button>
+                  <div className={`${css.divider}`} />
+                  <button className={css.deleteBtn}>삭제</button>
+                </div>
+              )}
             </div>
           </div>
           {postData.companyName && (
@@ -222,12 +257,14 @@ function PostDetail() {
               <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
                 홈페이지
               </div>
-              <div>{postData.homepageUrl}</div>
+              <Link to={postData.homepageUrl} target="_blank">
+                {postData.homepageUrl}
+              </Link>
             </div>
           )}
 
           {/* 이메일, 휴대폰 번호 분리 필요함 */}
-          {postData.companyContactAddress && (
+          {postData.companyContactAddress && userGrade !== '입주예정자' && (
             <div className={`${css.address} ${css.topDonwMargin}`}>
               <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
                 연락처
@@ -259,19 +296,13 @@ function PostDetail() {
               <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
                 회사 소개서
               </div>
-              <div>패스트파이브 회사 소개서.pdf</div>
+              <div>{postData.companyInfoUrl}</div>
             </div>
           )}
 
           <div className={`${css.commentDiv}`} ref={commentDiv}>
             <div className={`${css.commentDivTitle}`}>댓글</div>
-            <CommentInput
-              commentPageTotalCount={commentPageTotalCount}
-              currCommentPage={currCommentPage}
-              setCommentData={setCommentData}
-              setCommentPageTotalCount={setCommentPageTotalCount}
-              totalCommentCount={totalCommentCount}
-            />
+
             {commentData &&
               commentData.map(commentObj => {
                 return (
@@ -284,13 +315,28 @@ function PostDetail() {
                     setCommentData={setCommentData}
                     setCommentPageTotalCount={setCommentPageTotalCount}
                     totalCommentCount={totalCommentCount}
+                    postData={postData}
                   />
                 );
               })}
+
+            <CommentInput
+              commentPageTotalCount={commentPageTotalCount}
+              currCommentPage={currCommentPage}
+              setCommentData={setCommentData}
+              setCommentPageTotalCount={setCommentPageTotalCount}
+              totalCommentCount={totalCommentCount}
+              postData={postData}
+            />
           </div>
           <div className={`${css.commentPageDiv}`}>
             {commentPageTotalCount > 1 && (
-              <button onClick={clickPrevCommentPageBtn}>이전</button>
+              <button
+                className={css.moveCommentPageBtn}
+                onClick={clickPrevCommentPageBtn}
+              >
+                이전
+              </button>
             )}
 
             {currCommentPageList &&
@@ -300,13 +346,23 @@ function PostDetail() {
                     className={css.commentPageBtn}
                     key={elem}
                     onClick={clickPageBtn}
+                    style={{
+                      backgroundColor:
+                        elem === currCommentPage && 'rgb(236, 118, 111)',
+                      color: elem === currCommentPage && 'white',
+                    }}
                   >
                     {elem}
                   </button>
                 );
               })}
             {commentPageTotalCount > 1 && (
-              <button onClick={clickNextCommentPageBtn}>다음</button>
+              <button
+                className={css.moveCommentPageBtn}
+                onClick={clickNextCommentPageBtn}
+              >
+                다음
+              </button>
             )}
           </div>
         </div>
