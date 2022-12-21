@@ -357,7 +357,7 @@ const WritePost = () => {
         <div className={css.totalWrap}>
           <h1>우리 회사 소개하기</h1>
           <h3>우측 *표시는 필수 작성 항목입니다.</h3>
-          {saveTime && <h3>{saveTime}에 임시 저장 되었습니다.</h3>}
+          {saveTime && <h3>{saveTime}에 마지막으로 저장 되었습니다.</h3>}
 
           {formData && places && categoryData && (
             <form>
