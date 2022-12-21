@@ -43,25 +43,25 @@ function Comment({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: localStorage.getItem('authorization'),
+        authorization: localStorage.getItem('token'),
       },
       body: JSON.stringify({
         comment: textarea.current.value,
         is_secret: lockState ? 1 : 0,
         postId: 1,
       }),
+    }).then(() => {
+      fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
+        headers: {
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setCommentData(data.data);
+          setCommentPageTotalCount(Math.ceil(data.length / 20));
+        });
     });
-
-    fetch(`http://127.0.0.1:5500/comment/1?page=${currCommentPage}`, {
-      headers: {
-        authorization: localStorage.getItem('authorization'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setCommentData(data.data);
-        setCommentPageTotalCount(Math.ceil(data.length / 20));
-      });
   };
 
   const changeTextarea = event => {
