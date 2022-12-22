@@ -158,10 +158,16 @@ const WritePost = () => {
   };
 
   useEffect(() => {
+    let firstCat;
     if (formData && categoryData) {
       if (firstCategory !== null || firstCategory !== '') {
+        categoryData.forEach(data => {
+          if (data.id === firstCategory) {
+            firstCat = data;
+          }
+        });
         setSecondCategory('');
-        const subCategories = categoryData[firstCategory - 1].subCategory;
+        const subCategories = firstCat.subCategory;
         subCategories.map(subCategory =>
           setSecondCategory(secondCategory => [...secondCategory, subCategory])
         );
