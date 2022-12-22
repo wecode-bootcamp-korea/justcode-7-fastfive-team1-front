@@ -5,19 +5,33 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
 import Footer from '../../components/Footer/Footer';
 import ListFilter from '../../components/Company/Filter/ListFilter';
-import css from './CompanyList.module.scss';
+import css from './CategoryList.module.scss';
 
 const CategoryList = () => {
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    const elementScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const windowHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrollPos = (elementScroll / windowHeight) * 100;
+    document.getElementById('progBar').style.width = scrollPos + '%';
+  }
+
   const [companyListData, setCompanyListData] = useState([]);
-  const [startPage, setStartPage] = useState(0);
-  const [endPage, setEndPage] = useState(8);
+  const [allData, setAllData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [categoryTitle, setCategoryTitle] = useState([]);
   const [queryString, setQueryString] = useState();
-  const pageNation = [];
-  for (let i = 1; i <= Math.ceil(companyListData.length / 8); i++) {
-    pageNation.push(i);
+
+  const pagination = [];
+  for (let i = 1; i <= Math.ceil(allData.length / 10); i++) {
+    pagination.push(i);
   }
 
   const params = useParams();
@@ -57,17 +71,39 @@ const CategoryList = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (queryString !== undefined) {
-      fetch(`http://localhost:5500/post?${queryString}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
+      fetch(
+        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
         .then(res => res.json())
         .then(data => {
           setCompanyListData(data);
         });
     } else {
+      fetch(
+        `http://localhost:5500/post?categoriesLv1Id=${params.id}&offset=10&page=${currentPage}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    }
+  }, [params.id, currentPage, queryString]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (queryString !== '') {
       fetch(`http://localhost:5500/post?categoriesLv1Id=${params.id}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -76,15 +112,33 @@ const CategoryList = () => {
       })
         .then(res => res.json())
         .then(data => {
-          setCompanyListData(data);
+          setAllData(data);
+        });
+    } else {
+      fetch(`http://localhost:5500/post?${queryString}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: token,
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setAllData(data);
         });
     }
   }, [params.id, queryString]);
+
+  const onPages = e => {
+    setCurrentPage(e.target.value);
+  };
 
   return (
     <div>
       <Header />
       <div className={css.companyListContainer}>
+        <div className={css.wrapper}>
+          <div className={css.progress} id="progBar"></div>
+        </div>
         <Sidebar />
         <div className={css.companyContainer}>
           <section>
@@ -110,9 +164,8 @@ const CategoryList = () => {
               ) : null}
             </div>
             <div className={css.companyList}>
-              {companyListData
-                .slice(startPage, endPage)
-                .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
+              {companyListData.map(
+                ({ id, companyName, companyShortDesc, companyImgUrl }) => (
                   <Company
                     key={id}
                     id={id}
@@ -120,14 +173,18 @@ const CategoryList = () => {
                     companyShortDesc={companyShortDesc}
                     companyImgUrl={companyImgUrl}
                   />
-                ))}
+                )
+              )}
             </div>
-            <div className={css.pageNation}>
-              {pageNation.map(page => (
+            <div className={css.pagination}>
+              {pagination.map(page => (
                 <button
-                  className={currentPage === page ? css.currentPage : css.page}
+                  className={
+                    Number(currentPage) === page ? css.currentPage : css.page
+                  }
                   key={page}
-                  onClick={() => setCurrentPage(page)}
+                  value={page}
+                  onClick={onPages}
                 >
                   {page}
                 </button>

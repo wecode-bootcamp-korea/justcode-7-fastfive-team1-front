@@ -191,7 +191,7 @@ function PostDetail() {
 
   const movePage = event => {
     if (event.target.innerText === '전체 보기') {
-      navigate('/categoryList');
+      navigate('/companyList');
     }
   };
 
@@ -222,6 +222,9 @@ function PostDetail() {
   return (
     <div className={css.postDetail}>
       <Header />
+      <div className={css.wrapper}>
+        <div className={css.progress} id="progBar"></div>
+      </div>
       <div className={css.flexDiv}>
         <Sidebar />
 

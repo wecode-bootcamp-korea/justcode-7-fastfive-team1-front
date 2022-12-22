@@ -8,13 +8,27 @@ import Filter from '../../components/Company/Filter/Filter';
 import css from './CompanyList.module.scss';
 
 const CompanyList = () => {
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    const elementScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const windowHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrollPos = (elementScroll / windowHeight) * 100;
+    document.getElementById('progBar').style.width = scrollPos + '%';
+  }
   const [companyListData, setCompanyListData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [queryString, setQueryString] = useState();
 
   const pagination = [];
-  for (let i = 1; i <= Math.ceil(companyListData.length / 10); i++) {
+  for (let i = 1; i <= Math.ceil(allData.length / 10); i++) {
     pagination.push(i);
   }
 
@@ -40,6 +54,39 @@ const CompanyList = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (queryString !== '') {
+      fetch(
+        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    } else {
+      fetch(
+        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
+        .then(res => res.json())
+        .then(data => {
+          setCompanyListData(data);
+        });
+    }
+  }, [currentPage, queryString]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (queryString !== '') {
       fetch(`http://localhost:5500/post?${queryString}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +95,7 @@ const CompanyList = () => {
       })
         .then(res => res.json())
         .then(data => {
-          setCompanyListData(data);
+          setAllData(data);
         });
     } else {
       fetch(`http://localhost:5500/post?${queryString}`, {
@@ -59,7 +106,7 @@ const CompanyList = () => {
       })
         .then(res => res.json())
         .then(data => {
-          setCompanyListData(data);
+          setAllData(data);
         });
     }
   }, [queryString]);
@@ -83,6 +130,9 @@ const CompanyList = () => {
     <div>
       <Header />
       <div className={css.companyListContainer}>
+        <div className={css.wrapper}>
+          <div className={css.progress} id="progBar"></div>
+        </div>
         <Sidebar />
         <div className={css.companyContainer}>
           <section>
@@ -122,7 +172,9 @@ const CompanyList = () => {
             <div className={css.pagination}>
               {pagination.map(page => (
                 <button
-                  className={currentPage === page ? css.currentPage : css.page}
+                  className={
+                    Number(currentPage) === page ? css.currentPage : css.page
+                  }
                   key={page}
                   value={page}
                   onClick={onPages}

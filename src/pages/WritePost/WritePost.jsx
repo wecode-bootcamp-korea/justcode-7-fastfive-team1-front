@@ -17,6 +17,19 @@ const axios_ = axios.create({
 });
 
 const WritePost = () => {
+  window.onscroll = function () {
+    scrollFunction();
+  };
+
+  function scrollFunction() {
+    const elementScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    const windowHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const scrollPos = (elementScroll / windowHeight) * 100;
+    document.getElementById('progBar').style.width = scrollPos + '%';
+  }
   const IMAGEMAX = 10 * 1024 * 1024;
   const INTROMAX = 30 * 1024 * 1024;
   const [places, setPlaces] = useState('');
@@ -356,6 +369,9 @@ const WritePost = () => {
   return (
     <>
       <Header />
+      <div className={css.wrapper}>
+        <div className={css.progress} id="progBar"></div>
+      </div>
       <div className={css.container}>
         <div className={css.SideBarWrap}>
           <SideBar />

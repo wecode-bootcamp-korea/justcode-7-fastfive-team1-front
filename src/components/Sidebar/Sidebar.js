@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import css from './Sidebar.module.scss';
 
 function SideBar() {
   const [sidebarUserInfo, setsidebarUserInfo] = useState();
   const [sidebarUserGrade, setSidebarUserGrade] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5500/user`, {
@@ -19,6 +20,16 @@ function SideBar() {
       });
   }, []);
 
+  const toCompanyList = () => {
+    const token = localStorage.getItem('token');
+    if (token !== '') {
+      navigate(`/companyList`);
+    } else {
+      alert(`로그인 후 이용해주세요!`);
+      navigate(`/`);
+    }
+  };
+
   useEffect(() => {
     fetch(`http://localhost:5500/grade`, {
       headers: {
@@ -30,10 +41,10 @@ function SideBar() {
       .then(data => setSidebarUserGrade(data.userGradeInfo));
   }, []);
 
-  useEffect(() => {
-    console.log(sidebarUserInfo);
-    console.log(sidebarUserGrade);
-  }, [sidebarUserInfo, sidebarUserGrade]);
+  // useEffect(() => {
+  //   console.log(sidebarUserInfo);
+  //   console.log(sidebarUserGrade);
+  // }, [sidebarUserInfo, sidebarUserGrade]);
 
   return (
     <div className={css.main}>
@@ -72,8 +83,8 @@ function SideBar() {
         <div className={css.link}>
           <Link to="/reqpage">요청페이지</Link>
         </div>
-        <div className={css.link}>
-          <Link to="/categoryList">카테고리 전체보기</Link>
+        <div className={css.link} onClick={toCompanyList}>
+          <span>전체 게시글 보기</span>
         </div>
       </div>
     </div>
