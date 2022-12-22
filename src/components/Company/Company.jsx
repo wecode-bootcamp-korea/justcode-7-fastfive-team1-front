@@ -16,7 +16,7 @@ const Company = React.memo(function ({
   };
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5500/comment/1?page=${id}`, {
+    fetch(`http://127.0.0.1:5500/comment/${id}?page=1`, {
       headers: {
         authorization: localStorage.getItem('token'),
       },

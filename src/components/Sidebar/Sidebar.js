@@ -36,10 +36,12 @@ function SideBar() {
   }, [sidebarUserInfo, sidebarUserGrade]);
   return (
     <div className={css.main}>
-      <img
-        className={css.logoImg}
-        src="https://www.fastfive.co.kr/wp-content/uploads/2021/05/202105_logo_1.png"
-      />
+      <Link to="/">
+        <img
+          className={css.logoImg}
+          src="https://www.fastfive.co.kr/wp-content/uploads/2021/05/202105_logo_1.png"
+        />
+      </Link>
 
       <div className={css.divider}></div>
 
@@ -67,9 +69,6 @@ function SideBar() {
       </div>
       <div className={css.divider}></div>
       <div className={css.linkDiv}>
-        <div className={css.link}>
-          <Link to="/">홈</Link>
-        </div>
         <div className={css.link}>
           <Link to="/reqpage">요청페이지</Link>
         </div>
