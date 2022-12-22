@@ -6,6 +6,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
 import CommentInput from '../../components/Comment/WriteComment';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 function PostDetail() {
   const [userInfo, setUserInfo] = useState();
@@ -401,6 +402,7 @@ function PostDetail() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

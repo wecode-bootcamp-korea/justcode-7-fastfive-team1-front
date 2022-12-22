@@ -7,6 +7,7 @@ import InputForm from '../../components/Form/InputForm';
 import SideBar from '../../components/Sidebar/Sidebar';
 import Preview from '../../components/Preview/Preview';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import css from './WritePost.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -563,6 +564,7 @@ const WritePost = () => {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

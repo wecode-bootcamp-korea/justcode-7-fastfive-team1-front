@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
 import Filter from '../../components/Company/Filter/Filter';
@@ -83,51 +84,57 @@ const CompanyList = () => {
       <Header />
       <div className={css.companyListContainer}>
         <Sidebar />
-        <section>
-          <div className={css.companyListContent}>
-            <Link to="/">
-              <button className={css.categoryName}>전체보기</button>
-            </Link>
-            <span>관심 있는 멤버를 찾아보세요!</span>
-          </div>
-          <div className={css.categoryContent}>
-            <Filter setQueryString={setQueryString} currentPage={currentPage} />
-            {userData.isCompanyMainMember === 1 ? (
-              <Link to="/writePost">
-                <button className={css.companyIntroduceBtn}>
-                  <span>우리회사 소개하기</span>
-                  <i className="fa-solid fa-building" />
-                </button>
+        <div className={css.companyContainer}>
+          <section>
+            <div className={css.companyListContent}>
+              <Link to="/">
+                <button className={css.categoryName}>전체보기</button>
               </Link>
-            ) : null}
-          </div>
-          <div className={css.companyList}>
-            {companyListData.map(
-              ({ id, companyName, companyShortDesc, companyImgUrl }) => (
-                <Company
-                  key={id}
-                  id={id}
-                  companyName={companyName}
-                  companyShortDesc={companyShortDesc}
-                  companyImgUrl={companyImgUrl}
-                />
-              )
-            )}
-          </div>
-          <div className={css.pagination}>
-            {pagination.map(page => (
-              <button
-                className={currentPage === page ? css.currentPage : css.page}
-                key={page}
-                value={page}
-                onClick={onPages}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-        </section>
+              <span>관심 있는 멤버를 찾아보세요!</span>
+            </div>
+            <div className={css.categoryContent}>
+              <Filter
+                setQueryString={setQueryString}
+                currentPage={currentPage}
+              />
+              {userData.isCompanyMainMember === 1 ? (
+                <Link to="/writePost">
+                  <button className={css.companyIntroduceBtn}>
+                    <span>우리회사 소개하기</span>
+                    <i className="fa-solid fa-building" />
+                  </button>
+                </Link>
+              ) : null}
+            </div>
+            <div className={css.companyList}>
+              {companyListData.map(
+                ({ id, companyName, companyShortDesc, companyImgUrl }) => (
+                  <Company
+                    key={id}
+                    id={id}
+                    companyName={companyName}
+                    companyShortDesc={companyShortDesc}
+                    companyImgUrl={companyImgUrl}
+                  />
+                )
+              )}
+            </div>
+            <div className={css.pagination}>
+              {pagination.map(page => (
+                <button
+                  className={currentPage === page ? css.currentPage : css.page}
+                  key={page}
+                  value={page}
+                  onClick={onPages}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };
