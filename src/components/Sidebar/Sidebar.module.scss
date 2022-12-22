@@ -1,4 +1,36 @@
 .main {
-  width: 280px;
-  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+
+  width: 250px;
+  margin: 5px;
+  border: 1px black solid;
+  border-radius: 10px;
+  background-color: white;
+
+  .userInfo {
+    width: 100%;
+    margin-bottom: 10px;
+
+    .userInfoCell {
+      margin: 15px 15px;
+      font-size: 16px;
+    }
+  }
+
+  .divider {
+    width: 90%;
+    margin-left: 10px;
+    height: 10px;
+    border-bottom: 1px black solid;
+  }
+
+  .linkDiv {
+    width: 100%;
+
+    .link {
+      margin: 15px;
+      font-size: 16px;
+    }
+  }
 }
