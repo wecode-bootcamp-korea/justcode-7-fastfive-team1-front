@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Company from '../../components/Company/Company';
+import Footer from '../../components/Footer/Footer';
 import ListFilter from '../../components/Company/Filter/ListFilter';
 import css from './CompanyList.module.scss';
 
@@ -85,54 +86,57 @@ const CategoryList = () => {
       <Header />
       <div className={css.companyListContainer}>
         <Sidebar />
-        <section>
-          <div className={css.companyListContent}>
-            <Link to="/">
-              {categoryTitle.map(({ id, category_name }) => (
-                <button className={css.categoryName} key={id}>
-                  {category_name}
-                </button>
-              ))}
-            </Link>
-            <span>관심 있는 멤버를 찾아보세요!</span>
-          </div>
-          <div className={css.categoryContent}>
-            <ListFilter setQueryString={setQueryString} />
-            {userData.isCompanyMainMember === 1 ? (
-              <Link to="/writePost">
-                <button className={css.companyIntroduceBtn}>
-                  <span>우리회사 소개하기</span>
-                  <i className="fa-solid fa-building" />
-                </button>
+        <div className={css.companyContainer}>
+          <section>
+            <div className={css.companyListContent}>
+              <Link to="/">
+                {categoryTitle.map(({ id, category_name }) => (
+                  <button className={css.categoryName} key={id}>
+                    {category_name}
+                  </button>
+                ))}
               </Link>
-            ) : null}
-          </div>
-          <div className={css.companyList}>
-            {companyListData
-              .slice(startPage, endPage)
-              .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
-                <Company
-                  key={id}
-                  id={id}
-                  companyName={companyName}
-                  companyShortDesc={companyShortDesc}
-                  companyImgUrl={companyImgUrl}
-                />
+              <span>관심 있는 멤버를 찾아보세요!</span>
+            </div>
+            <div className={css.categoryContent}>
+              <ListFilter setQueryString={setQueryString} />
+              {userData.isCompanyMainMember === 1 ? (
+                <Link to="/writePost">
+                  <button className={css.companyIntroduceBtn}>
+                    <span>우리회사 소개하기</span>
+                    <i className="fa-solid fa-building" />
+                  </button>
+                </Link>
+              ) : null}
+            </div>
+            <div className={css.companyList}>
+              {companyListData
+                .slice(startPage, endPage)
+                .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
+                  <Company
+                    key={id}
+                    id={id}
+                    companyName={companyName}
+                    companyShortDesc={companyShortDesc}
+                    companyImgUrl={companyImgUrl}
+                  />
+                ))}
+            </div>
+            <div className={css.pageNation}>
+              {pageNation.map(page => (
+                <button
+                  className={currentPage === page ? css.currentPage : css.page}
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </button>
               ))}
-          </div>
-          <div className={css.pageNation}>
-            {pageNation.map(page => (
-              <button
-                className={currentPage === page ? css.currentPage : css.page}
-                key={page}
-                onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </button>
-            ))}
-          </div>
-        </section>
+            </div>
+          </section>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

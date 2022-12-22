@@ -192,10 +192,12 @@ const ServeHome = () => {
       </div>
       {userInfo === 1 && (
         <Link to="/writePost">
-          <button className={css.companyIntroduceBtn}>
-            <span>우리회사 소개하기</span>
-            <i className="fa-solid fa-building" />
-          </button>
+          <div className={css.companyIntro}>
+            <button className={css.companyIntroduceBtn}>
+              <span>우리회사 소개하기</span>
+              <i className="fa-solid fa-building" />
+            </button>
+          </div>
         </Link>
       )}
       <div className={css.titleWrapper}>

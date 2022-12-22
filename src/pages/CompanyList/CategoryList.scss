@@ -1,96 +1,97 @@
 .companyListContainer {
   display: flex;
-
-  section {
-    display: grid;
-    grid-template-rows: minmax(min-content, 100px) 100px 7fr;
-    width: 100vw;
-    padding: 60px 50px 30px 50px;
-
-    .companyListContent {
+  .companyContainer {
+    width: 100%;
+    section {
       display: grid;
-      align-content: space-between;
+      grid-template-rows: minmax(min-content, 100px) 100px 7fr;
+      padding: 60px 50px 30px 50px;
 
-      .categoryName {
-        font-weight: bold;
-        font-size: 25px;
+      .companyListContent {
+        display: grid;
+        align-content: space-between;
 
-        &:hover {
-          color: #fe6d6a;
+        .categoryName {
+          font-weight: bold;
+          font-size: 25px;
+
+          &:hover {
+            color: #fe6d6a;
+          }
         }
-      }
-      span {
-        font-size: 14px;
-        font-weight: 500;
-      }
-    }
-    .categoryContent {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .textLink {
-        color: inherit;
-        text-decoration: inherit;
-      }
-
-      .companyIntroduceBtn {
-        width: 150px;
-        height: 30px;
-        padding: 10px;
-        border: 1px solid #f0f0f0;
-        border-radius: 30px;
-        box-shadow: 5px 5px 10px #cacaca9b;
-        text-align: center;
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-
         span {
-          margin-right: 5px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
+      .categoryContent {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .textLink {
+          color: inherit;
+          text-decoration: inherit;
         }
 
-        &:hover {
-          background-color: #fe6d6a;
+        .companyIntroduceBtn {
+          width: 150px;
+          height: 30px;
+          padding: 10px;
+          border: 1px solid #f0f0f0;
+          border-radius: 30px;
+          box-shadow: 5px 5px 10px #cacaca9b;
+          text-align: center;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+
+          span {
+            margin-right: 5px;
+          }
+
+          &:hover {
+            background-color: #fe6d6a;
+            color: white;
+          }
+        }
+      }
+      .companyList {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-template-rows: repeat(2, 1fr);
+        gap: 60px;
+        margin-top: 30px;
+      }
+
+      .pageNation {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 80px;
+
+        .currentPage {
           color: white;
+          font-size: 15px;
+          padding: 10px;
+          width: 10px;
+          height: 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 100%;
+          background-color: #fe6d6a;
         }
-      }
-    }
-    .companyList {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      grid-template-rows: repeat(2, 1fr);
-      gap: 60px;
-      margin-top: 30px;
-    }
-
-    .pageNation {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      height: 80px;
-
-      .currentPage {
-        color: white;
-        font-size: 15px;
-        padding: 10px;
-        width: 10px;
-        height: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100%;
-        background-color: #fe6d6a;
-      }
-      .page {
-        color: gray;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 15px;
-        height: 10px;
-        width: 10px;
-        padding: 10px;
+        .page {
+          color: gray;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 15px;
+          height: 10px;
+          width: 10px;
+          padding: 10px;
+        }
       }
     }
   }

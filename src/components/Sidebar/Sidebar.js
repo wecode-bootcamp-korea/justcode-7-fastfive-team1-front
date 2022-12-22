@@ -34,17 +34,16 @@ function SideBar() {
     console.log(sidebarUserInfo);
     console.log(sidebarUserGrade);
   }, [sidebarUserInfo, sidebarUserGrade]);
+
   return (
     <div className={css.main}>
       <Link to="/">
         <img
           className={css.logoImg}
           src="https://www.fastfive.co.kr/wp-content/uploads/2021/05/202105_logo_1.png"
+          alt="로고이미지"
         />
       </Link>
-
-      <div className={css.divider}></div>
-
       <div className={css.userInfo}>
         {sidebarUserInfo && (
           <div className={css.userInfoCell}>
@@ -64,10 +63,11 @@ function SideBar() {
         )}
 
         {sidebarUserGrade && (
-          <div className={css.userInfoCell}>상태: {sidebarUserGrade}</div>
+          <div className={css.userInfoStatusCell}>
+            <div className={css.userInfoCell}>상태: {sidebarUserGrade}</div>
+          </div>
         )}
       </div>
-      <div className={css.divider}></div>
       <div className={css.linkDiv}>
         <div className={css.link}>
           <Link to="/reqpage">요청페이지</Link>

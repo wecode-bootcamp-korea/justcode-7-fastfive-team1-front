@@ -2,42 +2,50 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 200px;
-  background-color: #f0f0f0;
-  margin-right: 20px;
+  width: 240px;
+  border-right: 1px solid #c6c6c6;
 
   .logoImg {
-    width: 150px;
+    width: 190px;
+    margin-top: 15px;
     height: 40px;
-    padding: 10px;
+    padding: 30px 10px 30px 10px;
     object-fit: contain;
+    border-bottom: 1.5px solid #fe6d6a;
   }
 
   .userInfo {
-    width: 100%;
+    width: 80%;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
 
     .userInfoCell {
-      margin: 3px 15px;
+      padding: 10px 0px 10px 0px;
+      font-weight: 400;
       font-size: 16px;
+    }
+    .userInfoStatusCell {
+      padding-bottom: 20px;
+      border-bottom: 1.5px solid #fe6d6a;
     }
   }
 
-  .divider {
-    width: 90%;
-    margin: 10px 5px;
-    border-bottom: 4px rgba(236, 117, 111, 0.158) solid;
-    border-radius: 10px;
-  }
-
   .linkDiv {
-    width: 100%;
+    width: 90%;
 
     .link {
-      margin: 5px 15px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
       font-size: 16px;
+      font-weight: 400;
+      height: 40px;
+      &:hover {
+        font-weight: bold;
+      }
     }
   }
 }
