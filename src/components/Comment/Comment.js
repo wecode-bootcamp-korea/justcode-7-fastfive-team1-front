@@ -85,7 +85,7 @@ function Comment({
       }),
     }).then(() => {
       fetch(
-        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        `${process.env.REACT_APP_API_URI}/comment/${postData.id}?page=${currCommentPage}`,
         {
           headers: {
             authorization: localStorage.getItem('token'),
@@ -113,7 +113,7 @@ function Comment({
       }),
     }).then(() => {
       fetch(
-        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        `${process.env.REACT_APP_API_URI}/comment/${postData.id}?page=${currCommentPage}`,
         {
           headers: {
             authorization: localStorage.getItem('token'),

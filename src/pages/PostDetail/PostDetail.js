@@ -78,7 +78,7 @@ function PostDetail() {
 
   useEffect(() => {
     if (Object.keys(postData).length !== 0) {
-      fetch(`http://127.0.0.1:5500/comment/${postData.id}?page=1`, {
+      fetch(`${process.env.REACT_APP_API_URI}/comment/${postData.id}?page=1`, {
         headers: {
           authorization: localStorage.getItem('token'),
         },
