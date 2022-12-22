@@ -21,9 +21,14 @@
         display: flex;
         margin: 3px 5px;
 
+        .whiteTime {
+          font-size: 14px;
+          color: rgba(128, 128, 128, 0.7);
+        }
+
         .whiter {
           font-weight: 700;
-          margin-right: 25px;
+          margin-right: 10px;
         }
       }
 

@@ -6,7 +6,7 @@ const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
   const navigate = useNavigate();
 
   const toPostDetail = () => {
-    navigate(`/postdetail/${id}`);
+    navigate(`/postdetail/${id}`, { state: '전체 보기' });
   };
   return (
     <div className={css.companyContainer} onClick={toPostDetail}>
