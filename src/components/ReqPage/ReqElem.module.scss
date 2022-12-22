@@ -28,6 +28,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: pointer;
     }
 
     .leftBtn {
@@ -38,6 +39,7 @@
     .rightBtn {
       border: 1px rgba(128, 128, 128, 0.195) solid;
       box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
+      cursor: pointer;
     }
   }
 }
@@ -77,11 +79,13 @@
     .leftBtn {
       background-color: rgb(236, 118, 111);
       color: white;
+      cursor: pointer;
     }
 
     .rightBtn {
       border: 1px rgba(128, 128, 128, 0.195) solid;
       box-shadow: 5px 5px 10px rgb(202 202 202 / 61%);
+      cursor: pointer;
     }
   }
 }

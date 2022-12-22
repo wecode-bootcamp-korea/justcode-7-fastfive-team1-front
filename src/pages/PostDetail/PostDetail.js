@@ -78,6 +78,7 @@ function PostDetail() {
     // fetch('/data/commentData.json')
 
     if (Object.keys(postData).length !== 0) {
+      console.log(postData);
       fetch(`http://127.0.0.1:5500/comment/${postData.id}?page=1`, {
         headers: {
           authorization: localStorage.getItem('token'),
@@ -219,6 +220,11 @@ function PostDetail() {
     });
   };
 
+  const clickImg = event => {
+    console.log(postData.companyImgUrl);
+    console.log(event.target.backgroundImage);
+  };
+
   return (
     <div className={css.postDetail}>
       <Header />
@@ -237,25 +243,25 @@ function PostDetail() {
             {postData.companyImgUrl && (
               <div
                 className={`${css.img}`}
+                onClick={clickImg}
                 style={{ backgroundImage: `url(${postData.companyImgUrl})` }}
               />
             )}
-            <div>
-              {userInfo && postData && userInfo.id === postData.usersId && (
-                <div className={`${css.btnDiv}`}>
-                  <button
-                    onClick={e => navigate('/writePost', { state: '수정' })}
-                    className={css.modifyBtn}
-                  >
-                    수정
-                  </button>
-                  <div className={`${css.divider}`} />
-                  <button onClick={clickDeleteBtn} className={css.deleteBtn}>
-                    삭제
-                  </button>
-                </div>
-              )}
-            </div>
+
+            {userInfo && postData && userInfo.id === postData.usersId && (
+              <div className={`${css.btnDiv}`}>
+                <button
+                  onClick={e => navigate('/writePost', { state: '수정' })}
+                  className={css.modifyBtn}
+                >
+                  수정
+                </button>
+                <div className={`${css.divider}`} />
+                <button onClick={clickDeleteBtn} className={css.deleteBtn}>
+                  삭제
+                </button>
+              </div>
+            )}
           </div>
           {postData.companyName && (
             <div
@@ -330,7 +336,7 @@ function PostDetail() {
                 회사 소개서
               </div>
               <a href={postData.companyInfoUrl} target="_blank">
-                {postData.companyInfoUrl}
+                첨부 파일 다운로드
               </a>
             </div>
           )}
