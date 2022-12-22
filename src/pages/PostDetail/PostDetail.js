@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
+
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -23,7 +24,9 @@ function PostDetail() {
   const [currCommentPageList, setCurrCommentPageList] = useState([]); // 화면에 노출될 페이지 arr
   const [commentPageTotalCount, setCommentPageTotalCount] = useState(); // 총 페이지 수
   const commentDiv = useRef();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const categoryValue = location.state;
+
   useEffect(() => {
     fetch(`http://localhost:5500/user`, {
       headers: {
@@ -73,7 +76,7 @@ function PostDetail() {
   useEffect(() => {
     // fetch('/data/commentData.json')
 
-    if (Object.keys(postData).length !== 0)
+    if (Object.keys(postData).length !== 0) {
       fetch(`http://127.0.0.1:5500/comment/${postData.id}?page=1`, {
         headers: {
           authorization: localStorage.getItem('token'),
@@ -96,6 +99,7 @@ function PostDetail() {
           }
           setCommentData(processedCommentArr);
         });
+    }
   }, [postData]);
 
   useEffect(() => {
@@ -184,6 +188,12 @@ function PostDetail() {
     }, 2000);
   };
 
+  const movePage = event => {
+    if (event.target.innerText === '전체 보기') {
+      navigate('/categoryList');
+    }
+  };
+
   useEffect(() => {
     if (Object.keys(postData).length !== 0)
       fetch(
@@ -198,14 +208,29 @@ function PostDetail() {
         .then(data => setCommentData(data.data));
   }, [postData, currCommentPage]);
 
+  const clickDeleteBtn = () => {
+    fetch(`http://localhost:5500/post/${postData.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: localStorage.getItem('token'),
+      },
+    });
+  };
+
   return (
     <div className={css.postDetail}>
       <Header />
       <div className={css.flexDiv}>
         <Sidebar />
+
         <div className={`${css.main}`}>
-          <div className={`${css.category} ${css.topDonwMargin}`}>
-            전체 보기
+          <div
+            onClick={movePage}
+            className={`${css.category} ${css.topDonwMargin}`}
+          >
+            {categoryValue && categoryValue}
+            {!categoryValue && '전체 보기'}
           </div>
           <div className={`${css.imgAndBtnDiv} ${css.topDonwMargin}`}>
             {postData.companyImgUrl && (
@@ -224,7 +249,9 @@ function PostDetail() {
                     수정
                   </button>
                   <div className={`${css.divider}`} />
-                  <button className={css.deleteBtn}>삭제</button>
+                  <button onClick={clickDeleteBtn} className={css.deleteBtn}>
+                    삭제
+                  </button>
                 </div>
               )}
             </div>
@@ -301,7 +328,9 @@ function PostDetail() {
               <div className={`${css.fontEmphasis} ${css.fontEmphasisDiv}`}>
                 회사 소개서
               </div>
-              <div>{postData.companyInfoUrl}</div>
+              <a href={postData.companyInfoUrl} target="_blank">
+                {postData.companyInfoUrl}
+              </a>
             </div>
           )}
 

@@ -19,6 +19,14 @@ function Comment({
   const textarea = useRef();
   const submitBtn = useRef();
 
+  const date = new Date(commentObj.created_at);
+  const currDate = date.getDate();
+  const currYear = date.getFullYear();
+  const currMonth = date.getMonth();
+  const currHours = date.getHours();
+  const currMinutes = date.getMinutes();
+  const currSeconds = date.getSeconds();
+
   const [placeHolderValue, setPlaceHolderValue] = useState();
   useEffect(() => {
     dicidePlaceHolderValue();
@@ -43,7 +51,7 @@ function Comment({
     setReplyOpenState(!replyOpenState);
   };
 
-  const clickModifyBtn = () => {
+  const clickModifyBtn = event => {
     setModifyChecked(!modifyChecked);
   };
 
@@ -142,7 +150,9 @@ function Comment({
           >
             <div className={css.commentInfoDiv}>
               <div className={css.whiter}>{commentObj.username}</div>
-              <div className={css.whiteTime}>{commentObj.created_at}</div>
+              <div className={css.whiteTime}>
+                {`${currYear}.${currMonth}.${currDate} ${currHours}.${currMinutes}.${currSeconds}`}
+              </div>
             </div>
             {modifyChecked ? (
               <textarea

@@ -12,7 +12,7 @@ const Company = React.memo(function ({
   const [comments, setComments] = useState([]);
 
   const toPostDetail = () => {
-    navigate(`/postdetail/${id}`);
+    navigate(`/postdetail/${id}`, { state: '전체 보기' });
   };
 
   useEffect(() => {
