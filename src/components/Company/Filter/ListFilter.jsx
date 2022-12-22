@@ -8,7 +8,7 @@ const ListFilter = React.memo(function ListFilter({ setQueryString }) {
   const navigate = useNavigate();
   const [area, setArea] = useState();
   const [subCategory, setSubCategory] = useState();
-
+  const [subCategoryData, setSubCategoryData] = useState('상세분야');
   const params = useParams();
   const category = params.id;
 
@@ -16,7 +16,6 @@ const ListFilter = React.memo(function ListFilter({ setQueryString }) {
     const queryString = `${area ? `locationsId=${area}&` : ''}${
       category ? `categoriesLv1Id=${category}` : ''
     }${subCategory ? `&categoriesLv2Id=${subCategory}` : ''}`;
-    navigate(`?${queryString}`);
     setQueryString(queryString);
   }, [params.id, area, category, subCategory, navigate, setQueryString]);
 
@@ -27,6 +26,8 @@ const ListFilter = React.memo(function ListFilter({ setQueryString }) {
         category={category}
         subCategory={subCategory}
         setSubCategory={setSubCategory}
+        subCategoryData={subCategoryData}
+        setSubCategoryData={setSubCategoryData}
       />
     </div>
   );

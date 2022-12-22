@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import css from './SubCategoryFilter.module.scss';
 
-const SubCategoryFilter = ({ category, setSubCategory }) => {
-  const [dropDown, setDropDown] = useState(false);
+const SubCategoryFilter = ({
+  category,
+  setSubCategory,
+  subCategoryData,
+  setSubCategoryData,
+}) => {
+  const [isDropDown, setIsDropDown] = useState(false);
   const [subCategoryValue, setSubCategoryValue] = useState([]);
-  const [subCategoryData, setSubCategoryData] = useState('상세분야');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -24,9 +28,10 @@ const SubCategoryFilter = ({ category, setSubCategory }) => {
   }, [category]);
 
   const onSubCategoryValue = e => {
+    e.preventDefault();
     setSubCategory(e.target.value);
     setSubCategoryData(e.target.name);
-    setDropDown(!dropDown);
+    setIsDropDown(!isDropDown);
   };
 
   return (
@@ -34,16 +39,16 @@ const SubCategoryFilter = ({ category, setSubCategory }) => {
       <span className={css.filterTitle}>상세분야</span>
       <button
         className={css.subCategoryFilter}
-        onClick={() => setDropDown(!dropDown)}
+        onClick={() => setIsDropDown(!isDropDown)}
       >
         <span className={css.subCategory}>{subCategoryData}</span>
-        {dropDown ? (
+        {isDropDown ? (
           <i className="fa-solid fa-angle-up" />
         ) : (
           <i className="fa-solid fa-angle-down" />
         )}
       </button>
-      {dropDown ? (
+      {isDropDown ? (
         <div className={css.subCategoryItems}>
           {subCategoryValue.map(({ id, subCategory }) => (
             <div key={id}>

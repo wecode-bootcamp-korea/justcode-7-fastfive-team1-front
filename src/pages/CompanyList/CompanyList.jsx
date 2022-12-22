@@ -8,17 +8,20 @@ import css from './CompanyList.module.scss';
 
 const CompanyList = () => {
   const [companyListData, setCompanyListData] = useState([]);
-  const [startPage, setStartPage] = useState(0);
-  const [endPage, setEndPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const [userData, setUserData] = useState([]);
   const [queryString, setQueryString] = useState();
 
-  const pageNation = [];
-  for (let i = 1; i <= Math.ceil(companyListData.length / 8); i++) {
-    pageNation.push(i);
+  const pagination = [];
+  for (let i = 1; i <= Math.ceil(companyListData.length / 10); i++) {
+    pagination.push(i);
   }
 
+  const onPages = e => {
+    setCurrentPage(e.target.value);
+  };
+
+  console.log(companyListData);
   useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(`http://localhost:5500/user`, {
@@ -62,11 +65,6 @@ const CompanyList = () => {
   }, [queryString]);
 
   useEffect(() => {
-    setStartPage((currentPage - 1) * 8);
-    setEndPage(currentPage * 8);
-  }, [currentPage]);
-
-  useEffect(() => {
     const token = localStorage.getItem('token');
     fetch(`http://localhost:5500/user`, {
       headers: {
@@ -94,7 +92,7 @@ const CompanyList = () => {
             <span>관심 있는 멤버를 찾아보세요!</span>
           </div>
           <div className={css.categoryContent}>
-            <Filter setQueryString={setQueryString} />
+            <Filter setQueryString={setQueryString} currentPage={currentPage} />
             {userData.isCompanyMainMember === 1 ? (
               <Link to="/writePost">
                 <button className={css.companyIntroduceBtn}>
@@ -105,9 +103,8 @@ const CompanyList = () => {
             ) : null}
           </div>
           <div className={css.companyList}>
-            {companyListData
-              .slice(startPage, endPage)
-              .map(({ id, companyName, companyShortDesc, companyImgUrl }) => (
+            {companyListData.map(
+              ({ id, companyName, companyShortDesc, companyImgUrl }) => (
                 <Company
                   key={id}
                   id={id}
@@ -115,14 +112,16 @@ const CompanyList = () => {
                   companyShortDesc={companyShortDesc}
                   companyImgUrl={companyImgUrl}
                 />
-              ))}
+              )
+            )}
           </div>
-          <div className={css.pageNation}>
-            {pageNation.map(page => (
+          <div className={css.pagination}>
+            {pagination.map(page => (
               <button
                 className={currentPage === page ? css.currentPage : css.page}
                 key={page}
-                onClick={() => setCurrentPage(page)}
+                value={page}
+                onClick={onPages}
               >
                 {page}
               </button>
