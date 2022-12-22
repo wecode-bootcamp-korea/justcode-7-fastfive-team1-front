@@ -30,7 +30,7 @@ function OwnerRequest() {
   const onSubmit = e => {
     const token = localStorage.getItem('token');
     if (validation === true) {
-      fetch(`http://localhost:5500/company-request`, {
+      fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

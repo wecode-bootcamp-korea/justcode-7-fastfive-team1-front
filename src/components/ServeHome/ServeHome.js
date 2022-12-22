@@ -30,10 +30,6 @@ const ServeHome = () => {
     setCategoryImg(e.target.files[0]);
   };
 
-  const openZendesk = () => {
-    window.open('http://localhost:3000/zendesk', '_blank');
-  };
-
   const toCategoryList = id => {
     const token = localStorage.getItem('token');
     if (token !== '') {
@@ -59,7 +55,7 @@ const ServeHome = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5500/category', {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       method: 'GET',
     })
       .then(res => res.json())
@@ -69,7 +65,7 @@ const ServeHome = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token !== '') {
-      fetch(`http://localhost:5500/user`, {
+      fetch(`${process.env.REACT_APP_API_URI}/user`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,
@@ -89,7 +85,7 @@ const ServeHome = () => {
 
   const onRemove = id => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5500/category', {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -112,7 +108,7 @@ const ServeHome = () => {
 
   const onEdit = id => {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:5500/category', {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +150,7 @@ const ServeHome = () => {
 
     await axios({
       method: 'PATCH',
-      url: 'http://localhost:5500/category/img',
+      url: `${process.env.REACT_APP_API_URI}/category/img`,
       mode: 'cors',
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -246,9 +242,9 @@ const ServeHome = () => {
           );
         })}
       </div>
-      <button className={css.zendesk} onClick={openZendesk}>
-        멤버 소개 관련 문의
-      </button>
+      <Link to="/zendesk">
+        <button className={css.zendesk}>멤버 소개 관련 문의</button>
+      </Link>
     </div>
   );
 };

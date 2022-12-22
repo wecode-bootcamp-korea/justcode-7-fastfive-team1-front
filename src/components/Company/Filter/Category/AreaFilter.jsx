@@ -8,7 +8,7 @@ const AreaFilter = ({ setArea }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/location`, {
+    fetch(`${process.env.REACT_APP_API_URI}/location`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,

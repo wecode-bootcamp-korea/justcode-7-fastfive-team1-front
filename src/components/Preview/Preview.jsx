@@ -5,7 +5,7 @@ function Preview({ onClose }) {
   const [formData, setFormData] = useState('');
   const [infoPath, setInfoPath] = useState('');
   useEffect(() => {
-    fetch('http://localhost:5500/post-form', {
+    fetch(`${process.env.REACT_APP_API_URI}/post-form`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +19,6 @@ function Preview({ onClose }) {
   }, []);
 
   useEffect(() => {
-    console.log(formData);
     if (formData) {
       let path = formData.companyInfoUrl;
       let idx = path.lastIndexOf('/');

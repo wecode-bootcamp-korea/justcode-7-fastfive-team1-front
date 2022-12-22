@@ -3,7 +3,7 @@ import css from './ReqElem.module.scss';
 
 function App({ userData, reqListElem, currUserClass, setReqData }) {
   const clickMemberSubmitBtn = () => {
-    fetch('http://localhost:5500/member', {
+    fetch(`${process.env.REACT_APP_API_URI}/member`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
     })
       .then(res => res.json())
       .then(data => {
-        fetch('http://localhost:5500/member-request', {
+        fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
           // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
@@ -33,7 +33,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
   };
 
   const clickMemberRefuseBtn = () => {
-    fetch('http://localhost:5500/member-request', {
+    fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
     })
       .then(res => res.json())
       .then(data => {
-        fetch('http://localhost:5500/member-request', {
+        fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
           // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
@@ -63,7 +63,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
   };
 
   const clickRepresentSubmitBtn = () => {
-    fetch('http://localhost:5500/company', {
+    fetch(`${process.env.REACT_APP_API_URI}/company`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
     })
       .then(res => res.json())
       .then(data => {
-        fetch('http://localhost:5500/company-request', {
+        fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
           // fetch('/data/representReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
@@ -99,7 +99,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
   };
 
   const clickRepresentRefuseBtn = () => {
-    fetch('http://localhost:5500/company-request', {
+    fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
     })
       .then(res => res.json())
       .then(data => {
-        fetch('http://localhost:5500/company-request', {
+        fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
           // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),

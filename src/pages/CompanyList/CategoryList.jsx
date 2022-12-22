@@ -38,7 +38,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/category`, {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,
@@ -55,7 +55,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/user`, {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,
@@ -72,7 +72,7 @@ const CategoryList = () => {
     const token = localStorage.getItem('token');
     if (queryString !== undefined) {
       fetch(
-        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        `${process.env.REACT_APP_API_URI}/post?${queryString}&offset=10&page=${currentPage}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const CategoryList = () => {
         });
     } else {
       fetch(
-        `http://localhost:5500/post?categoriesLv1Id=${params.id}&offset=10&page=${currentPage}`,
+        `${process.env.REACT_APP_API_URI}/post?categoriesLv1Id=${params.id}&offset=10&page=${currentPage}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -104,18 +104,21 @@ const CategoryList = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (queryString !== '') {
-      fetch(`http://localhost:5500/post?categoriesLv1Id=${params.id}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: token,
-        },
-      })
+      fetch(
+        `${process.env.REACT_APP_API_URI}/post?categoriesLv1Id=${params.id}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+          },
+        }
+      )
         .then(res => res.json())
         .then(data => {
           setAllData(data);
         });
     } else {
-      fetch(`http://localhost:5500/post?${queryString}`, {
+      fetch(`${process.env.REACT_APP_API_URI}/post?${queryString}`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,

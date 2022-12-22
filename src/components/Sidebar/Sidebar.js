@@ -8,7 +8,7 @@ function SideBar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5500/user`, {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: localStorage.getItem('token'),
@@ -31,7 +31,7 @@ function SideBar() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5500/grade`, {
+    fetch(`${process.env.REACT_APP_API_URI}/grade`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: localStorage.getItem('token'),

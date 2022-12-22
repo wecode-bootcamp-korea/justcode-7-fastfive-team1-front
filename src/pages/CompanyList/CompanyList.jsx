@@ -38,7 +38,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/user`, {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,
@@ -55,7 +55,7 @@ const CompanyList = () => {
     const token = localStorage.getItem('token');
     if (queryString !== '') {
       fetch(
-        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        `${process.env.REACT_APP_API_URI}/post?${queryString}&offset=10&page=${currentPage}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const CompanyList = () => {
         });
     } else {
       fetch(
-        `http://localhost:5500/post?${queryString}&offset=10&page=${currentPage}`,
+        `${process.env.REACT_APP_API_URI}/post?${queryString}&offset=10&page=${currentPage}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const CompanyList = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (queryString !== '') {
-      fetch(`http://localhost:5500/post?${queryString}`, {
+      fetch(`${process.env.REACT_APP_API_URI}/post?${queryString}`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,
@@ -98,7 +98,7 @@ const CompanyList = () => {
           setAllData(data);
         });
     } else {
-      fetch(`http://localhost:5500/post?${queryString}`, {
+      fetch(`${process.env.REACT_APP_API_URI}/post?${queryString}`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,
@@ -113,7 +113,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/user`, {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,

@@ -23,7 +23,7 @@ const SignUp = ({ onClose, modalImages }) => {
   //이메일 중복확인
   const [duplicateEmail, setDuplicateEmail] = useState(true);
   const duplicateCheck = e => {
-    fetch(`http://localhost:5500/email`, {
+    fetch(`${process.env.REACT_APP_API_URI}/email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ const SignUp = ({ onClose, modalImages }) => {
 
   const onSubmit = e => {
     if (validation === true) {
-      fetch(`http://localhost:5500/signup`, {
+      fetch(`${process.env.REACT_APP_API_URI}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

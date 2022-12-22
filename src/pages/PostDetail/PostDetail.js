@@ -29,7 +29,7 @@ function PostDetail() {
   const categoryValue = location.state;
 
   useEffect(() => {
-    fetch(`http://localhost:5500/user`, {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: localStorage.getItem('token'),
@@ -42,7 +42,7 @@ function PostDetail() {
   }, []);
 
   useEffect(() => {
-    fetch(`http://localhost:5500/grade`, {
+    fetch(`${process.env.REACT_APP_API_URI}/grade`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: localStorage.getItem('token'),
@@ -54,7 +54,7 @@ function PostDetail() {
 
   useEffect(() => {
     if (ourGruop) {
-      fetch(`http://localhost:5500/post?ourGruop=${ourGruop}`, {
+      fetch(`${process.env.REACT_APP_API_URI}/post?ourGruop=${ourGruop}`, {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -66,7 +66,7 @@ function PostDetail() {
     }
 
     if (page) {
-      fetch(`http://localhost:5500/post/${page}`, {
+      fetch(`${process.env.REACT_APP_API_URI}/post/${page}`, {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -201,7 +201,7 @@ function PostDetail() {
   useEffect(() => {
     if (Object.keys(postData).length !== 0)
       fetch(
-        `http://127.0.0.1:5500/comment/${postData.id}?page=${currCommentPage}`,
+        `${process.env.REACT_APP_API_URI}/comment/${postData.id}?page=${currCommentPage}`,
         {
           headers: {
             authorization: localStorage.getItem('token'),
@@ -213,7 +213,7 @@ function PostDetail() {
   }, [postData, currCommentPage]);
 
   const clickDeleteBtn = () => {
-    fetch(`http://localhost:5500/post/${postData.id}`, {
+    fetch(`${process.env.REACT_APP_API_URI}/post/${postData.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

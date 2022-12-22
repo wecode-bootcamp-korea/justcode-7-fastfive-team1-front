@@ -28,7 +28,7 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
 
     await axios({
       method: 'POST',
-      url: 'http://localhost:5500/category',
+      url: `${process.env.REACT_APP_API_URI}/category`,
       mode: 'cors',
       headers: {
         'Content-Type': 'multipart/form-data',

@@ -33,7 +33,7 @@ const Login = ({ onClose, modalImages }) => {
   };
 
   const onLogin = () => {
-    fetch(`http://localhost:5500/login`, {
+    fetch(`${process.env.REACT_APP_API_URI}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -72,7 +72,7 @@ function Comment({
   };
 
   const clickSubmitBtn = () => {
-    fetch('http://127.0.0.1:5500/comment', {
+    fetch(`${process.env.REACT_APP_API_URI}/comment`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ function Comment({
   };
 
   const clickDeleteBtn = () => {
-    fetch('http://127.0.0.1:5500/comment', {
+    fetch(`${process.env.REACT_APP_API_URI}/comment`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

@@ -18,7 +18,7 @@ const Header = () => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token !== '') {
-      fetch(`http://localhost:5500/user`, {
+      fetch(`${process.env.REACT_APP_API_URI}/user`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: token,

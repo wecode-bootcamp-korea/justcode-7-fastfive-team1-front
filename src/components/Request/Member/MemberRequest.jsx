@@ -6,7 +6,7 @@ const MemberRequest = () => {
   const [userCompany, setUserCompany] = useState();
 
   useEffect(() => {
-    fetch(`http://localhost:5500/company`)
+    fetch(`${process.env.REACT_APP_API_URI}/company`)
       .then(res => res.json())
       .then(data => {
         setCompanyData(data);
@@ -19,7 +19,7 @@ const MemberRequest = () => {
 
   const onSubmit = e => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/member-request`, {
+    fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

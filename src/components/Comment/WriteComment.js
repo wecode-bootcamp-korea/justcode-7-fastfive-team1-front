@@ -39,7 +39,7 @@ function Comment({
     if (textLength < 1 || textLength > 1000) return;
     if (commentPageTotalCount > 50) return;
 
-    fetch('http://127.0.0.1:5500/commentOnPost', {
+    fetch(`${process.env.REACT_APP_API_URI}/commentOnPost`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

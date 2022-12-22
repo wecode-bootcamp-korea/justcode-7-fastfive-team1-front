@@ -8,7 +8,7 @@ const CategoryFilter = ({ handleCategory }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    fetch(`http://localhost:5500/category`, {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: token,

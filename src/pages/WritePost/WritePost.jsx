@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 const axios_ = axios.create({
-  baseURL: 'http://localhost:5500/',
+  baseURL: `${process.env.REACT_APP_API_URI}/`,
 });
 
 const WritePost = () => {
@@ -89,7 +89,7 @@ const WritePost = () => {
   const stateText = location.state;
 
   useEffect(() => {
-    fetch('http://localhost:5500/branch', {
+    fetch(`${process.env.REACT_APP_API_URI}/branch`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const WritePost = () => {
         setPlaces(res.data);
       });
 
-    fetch('http://localhost:5500/post-form', {
+    fetch(`${process.env.REACT_APP_API_URI}/post-form`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const WritePost = () => {
         setFormData(res);
       });
 
-    fetch('http://localhost:5500/category', {
+    fetch(`${process.env.REACT_APP_API_URI}/category`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -368,7 +368,9 @@ const WritePost = () => {
 
   return (
     <>
-      <Header />
+      <div className={css.header}>
+        <Header />
+      </div>
       <div className={css.wrapper}>
         <div className={css.progress} id="progBar"></div>
       </div>

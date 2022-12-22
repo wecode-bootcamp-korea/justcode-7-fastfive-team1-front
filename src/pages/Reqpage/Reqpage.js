@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     // fetch('data/userData.json', {
-    fetch('http://localhost:5500/user', {
+    fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         authorization: localStorage.getItem('token'),
       },
@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     console.log(currUserClass);
     if (currUserClass === 'admin') {
-      fetch('http://localhost:5500/company-request', {
+      fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
         // fetch('/data/representReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
@@ -52,7 +52,7 @@ function App() {
     }
 
     if (currUserClass === 'represent') {
-      fetch('http://localhost:5500/member-request', {
+      fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
         // fetch('/data/memberReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
