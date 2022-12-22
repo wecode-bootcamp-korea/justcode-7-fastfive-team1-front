@@ -36,6 +36,13 @@ function SideBar() {
   }, [sidebarUserInfo, sidebarUserGrade]);
   return (
     <div className={css.main}>
+      <img
+        className={css.logoImg}
+        src="https://www.fastfive.co.kr/wp-content/uploads/2021/05/202105_logo_1.png"
+      />
+
+      <div className={css.divider}></div>
+
       <div className={css.userInfo}>
         {sidebarUserInfo && (
           <div className={css.userInfoCell}>
