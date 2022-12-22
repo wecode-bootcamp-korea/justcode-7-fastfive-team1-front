@@ -60,7 +60,9 @@ function PostDetail() {
         },
       })
         .then(res => res.json())
-        .then(data => setPostData(data));
+        .then(data => {
+          setPostData(data);
+        });
     }
 
     if (page) {
@@ -223,6 +225,12 @@ function PostDetail() {
   const clickImg = event => {
     console.log(postData.companyImgUrl);
     console.log(event.target.backgroundImage);
+    console.log(
+      '수정',
+      postData.companyImgUrl
+        .replaceAll(('\\(', '\\('))
+        .replaceAll(('\\)', '\\)'))
+    );
   };
 
   return (
@@ -248,7 +256,9 @@ function PostDetail() {
                 className={`${css.img}`}
                 onClick={clickImg}
                 style={{
-                  backgroundImage: `url(${encodeURI(postData.companyImgUrl)})`,
+                  backgroundImage: `url('${encodeURI(
+                    postData.companyImgUrl
+                  )}')`,
                 }}
               />
             )}
