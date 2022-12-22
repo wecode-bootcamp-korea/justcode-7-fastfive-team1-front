@@ -15,9 +15,7 @@ const Filter = ({ setQueryString, currentPage }) => {
   useEffect(() => {
     const queryString = `${area ? `locationsId=${area}&` : ''}${
       category ? `categoriesLv1Id=${category}` : ''
-    }${
-      subCategory ? `&categoriesLv2Id=${subCategory}` : ''
-    }${`offset=40`}&${`page=${currentPage}`}`;
+    }${subCategory ? `&categoriesLv2Id=${subCategory}` : ''}`;
     setQueryString(queryString);
   }, [area, currentPage, category, subCategory, navigate, setQueryString]);
 

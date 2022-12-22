@@ -11,7 +11,7 @@ function Comment({
   postData,
   commentPageTotalCount,
 }) {
-  const [replyOpenState, setReplyOpenState] = useState(commentObj.lastComment);
+  const [replyOpenState, setReplyOpenState] = useState(false);
   const [modifyChecked, setModifyChecked] = useState(false);
   const [isInputClicked, setIsInputClicked] = useState(false);
   const [textareaLength, setTextareaLength] = useState(0);

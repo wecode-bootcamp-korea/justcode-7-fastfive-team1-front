@@ -1,6 +1,19 @@
 .companyListContainer {
   display: grid;
   grid-template-columns: 240px 1fr;
+  .wrapper {
+    display: flex;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: #252525;
+  }
+  .progress {
+    height: 4px;
+    background: coral;
+    width: 0%;
+  }
 
   .companyContainer {
     width: 100%;
@@ -66,11 +79,35 @@
         margin-top: 30px;
       }
 
-      .pageNation {
+      .pagination {
         display: flex;
         justify-content: center;
         align-items: flex-end;
         height: 80px;
+
+        .currentPage {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 10px;
+          height: 10px;
+          padding: 10px;
+          border-radius: 100%;
+          background-color: #fe6d6a;
+          color: white;
+          font-size: 15px;
+          cursor: pointer;
+        }
+        .page {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 10px;
+          height: 10px;
+          padding: 10px;
+          color: gray;
+          font-size: 15px;
+        }
       }
     }
   }
