@@ -247,7 +247,9 @@ function PostDetail() {
               <div
                 className={`${css.img}`}
                 onClick={clickImg}
-                style={{ backgroundImage: `url(${postData.companyImgUrl})` }}
+                style={{
+                  backgroundImage: `url(${encodeURI(postData.companyImgUrl)})`,
+                }}
               />
             )}
 
