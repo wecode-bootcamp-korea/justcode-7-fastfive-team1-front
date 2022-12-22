@@ -21,9 +21,11 @@ const Home = () => {
   }
   return (
     <div className={css.container}>
-      <div className={css.wrapper}>
+      <div className={css.header}>
         <Header />
-        <div className={css.progress} id="progBar"></div>
+        <div className={css.wrapper}>
+          <div className={css.progress} id="progBar"></div>
+        </div>
       </div>
       <div className={css.main}>
         <SideBar />

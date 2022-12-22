@@ -24,9 +24,7 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
     formData.append('category_name', cardTitle);
     formData.append('description', cardContent);
     formData.append('img_url', cardImg);
-    for (let key of formData.keys()) {
-      console.log(key, ':', formData.get(key));
-    }
+    const imgUrl = URL.createObjectURL(cardImg);
 
     await axios({
       method: 'POST',
@@ -41,7 +39,7 @@ const AddCategoryModal = ({ onClose, onCreate }) => {
     onCreate({
       category_name: cardTitle,
       description: cardContent,
-      img_url: cardImg,
+      img_url: imgUrl,
     });
     setCardTitle('');
     setCardContent('');
