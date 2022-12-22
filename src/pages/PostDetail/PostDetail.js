@@ -77,10 +77,7 @@ function PostDetail() {
   }, []);
 
   useEffect(() => {
-    // fetch('/data/commentData.json')
-
     if (Object.keys(postData).length !== 0) {
-      console.log(postData);
       fetch(`http://127.0.0.1:5500/comment/${postData.id}?page=1`, {
         headers: {
           authorization: localStorage.getItem('token'),
@@ -222,17 +219,6 @@ function PostDetail() {
     });
   };
 
-  const clickImg = event => {
-    console.log(postData.companyImgUrl);
-    console.log(event.target.backgroundImage);
-    console.log(
-      '수정',
-      postData.companyImgUrl
-        .replaceAll(('\\(', '\\('))
-        .replaceAll(('\\)', '\\)'))
-    );
-  };
-
   return (
     <div className={css.postDetail}>
       <Header />
@@ -254,7 +240,6 @@ function PostDetail() {
             {postData.companyImgUrl && (
               <div
                 className={`${css.img}`}
-                onClick={clickImg}
                 style={{
                   backgroundImage: `url('${encodeURI(
                     postData.companyImgUrl

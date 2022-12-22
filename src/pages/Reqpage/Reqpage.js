@@ -11,7 +11,6 @@ function App() {
   const [reqData, setReqData] = useState([]);
 
   useEffect(() => {
-    // fetch('data/userData.json', {
     fetch(`${process.env.REACT_APP_API_URI}/user`, {
       headers: {
         authorization: localStorage.getItem('token'),
@@ -39,10 +38,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(currUserClass);
     if (currUserClass === 'admin') {
       fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
-        // fetch('/data/representReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -53,7 +50,6 @@ function App() {
 
     if (currUserClass === 'represent') {
       fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
-        // fetch('/data/memberReqData.json', {
         headers: {
           authorization: localStorage.getItem('token'),
         },
@@ -62,14 +58,6 @@ function App() {
         .then(data => setReqData(data.memberList));
     }
   }, [currUserClass]);
-
-  // useEffect(() => {
-  //   console.log(reqData);
-  // }, [reqData]);
-
-  // useEffect(() => {
-  //   console.log(userData);
-  // }, [userData]);
 
   return (
     <>

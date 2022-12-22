@@ -41,11 +41,6 @@ function SideBar() {
       .then(data => setSidebarUserGrade(data.userGradeInfo));
   }, []);
 
-  // useEffect(() => {
-  //   console.log(sidebarUserInfo);
-  //   console.log(sidebarUserGrade);
-  // }, [sidebarUserInfo, sidebarUserGrade]);
-
   return (
     <div className={css.main}>
       <Link to="/">

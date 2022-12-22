@@ -18,7 +18,6 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
       .then(res => res.json())
       .then(data => {
         fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
-          // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
           },
@@ -46,7 +45,6 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
       .then(res => res.json())
       .then(data => {
         fetch(`${process.env.REACT_APP_API_URI}/member-request`, {
-          // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
           },
@@ -80,15 +78,12 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
       .then(res => res.json())
       .then(data => {
         fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
-          // fetch('/data/representReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
           },
         })
           .then(res => res.json())
           .then(data => {
-            // console.log(data.companyList);
-            // setReqData(data.companyList);
             window.location.reload();
           });
 
@@ -112,15 +107,12 @@ function App({ userData, reqListElem, currUserClass, setReqData }) {
       .then(res => res.json())
       .then(data => {
         fetch(`${process.env.REACT_APP_API_URI}/company-request`, {
-          // fetch('/data/memberReqData.json', {
           headers: {
             authorization: localStorage.getItem('token'),
           },
         })
           .then(res => res.json())
           .then(data => {
-            // console.log(data.companyList);
-            // setReqData(data.companyList);
             window.location.reload();
           });
 
