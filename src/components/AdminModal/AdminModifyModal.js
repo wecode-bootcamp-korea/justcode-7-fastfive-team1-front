@@ -14,7 +14,7 @@ const Adminset = ({
   categoryContent,
   imgHandler,
   onEdit,
-  editCategory,
+  onEditCategory,
 }) => {
   return (
     <AdminModal onClose={onClose}>
@@ -36,7 +36,7 @@ const Adminset = ({
               />
               <button
                 className={css.saveBtn}
-                onClick={e => editCategory(e, id)}
+                onClick={e => onEditCategory(e, id)}
               >
                 이미지 변경
               </button>

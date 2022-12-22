@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddCategoryModal from '../AdminModal/AddCategoryModal';
 import Carousel from '../Carousel/Carousel';
@@ -8,7 +8,31 @@ import css from './ServeHome.module.scss';
 const ServeHome = () => {
   const [cardData, setCardData] = useState([]);
   const [openAdminModal, setOpenAdminModal] = useState(false);
+  const [categoryTitle, setCategoryTitle] = useState('');
+  const [categoryContent, setCategoryContent] = useState('');
+  const [categoryImg, setCategoryImg] = useState('');
+  const [userName, setUserName] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
+  const [postData, setPostData] = useState({});
   const navigate = useNavigate();
+  const { page } = useParams();
+
+  const openAdmin = () => {
+    setOpenAdminModal(true);
+  };
+  const titleHandler = e => {
+    setCategoryTitle(e.target.value);
+  };
+  const contentHandler = e => {
+    setCategoryContent(e.target.value);
+  };
+  const imgHandler = e => {
+    setCategoryImg(e.target.files[0]);
+  };
+
+  const openZendesk = () => {
+    window.open('http://localhost:3000/zendesk', '_blank');
+  };
 
   const toCategoryList = id => {
     const token = localStorage.getItem('token');
@@ -32,29 +56,6 @@ const ServeHome = () => {
       alert(`로그인 후 이용해주세요!`);
       navigate(`/`);
     }
-  };
-
-  const [categoryTitle, setCategoryTitle] = useState('');
-  const [categoryContent, setCategoryContent] = useState('');
-  const [categoryImg, setCategoryImg] = useState('');
-  const [userName, setUserName] = useState([]);
-  const [userInfo, setUserInfo] = useState([]);
-
-  const openAdmin = () => {
-    setOpenAdminModal(true);
-  };
-  const titleHandler = e => {
-    setCategoryTitle(e.target.value);
-  };
-  const contentHandler = e => {
-    setCategoryContent(e.target.value);
-  };
-  const imgHandler = e => {
-    setCategoryImg(e.target.files[0]);
-  };
-
-  const openZendesk = () => {
-    window.open('http://localhost:3000/zendesk', '_blank');
   };
 
   useEffect(() => {
@@ -144,9 +145,10 @@ const ServeHome = () => {
       });
   };
 
-  const editCategory = async (e, id) => {
+  const onEditCategory = async (e, id) => {
     e.preventDefault();
     const imgData = new FormData();
+    const imgUrl = URL.createObjectURL(categoryImg);
     imgData.append('categoryId', id);
     imgData.append('img_url', categoryImg);
 
@@ -165,7 +167,7 @@ const ServeHome = () => {
         data.id === id
           ? {
               ...data,
-              img_url: categoryImg,
+              img_url: imgUrl,
             }
           : data
       )
@@ -183,45 +185,18 @@ const ServeHome = () => {
     );
   };
 
-  // const [target, setTarget] = useState(null);
-  // const page = 1;
-
-  // useEffect(() => {
-  //   let observer;
-  //   if (target) {
-  //     const onIntersect = async ([entry], observer) => {
-  //       if (entry.isIntersection) {
-  //         observer.unobserve(entry.target);
-  //         await fetchData();
-  //         observer.observe(entry.target);
-  //       }
-  //     };
-  //     observer = new IntersectionObserver(onIntersect, { threshold: 1 });
-  //     observer.observe(target);
-  //   }
-  //   return () => observer && observer.disconnect();
-  // }, [target]);
-
-  // const fetchData = async () => {
-  //   const response = await fetch('/data/CategoryData.json');
-  //   const data = await response.json();
-  //   setCardData(prev => prev.concat(data.data));
-  //   page++;
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
   return (
     <div className={css.serveHomeContainer}>
       <div className={css.bannerAd}>
         <Carousel />
       </div>
       {userInfo === 1 && (
-        <button className={css.companyIntroduceBtn}>
-          <span>우리회사 소개하기</span>
-          <i className="fa-solid fa-building" />
-        </button>
+        <Link to="/writePost">
+          <button className={css.companyIntroduceBtn}>
+            <span>우리회사 소개하기</span>
+            <i className="fa-solid fa-building" />
+          </button>
+        </Link>
       )}
       <div className={css.titleWrapper}>
         <h1 className={css.title}>
@@ -264,7 +239,7 @@ const ServeHome = () => {
               imgHandler={imgHandler}
               userName={userName}
               toCategoryList={toCategoryList}
-              editCategory={editCategory}
+              onEditCategory={onEditCategory}
             />
           );
         })}

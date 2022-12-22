@@ -16,7 +16,7 @@ const CategoryCard = ({
   onEdit,
   userName,
   toCategoryList,
-  editCategory,
+  onEditCategory,
 }) => {
   const [openAdminModal, setOpenAdminModal] = useState(false);
 
@@ -66,7 +66,7 @@ const CategoryCard = ({
                 categoryContent={categoryContent}
                 onEdit={onEdit}
                 imgHandler={imgHandler}
-                editCategory={editCategory}
+                onEditCategory={onEditCategory}
               />
             )}
           </div>
