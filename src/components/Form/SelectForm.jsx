@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import css from './SelectForm.module.scss';
 
 const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
-  console.log(datum);
   const [category, setCategory] = useState('');
   const [level2Category, setLevel2Category] = useState('');
   const [branch, setBranch] = useState('');
@@ -37,8 +36,10 @@ const SelectForm = ({ title, optionVal, datum, setFunc, selected }) => {
     if (selected) {
       for (let i in datum) {
         if (datum[i].id === selected) {
-          if (optionVal === '상세' || optionVal === '카테고리') {
+          if (optionVal === '상세') {
             setValue(datum[i].category);
+          } else if (optionVal === '카테고리') {
+            setValue(datum[i].category_name);
           } else {
             setValue(datum[i].branch_name);
           }

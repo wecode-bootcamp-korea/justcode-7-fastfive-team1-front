@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
+
 import css from './PostDetail.module.scss';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import Comment from '../../components/Comment/Comment';
@@ -241,7 +242,12 @@ function PostDetail() {
             <div>
               {userInfo && postData && userInfo.id === postData.usersId && (
                 <div className={`${css.btnDiv}`}>
-                  <button className={css.modifyBtn}>수정</button>
+                  <button
+                    onClick={e => navigate('/writePost', { state: '수정' })}
+                    className={css.modifyBtn}
+                  >
+                    수정
+                  </button>
                   <div className={`${css.divider}`} />
                   <button onClick={clickDeleteBtn} className={css.deleteBtn}>
                     삭제

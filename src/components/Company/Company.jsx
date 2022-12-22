@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import css from './Company.module.scss';
 
-const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
+const Company = React.memo(function ({
+  id,
+  companyName,
+  companyShortDesc,
+  companyImgUrl,
+}) {
   const navigate = useNavigate();
+  const [comments, setComments] = useState([]);
 
   const toPostDetail = () => {
     navigate(`/postdetail/${id}`, { state: '전체 보기' });
   };
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:5500/comment/1?page=${id}`, {
+      headers: {
+        authorization: localStorage.getItem('token'),
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        setComments(res.length);
+      });
+  }, [id]);
+
   return (
     <div className={css.companyContainer} onClick={toPostDetail}>
       <div className={css.companyImageBox}>
@@ -20,7 +39,7 @@ const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
       <div className={css.companyContentBox}>
         <div className={css.companyName}>
           <p className={css.name}>{companyName}</p>
-          <p className={css.comment}>댓글 ()</p>
+          <p className={css.comment}>댓글 ({comments})</p>
         </div>
         <div className={css.companyIntro}>
           <p className={css.intro}>
@@ -30,6 +49,6 @@ const Company = ({ id, companyName, companyShortDesc, companyImgUrl }) => {
       </div>
     </div>
   );
-};
+});
 
-export default Company;
+export default React.memo(Company);

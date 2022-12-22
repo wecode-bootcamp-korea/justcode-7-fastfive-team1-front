@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import css from './CategoryFilter.module.scss';
 
-const CategoryFilter = ({ setCategory, category }) => {
+const CategoryFilter = ({ setCategory }) => {
   const [dropDown, setDropDown] = useState(false);
   const [categoryValue, setCategoryValue] = useState([]);
   const [categoryData, setCategoryData] = useState('카테고리');
@@ -16,7 +16,6 @@ const CategoryFilter = ({ setCategory, category }) => {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res.data);
         setCategoryValue(res.data);
       });
   }, []);
@@ -26,7 +25,6 @@ const CategoryFilter = ({ setCategory, category }) => {
     setCategoryData(e.target.name);
     setDropDown(!dropDown);
   };
-
   return (
     <div className={css.categoryFilterWrap}>
       <div className={css.categoryFilterContainer}>
@@ -53,7 +51,7 @@ const CategoryFilter = ({ setCategory, category }) => {
                 value={id}
                 onClick={onCategoryValue}
               >
-                {category_name}
+                <span className={css.categoryName}>{category_name}</span>
               </button>
             ))}
           </div>
