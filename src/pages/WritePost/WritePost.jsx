@@ -356,7 +356,7 @@ const WritePost = () => {
     <>
       <Header />
       <div className={css.container}>
-        <div>
+        <div className={css.SideBarWrap}>
           <SideBar />
         </div>
 
