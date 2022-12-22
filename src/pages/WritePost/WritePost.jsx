@@ -10,7 +10,7 @@ import Header from '../../components/Header/Header';
 import css from './WritePost.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { async } from 'q';
+
 const axios_ = axios.create({
   baseURL: 'http://localhost:5500/',
 });
@@ -27,12 +27,10 @@ const WritePost = () => {
   const [secondCategory, setSecondCategory] = useState([]);
   const [level2CategoriesId, setlevel2CategoriesId] = useState('');
   const [fastfiveBranchesId, setfastfiveBranchesId] = useState('');
-  // const [userData, setUserData] = useState('');
   const [logoFile, setLogoFile] = useState('');
   const [infoFile, setInfoFile] = useState('');
   const [checked, setChecked] = useState('');
   const [saveTime, setSaveTime] = useState('');
-  const [pass, setPass] = useState(false);
   const [flag, setFlag] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState({
@@ -246,9 +244,8 @@ const WritePost = () => {
         passUrl = urlValidation();
       }
       if (passUrl) {
-        submitCheck();
         getTime();
-        if (pass) {
+        if (submitCheck()) {
           await axios_({
             method: 'PUT',
             url: `/post`,
@@ -269,6 +266,8 @@ const WritePost = () => {
             },
             data: outFormData,
           });
+          alert('등록되었습니다!');
+          navigate(`/companyList`);
         }
       }
     } else if (name === '임시') {
@@ -284,6 +283,38 @@ const WritePost = () => {
         data: outFormData,
       });
     }
+  };
+  const submitCheck = () => {
+    let rtnflag = false;
+    if (checked === false) {
+      setChecked('');
+    }
+    const array = {
+      mainCategory: firstCategory,
+      logoURL: logoImageURL,
+      shortDesc: companyShortDesc,
+      field: mainBussinessTags,
+      ContactAddress: companyContactAddress,
+      branch: places,
+      isChecked: checked,
+    };
+    const flag = [];
+
+    for (let i in require) {
+      setRequire(prevState => {
+        return {
+          ...prevState,
+          [i]: String(array[i]).replace(/ /g, '').length > 0 ? true : false,
+        };
+      });
+      flag.push(String(array[i]).replace(/ /g, '').length > 0 ? true : false);
+    }
+    if (!flag.includes(false)) {
+      rtnflag = true;
+    } else {
+      window.scrollTo(0, 0);
+    }
+    return rtnflag;
   };
 
   const changeCheck = e => {
@@ -313,38 +344,6 @@ const WritePost = () => {
       alert('홈페이지 url을 다시 확인해 주세요.');
     }
     return urlTest ? true : false;
-  };
-  const submitCheck = () => {
-    if (checked === false) {
-      setChecked('');
-    }
-    const array = {
-      mainCategory: firstCategory,
-      logoURL: logoImageURL,
-      shortDesc: companyShortDesc,
-      field: mainBussinessTags,
-      ContactAddress: companyContactAddress,
-      branch: places,
-      isChecked: checked,
-    };
-    const flag = [];
-
-    for (let i in require) {
-      setRequire(prevState => {
-        return {
-          ...prevState,
-          [i]: String(array[i]).replace(/ /g, '').length > 0 ? true : false,
-        };
-      });
-      flag.push(String(array[i]).replace(/ /g, '').length > 0 ? true : false);
-    }
-    if (!flag.includes(false)) {
-      setPass(true);
-      alert('등록되었습니다!');
-      navigate(`/companyList`);
-    } else {
-      window.scrollTo(0, 0);
-    }
   };
 
   return (
