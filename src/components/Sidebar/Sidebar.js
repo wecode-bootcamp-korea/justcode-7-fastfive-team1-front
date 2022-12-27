@@ -3,42 +3,50 @@ import { Link, useNavigate } from 'react-router-dom';
 import css from './Sidebar.module.scss';
 
 function SideBar() {
-  const [sidebarUserInfo, setsidebarUserInfo] = useState();
+  const [sidebarUserInfo, setSidebarUserInfo] = useState();
   const [sidebarUserGrade, setSidebarUserGrade] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URI}/user`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => {
-        setsidebarUserInfo(data.userInfo);
-      });
+    const token = localStorage.getItem('token');
+    if (token === '' || token === null) {
+    } else {
+      fetch(`${process.env.REACT_APP_API_URI}/user`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => {
+          setSidebarUserInfo(data.userInfo);
+        });
+    }
   }, []);
 
   const toCompanyList = () => {
     const token = localStorage.getItem('token');
-    if (token !== '') {
-      navigate(`/companyList`);
-    } else {
+    if (token === '' || token === null) {
       alert(`로그인 후 이용해주세요!`);
       navigate(`/`);
+    } else {
+      navigate(`/companyList`);
     }
   };
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URI}/grade`, {
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('token'),
-      },
-    })
-      .then(res => res.json())
-      .then(data => setSidebarUserGrade(data.userGradeInfo));
+    const token = localStorage.getItem('token');
+    if (token === '' || token === null) {
+    } else {
+      fetch(`${process.env.REACT_APP_API_URI}/grade`, {
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: localStorage.getItem('token'),
+        },
+      })
+        .then(res => res.json())
+        .then(data => setSidebarUserGrade(data.userGradeInfo));
+    }
   }, []);
 
   return (

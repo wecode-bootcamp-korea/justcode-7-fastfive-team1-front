@@ -17,7 +17,9 @@ const Header = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token !== '') {
+    if (token === '' || token === null) {
+      setUserName();
+    } else {
       fetch(`${process.env.REACT_APP_API_URI}/user`, {
         headers: {
           'Content-Type': 'application/json',
@@ -26,8 +28,6 @@ const Header = () => {
       })
         .then(res => res.json())
         .then(res => setUserName(res.userInfo.username));
-    } else {
-      setUserName();
     }
   }, []);
 

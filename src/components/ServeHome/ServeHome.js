@@ -32,25 +32,25 @@ const ServeHome = () => {
 
   const toCategoryList = id => {
     const token = localStorage.getItem('token');
-    if (token !== '') {
+    if (token === '' || token === null) {
+      alert(`로그인 후 이용해주세요!`);
+      navigate(`/`);
+    } else {
       navigate(`/categoryList/${id}`, {
         state: {
           id: id,
         },
       });
-    } else {
-      alert(`로그인 후 이용해주세요!`);
-      navigate(`/`);
     }
   };
 
   const toCompanyList = () => {
     const token = localStorage.getItem('token');
-    if (token !== '') {
-      navigate(`/companyList`);
-    } else {
+    if (token === '' || token === null) {
       alert(`로그인 후 이용해주세요!`);
       navigate(`/`);
+    } else {
+      navigate(`/companyList`);
     }
   };
 
@@ -64,7 +64,9 @@ const ServeHome = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token !== '') {
+    if (token === '' || token === null) {
+      setUserName();
+    } else {
       fetch(`${process.env.REACT_APP_API_URI}/user`, {
         headers: {
           'Content-Type': 'application/json',
@@ -78,8 +80,6 @@ const ServeHome = () => {
             setUserInfo(res.userInfo.company.isCompanyMainMember)
           )
         );
-    } else {
-      setUserName();
     }
   }, []);
 
