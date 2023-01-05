@@ -1,0 +1,96 @@
+.comment {
+  border: 1px solid rgba(128, 128, 128, 0.399);
+  border-radius: 8px;
+  width: 770px;
+  margin: 5px 0;
+  margin-left: 54px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+
+  .commentMarginDiv {
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 750px;
+
+    .leftArea {
+      width: 663px;
+
+      .commentInfoDiv {
+        display: flex;
+        margin: 3px 5px;
+
+        .whiter {
+          font-weight: 700;
+          margin-right: 25px;
+        }
+      }
+
+      .commentContent {
+        width: 100%;
+        margin: 3px 5px;
+        margin-bottom: 10px;
+        color: gray;
+        overflow: hidden;
+      }
+
+      .overText {
+        outline: none;
+        border-color: red;
+        box-shadow: 0 0 5px red;
+      }
+
+      .letterCount {
+        display: flex;
+        justify-content: flex-end;
+
+        .countLetter {
+          color: gray;
+        }
+
+        .lockDiv {
+          display: flex;
+          justify-content: center;
+          width: 30px;
+          cursor: pointer;
+
+          .lock {
+            color: rgb(236, 118, 111);
+            transform: translateY(-2px);
+          }
+
+          .lockOpen {
+            color: gray;
+            transform: translateX(2px) translateY(-2px);
+          }
+        }
+      }
+    }
+
+    .rightArea {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 70px;
+
+      .submitBtn {
+        color: gray;
+        cursor: pointer;
+      }
+
+      .rightAreaBtnDiv {
+        display: flex;
+        align-items: center;
+
+        .divider {
+          height: 12px;
+          margin: 0 3px;
+          border-left: 1px solid black;
+        }
+      }
+    }
+  }
+}

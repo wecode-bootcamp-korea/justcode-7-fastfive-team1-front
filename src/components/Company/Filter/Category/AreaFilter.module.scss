@@ -1,0 +1,44 @@
+.areaFilterContainer {
+  margin-right: 20px;
+  .filterTitle {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .areaFilter {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 25px;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid #a8a8a8;
+    font-size: 14px;
+
+    .area {
+      margin-right: 15px;
+    }
+  }
+
+  .areaItems {
+    position: absolute;
+    border: 1px solid #a8a8a8;
+    border-top: 0px;
+    margin-right: 20px;
+    .areaValue {
+      display: flex;
+      width: 100px;
+      height: 25px;
+      justify-content: center;
+      align-items: center;
+      padding: 5px;
+      background-color: #fff;
+      font-size: 15px;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+}

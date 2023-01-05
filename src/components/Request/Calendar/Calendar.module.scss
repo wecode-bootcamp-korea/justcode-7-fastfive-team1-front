@@ -1,0 +1,19 @@
+.calenderBox {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  input {
+    height: 20px;
+    padding: 10px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  i {
+    margin-top: 12px;
+  }
+}

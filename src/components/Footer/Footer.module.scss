@@ -1,2 +1,96 @@
-.container {
+.footerContainer {
+  width: 100%;
+  background-color: #e7e7e7;
+
+  .footerContent {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 0;
+    color: #5c5c5c;
+    font-size: 15px;
+  }
+  .footerHeader {
+    display: flex;
+    .companyTitle {
+      display: flex;
+      color: black;
+      .companyLogo {
+        margin-right: 40px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .consulting {
+        padding-right: 20px;
+        border-right: 1px solid #5c5c5c;
+        color: #5c5c5c;
+        font-size: 15px;
+        font-weight: bold;
+        .infoNumber {
+          margin-top: 5px;
+        }
+      }
+    }
+    .timeTable {
+      padding-left: 20px;
+      padding-top: 5px;
+      .timeTableInfo {
+        padding: 0 20px 5px 0;
+        font-size: 16px;
+      }
+    }
+  }
+  .footerCompanyIntroduce {
+    margin-top: 15px;
+    .introduceContent {
+      margin-right: 20px;
+      cursor: pointer;
+      &:hover {
+        color: coral;
+      }
+    }
+  }
+  .footerInquiry {
+    display: flex;
+    margin-top: 15px;
+    .inquiryContent {
+      margin-right: 6px;
+      border-right: 1px solid #5c5c5c;
+      font-weight: bold;
+      .emailInfo {
+        margin-right: 6px;
+        color: #5c5c5c;
+        font-weight: 400;
+      }
+    }
+    .infoAd {
+      margin-right: 6px;
+      color: #5c5c5c;
+      font-weight: bold;
+    }
+  }
+  .footerCompanyInfo {
+    display: flex;
+    margin-top: 15px;
+    .footerCompanyContent {
+      padding-right: 6px;
+      margin-right: 6px;
+      border-right: 1px solid #5c5c5c;
+    }
+    .privacyPolicy {
+      cursor: pointer;
+      &:hover {
+        color: coral;
+      }
+    }
+  }
+  .footerIcons {
+    margin-top: 15px;
+    .iconImg {
+      width: 24px;
+      height: 24px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
 }

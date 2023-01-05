@@ -1,0 +1,12 @@
+.carouselContainer {
+  margin: 0 auto;
+  .bannerImg {
+    width: 100%;
+    height: 400px;
+  }
+  @media screen and (max-width: 1500px) {
+    .carouselContainer {
+      width: 80%;
+    }
+  }
+}

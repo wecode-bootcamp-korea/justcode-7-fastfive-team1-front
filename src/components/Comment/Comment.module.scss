@@ -1,0 +1,106 @@
+.comment {
+  border: 1px solid rgba(128, 128, 128, 0.399);
+  border-radius: 8px;
+  width: 800px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6);
+
+  .commentMarginDiv {
+    margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 750px;
+
+    .leftArea {
+      width: 650px;
+
+      .commentInfoDiv {
+        display: flex;
+        margin: 3px 5px;
+
+        .whiteTime {
+          font-size: 14px;
+          color: rgba(128, 128, 128, 0.7);
+        }
+
+        .whiter {
+          font-weight: 700;
+          margin-right: 10px;
+        }
+      }
+
+      .commentContent {
+        width: 100%;
+        margin: 3px 5px;
+        color: gray;
+        overflow: hidden;
+      }
+
+      .overText {
+        outline: none;
+        border-color: red;
+        box-shadow: 0 0 5px red;
+      }
+
+      .letterCount {
+        display: flex;
+        justify-content: flex-end;
+        color: gray;
+
+        .lockDiv {
+          display: flex;
+          justify-content: center;
+          width: 30px;
+          cursor: pointer;
+
+          .lock {
+            color: rgb(236, 118, 111);
+            transform: translateY(-2px);
+          }
+
+          .lockOpen {
+            color: gray;
+            transform: translateX(2px) translateY(-2px);
+          }
+        }
+      }
+    }
+
+    .rightArea {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 70px;
+      color: gray;
+
+      .submitBtn {
+        color: gray;
+        cursor: pointer;
+      }
+
+      .rightAreaBtnDiv {
+        display: flex;
+        align-items: center;
+
+        .modifyBtn {
+          cursor: pointer;
+        }
+
+        .deleteBtn {
+          cursor: pointer;
+        }
+
+        .divider {
+          height: 12px;
+          margin: 0 3px;
+          border-left: 1px solid black;
+        }
+      }
+    }
+  }
+}

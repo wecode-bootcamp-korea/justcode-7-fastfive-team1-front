@@ -1,0 +1,161 @@
+.signUpContainer {
+  text-align: start;
+  padding: 70px 40px 40px 40px;
+
+  .join {
+    color: #000000;
+    font-size: 27px;
+    font-weight: 400;
+    text-decoration: underline;
+    text-underline-position: under;
+    text-decoration-color: #fe6d6a;
+    cursor: default;
+  }
+
+  .signUpFormBox {
+    margin-top: 25px;
+    display: grid;
+
+    .emailBox {
+      display: flex;
+      justify-content: space-between;
+
+      input {
+        width: 270px;
+      }
+      .duplicate {
+        width: 60px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        background-color: #fe6d6a;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .notDuplicate {
+        width: 60px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        background-color: #dcdcdc;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+
+    .formatMessage {
+      color: #fe6d6a;
+    }
+    label {
+      font-size: 13px;
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+
+    input {
+      border: 1px solid #dcdcdc;
+      border-radius: 10px;
+      height: 20px;
+      padding: 10px;
+      font-size: 15px;
+      margin-bottom: 5px;
+
+      &:focus {
+        border: 1px solid #fe6d6a;
+        color: #fe6d6a;
+      }
+    }
+
+    .nameForm,
+    .emailForm,
+    .passwordForm {
+      display: grid;
+
+      .formatMessage {
+        height: 10px;
+        .message {
+          padding-left: 5px;
+          color: #fe6d6a;
+          font-size: 11px;
+        }
+      }
+    }
+
+    .signUpBtn {
+      background-color: #fe6d6a;
+      height: 45px;
+      margin-top: 10px;
+      text-align: center;
+      color: white;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .agreeContent {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+      margin-bottom: 5px;
+
+      .agreeForm {
+        display: flex;
+        height: 20px;
+
+        .agreeText {
+          display: flex;
+          text-align: center;
+          align-items: center;
+          color: #5a5a5a;
+          font-size: 12px;
+
+          span {
+            margin-left: 3px;
+            color: #fe6d6a;
+          }
+        }
+        .agreeInput {
+          border-radius: 0;
+          margin: 0px 10px 0px 0px;
+          padding: 0;
+          border: 1px solid #dcdcdc;
+        }
+
+        input[type='checkbox'] {
+          position: relative;
+          width: 14px;
+          height: 14px;
+          cursor: pointer;
+        }
+
+        input[type='checkbox']::before {
+          content: '\2713';
+          position: absolute;
+          top: 60%;
+          left: 50%;
+          overflow: hidden;
+          transform: scale(0) translate(-50%, -50%);
+        }
+
+        input[type='checkbox']:checked::before {
+          display: flex;
+          justify-content: center;
+          width: 15px;
+          height: 15px;
+          color: white;
+          transform: scale(1) translate(-50%, -60%);
+          background-color: #fe6d6a;
+        }
+      }
+
+      label:hover {
+        color: #000000;
+      }
+      label {
+        cursor: pointer;
+        color: gray;
+      }
+    }
+  }
+}

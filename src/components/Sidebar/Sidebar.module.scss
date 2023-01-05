@@ -1,0 +1,53 @@
+.main {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 240px;
+  border-right: 1px solid #c6c6c6;
+
+  .logoImg {
+    width: 190px;
+    margin-top: 15px;
+    height: 40px;
+    padding: 30px 10px 30px 10px;
+    object-fit: contain;
+    border-bottom: 1.5px solid #fe6d6a;
+  }
+
+  .userInfo {
+    width: 80%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .userInfoCell {
+      padding: 10px 0px 10px 0px;
+      font-weight: 400;
+      font-size: 16px;
+    }
+    .userInfoStatusCell {
+      padding-bottom: 20px;
+      border-bottom: 1.5px solid #fe6d6a;
+    }
+  }
+
+  .linkDiv {
+    width: 90%;
+
+    .link {
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      font-size: 16px;
+      font-weight: 400;
+      height: 40px;
+
+      &:hover {
+        font-weight: bold;
+        cursor: pointer;
+      }
+    }
+  }
+}
